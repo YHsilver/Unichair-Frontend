@@ -1,5 +1,5 @@
 <template>
-  <el-footer v-if="true">
+  <el-footer>
     <el-col :span="24" id="footerContent">
       <span>© 2020 Uni Conference. Design and coded by p.h.y</span>
     </el-col>
