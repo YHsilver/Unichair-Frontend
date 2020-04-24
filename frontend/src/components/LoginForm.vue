@@ -1,7 +1,7 @@
 <template>
   <div>
-    <el-form id="loginContent" :model="loginForm" :rules="rules" class="login_container">
-      <h4 class="login_title">Login</h4>
+    <el-form id="loginContent" :model="loginForm" :rules="rules">
+      <h2>Login</h2>
 
       <!-- user -->
       <el-form-item prop="username" class="inputBox">
@@ -19,14 +19,14 @@
 
       <!-- submit -->
       <el-form-item>
-        <el-button type="primary" class="uni-button" v-on:click="login">login</el-button>
+        <el-button type="primary" v-on:click="login">login</el-button>
       </el-form-item>
 
       <!-- register tip -->
       <el-form-item>
         <span>No account yet? 👉 </span>
         <el-link type="primary" :underline="false" @click="registerFormVisible = true">register now </el-link>
-        <el-dialog :visible.sync="registerFormVisible" width="fit-content" append-to-body>
+        <el-dialog :visible.sync="registerFormVisible" width="480px" append-to-body>
           <RegisterForm />
         </el-dialog>
       </el-form-item>
@@ -108,20 +108,8 @@ export default {
 </script>
 
 <style>
-#loginContent {
-  background-color: white;
-  padding: 20px 20px 0;
-  border-radius: 10px;
-  width: 320px;
-  text-align: center;
-}
-
 .inputBox {
   width: 80%;
   margin: 30px auto;
-}
-
-a {
-  text-decoration: none;
 }
 </style>

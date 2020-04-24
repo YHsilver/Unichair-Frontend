@@ -1,18 +1,24 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <h1>Welcome to Our Vue.js + Element + SpringBoot Web</h1>
+    <img class="logo" alt="Vue logo" src="../assets/vue-logo.png" />
+    <img class="logo" alt="Element logo" src="../assets/element-logo.svg" />
+    <img class="logo" alt="Spring logo" src="../assets/spring-logo.svg" />
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue';
+// import HelloWorld from '@/components/HelloWorld.vue';
 
 export default {
   name: 'Home',
-  components: {
-    HelloWorld,
-  },
 };
 </script>
+
+<style scoped>
+.logo {
+  height: 60px;
+  padding: 10px;
+}
+</style>

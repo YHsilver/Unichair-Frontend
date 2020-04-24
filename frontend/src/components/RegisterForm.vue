@@ -1,7 +1,7 @@
 <template>
   <div>
-    <el-form :model="registerForm" :rules="rules" class="register_container" :ref="registerForm">
-      <h3>Register</h3>
+    <el-form :model="registerForm" :rules="rules" class="register_container" :ref="registerForm" style="text-align: center;">
+      <h2>Register</h2>
 
       <!-- user -->
       <el-form-item prop="username" class="inputBox">
@@ -13,6 +13,13 @@
       <!-- password -->
       <el-form-item prop="password" class="inputBox">
         <el-input class="form-input" placeholder="password" v-model="registerForm.password" show-password clearable>
+          <i slot="prefix" class="el-icon-key"></i>
+        </el-input>
+      </el-form-item>
+
+      <!-- confirm password -->
+      <el-form-item prop="confirmPassword" class="inputBox">
+        <el-input class="form-input" placeholder="confirm password" v-model="registerForm.confirmPassword" show-password clearable>
           <i slot="prefix" class="el-icon-key"></i>
         </el-input>
       </el-form-item>
@@ -80,10 +87,19 @@ export default {
       }
       return callback();
     };
+    const confirmValid = (rule, value, callback) => {
+      let password = this.registerForm.password;
+      let confirmPassword = this.registerForm.confirmPassword;
+      if (password !== confirmPassword) {
+        return callback(new Error('password & confirm password must be the same.'));
+      }
+      return callback();
+    };
     return {
       registerForm: {
         username: '',
         password: '',
+        confirmPassword: '',
         fullName: '',
         email: '',
         unit: '',
@@ -111,6 +127,11 @@ export default {
             trigger: 'blur',
           },
           { validator: dataValid, message: '不能包含账号', trigger: 'blur' },
+        ],
+
+        confirmPassword: [
+          { required: true, message: 'confirm password is required.', trigger: 'blur' },
+          { validator: confirmValid, message: 'password & confirm password must be the same.', trigger: 'blur' },
         ],
 
         fullName: [{ required: true, message: 'full name is required', trigger: 'blur' }],
@@ -215,29 +236,8 @@ export default {
 </script>
 
 <style scoped>
-.register_container {
-  width: 460px;
-  margin: auto;
-  padding: 20px 5px 15px 5px;
-  background-color: white;
-  text-align: center;
-}
-
 .inputBox {
   width: 80%;
   margin: 30px auto;
-}
-
-.el-form-item i {
-  line-height: 2.5;
-}
-
-.verification-code-get-button {
-  margin-top: 2px;
-  padding: 9px;
-}
-
-.el-form-item i.el-input__icon {
-  margin: 0;
 }
 </style>
