@@ -22,6 +22,43 @@ if (process.env.NODE_ENV === 'development') {
 }
 axios.defaults.baseURL = ROOT;
 
+// http request 拦截器
+axios.interceptors.request.use(
+  config => {
+    if (store.state.token) {
+      // 判断是否有token，若存在，每个http header加上token
+      // console.log('token exist');
+      // xhr.setRequestHeader("token", store.state.token); 
+      config.headers.token = store.state.token;
+    }
+    return config
+  },
+  error => {
+    return Promise.reject(error)
+  }
+)
+
+// http response 拦截器
+axios.interceptors.response.use(
+  response => {
+    return response
+  },
+  error => {
+    console.log(error.response)
+    if (error) {
+      // 清除token 如果不是/
+      store.commit('logout')
+      router.currentRoute.path !== '/' &&
+        router.replace({
+          path: '/',
+          query: { redirect: router.currentRoute.path }
+        })
+    }
+    // 注意这里是返回了整条信息！！！
+    return Promise.reject(error.response)
+  }
+)
+
 new Vue({
   router,
   store,

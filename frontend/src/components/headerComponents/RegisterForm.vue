@@ -96,15 +96,7 @@ export default {
       return callback();
     };
     return {
-      registerForm: {
-        username: '',
-        password: '',
-        confirmPassword: '',
-        fullName: '',
-        email: '',
-        unit: '',
-        area: '',
-      },
+      registerForm: { username: '', password: '', confirmPassword: '', fullName: '', email: '', unit: '', area: '' },
       rules: {
         // blur 失去鼠标焦点时触发验证
         username: [
@@ -168,43 +160,19 @@ export default {
               // 根据后端的返回数据修改
               if (resp.status === 200 && Object.prototype.hasOwnProperty.call(resp.data, 'id')) {
                 // 跳转到login
-                this.$message({
-                  type: 'success',
-                  message: 'successful registration',
-                  duration: '2000',
-                  showClose: 'true',
-                  center: 'true',
-                });
-                this.$router.replace('/index');
+                this.$message({ type: 'success', message: 'successful registration', duration: '2000', showClose: 'true', center: 'true' });
+                this.$router.replace('/');
               } else {
-                this.$message({
-                  type: 'error',
-                  message: resp.data.message,
-                  duration: '2000',
-                  showClose: 'true',
-                  center: 'true',
-                });
+                this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
               }
             })
             .catch((error) => {
               console.log(error);
-              this.$message({
-                type: 'error',
-                message: error.data.message,
-                duration: '2000',
-                showClose: 'true',
-                center: 'true',
-              });
+              this.$message({ type: 'error', message: error.data.message, duration: '2000', showClose: 'true', center: 'true' });
             });
         } else {
           // console.log("wrong submit");
-          this.$message({
-            type: 'warning',
-            message: 'Please fill in the information',
-            duration: '2000',
-            showClose: 'true',
-            center: 'true',
-          });
+          this.$message({ type: 'warning', message: 'Please fill in the information', duration: '2000', showClose: 'true', center: 'true' });
         }
       });
     },

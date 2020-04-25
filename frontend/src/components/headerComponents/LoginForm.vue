@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import RegisterForm from './RegisterForm.vue';
+import RegisterForm from '@/components/headerComponents/RegisterForm.vue';
 
 export default {
   name: 'LoginForm',
@@ -44,10 +44,7 @@ export default {
   },
   data() {
     return {
-      loginForm: {
-        username: '',
-        password: '',
-      },
+      loginForm: { username: '', password: '' },
       rules: {
         username: [{ required: true, message: '', trigger: 'blur' }],
         password: [{ required: true, message: '', trigger: 'blur' }],
@@ -58,49 +55,24 @@ export default {
   methods: {
     login() {
       this.$axios
-        .post('/login', {
-          username: this.loginForm.username,
-          password: this.loginForm.password,
-        })
+        .post('/login', { username: this.loginForm.username, password: this.loginForm.password })
         .then((resp) => {
-          console.log(resp);
           if (resp.status === 200 && Object.prototype.hasOwnProperty.call(resp.data, 'token')) {
             this.$store.commit('login', resp.data);
             this.$store.state.token = resp.data.token;
-            // if (this.$store.state.userDetails.username === 'admin') {
-            //   this.$router.replace({ path: '/admin' });
-            // } else {
-            //   this.$router.replace({ path: '/system' });
-            // }
-            this.$message({
-              type: 'success',
-              message: 'welcome aboard ' + this.loginForm.username + ' !',
-              duration: '2000',
-              showClose: 'true',
-              center: 'true',
-            });
+            if (this.$store.state.userDetails.username === 'admin') {
+              this.$router.replace({ path: '/admin' });
+            } else {
+              this.$router.replace({ path: '/user' });
+            }
+            this.$message({ type: 'success', message: 'welcome aboard ' + this.loginForm.username + ' !', duration: '2000', showClose: 'true', center: 'true' });
           } else {
-            //alert("else in");
-            //console.log(error);
-            this.$message({
-              type: 'error',
-              message: resp.data.message,
-              duration: '2000',
-              showClose: 'true',
-              center: 'true',
-            });
+            this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
           }
         })
         .catch((error) => {
-          //alert("catched");
           console.log(error);
-          this.$message({
-            type: 'error',
-            message: 'login error',
-            duration: '2000',
-            showClose: 'true',
-            center: 'true',
-          });
+          this.$message({ type: 'error', message: 'login error', duration: '2000', showClose: 'true', center: 'true' });
         });
     },
   },
