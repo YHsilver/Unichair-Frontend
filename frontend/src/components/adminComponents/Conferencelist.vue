@@ -2,7 +2,7 @@
   <el-main>
     <el-tabs v-model="activeTab" @tab-click="handleTabClick">
       <el-tab-pane v-for="(table, name, index) in tables" v-bind:label="name" v-bind:name="name" v-bind:key="index">
-        <el-table id="name" :data="table" height="calc(100vh - 220px)" v-loading="loading">
+        <el-table id="name" :data="table" height="calc(100vh - 160px)" v-loading="loading">
           <el-table-column type="expand">
             <template slot-scope="props">
               <el-form label-position="left">

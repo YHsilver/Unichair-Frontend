@@ -1,40 +1,5 @@
 module.exports = {
-  // productionSourceMap: false,
-  // configureWebpack: () => ({
-  //   optimization: {
-  //     splitChunks: {
-  //       cacheGroups: {
-  //         vendor: {
-  //           chunks: "all",
-  //           test: /node_modules/,
-  //           name: "vendor",
-  //           minChunks: 1,
-  //           maxInitialRequests: 5,
-  //           minSize: 0,
-  //           priority: 100,
-  //         },
-  //         common: {
-  //           chunks: "all",
-  //           test: /[\\/]src[\\/]js[\\/]/,
-  //           name: "common",
-  //           minChunks: 2,
-  //           maxInitialRequests: 5,
-  //           minSize: 0,
-  //           priority: 60
-  //         },
-  //         styles: {
-  //           name: 'styles',
-  //           test: /\.(sa|sc|c)ss$/,
-  //           chunks: 'all',
-  //           enforce: true,
-  //         },
-  //         runtimeChunk: {
-  //           name: 'manifest'
-  //         }
-  //       }
-  //     }
-  //   }
-  // }),
+  publicPath: process.env.NODE_ENV === 'production' ? 'http://114.115.246.37:80/' : 'http://localhost:81/',
   devServer: {
     open: false, //配置自动启动浏览器
     // host: 'localhost',
