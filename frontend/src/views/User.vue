@@ -1,8 +1,9 @@
 <template>
   <div style="display:flex;flex-direction:column">
     <Header v-bind:loginSwitch="true" />
+
     <div style="display: flex;">
-      <el-menu class="Bar" default-active="2" :collapse="true" :router="false">
+      <el-menu class="Bar" default-active="0" :collapse="true">
         <el-menu-item @click="show = 'ConferenceForm'" index="0">
           <i class="el-icon-circle-plus-outline"></i>
           <span slot="title">申请会议</span>

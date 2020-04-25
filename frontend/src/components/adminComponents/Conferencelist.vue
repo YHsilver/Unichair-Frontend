@@ -2,33 +2,12 @@
   <el-main>
     <el-tabs v-model="activeTab" @tab-click="handleTabClick">
       <el-tab-pane v-for="(table, name, index) in tables" v-bind:label="name" v-bind:name="name" v-bind:key="index">
-        <el-table id="name" :data="table" stripe height="calc(100vh - 220px)">
+        <el-table id="name" :data="table" height="calc(100vh - 220px)" v-loading="loading">
           <el-table-column type="expand">
             <template slot-scope="props">
               <el-form label-position="left">
-                <el-form-item label="ID">
-                  <span>{{ props.row.id }}</span>
-                </el-form-item>
-                <el-form-item label="Abbr">
-                  <span>{{ props.row.abbr }}</span>
-                </el-form-item>
-                <el-form-item label="Name">
-                  <span>{{ props.row.name }}</span>
-                </el-form-item>
-                <el-form-item label="ChairMan">
-                  <span>{{ props.row.chairMan }}</span>
-                </el-form-item>
-                <el-form-item label="Time">
-                  <span>{{ props.row.time }}</span>
-                </el-form-item>
-                <el-form-item label="Place">
-                  <span>{{ props.row.place }}</span>
-                </el-form-item>
-                <el-form-item label="ContributeEndTime">
-                  <span>{{ props.row.contributeEndTime }}</span>
-                </el-form-item>
-                <el-form-item label="ResultReleaseTime">
-                  <span>{{ props.row.resultReleaseTime }}</span>
+                <el-form-item v-bind:label="name" v-for="(value, name) in props.row" v-bind:key="name">
+                  <span>{{ value }}</span>
                 </el-form-item>
               </el-form>
             </template>
@@ -58,6 +37,7 @@ export default {
     return {
       activeTab: 'pending',
       tables: { pending: [], passed: [], rejected: [] },
+      loading: true,
     };
   },
   created() {
@@ -81,6 +61,7 @@ export default {
             } else {
               this.tables.rejected = resp.data;
             }
+            this.loading = false;
           } else {
             this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
           }
