@@ -1,5 +1,5 @@
 module.exports = {
-  publicPath: process.env.NODE_ENV === 'production' ? 'http://114.115.246.37:80/' : 'http://localhost:81/',
+  publicPath: './',
   devServer: {
     open: false, //配置自动启动浏览器
     // host: 'localhost',

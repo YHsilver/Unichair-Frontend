@@ -7,22 +7,22 @@
     <h4>（一）项目需求规划</h4>
     <h4>（二）代码检查</h4>
     <h3>前端</h3>
-    <img src="@/assets/lab2/前端error.png" alt="前端error" />
+    <img src="lab2/前端error.png" alt="前端error" />
     <p>前端错误主要在 alert 部分，解决，替换成 message</p>
     <p>Alert 警告不会自动消失，Message 消息提示会自动消失</p>
     <h3>后端</h3>
-    <img src="@/assets/lab2/后端error.png" alt="后端error" />
+    <img src="lab2/后端error.png" alt="后端error" />
     <p>首次对后端代码进行代码检查时发现一个致命错误，详细错误信息如下</p>
-    <p><img src="@/assets/lab2/后端errorInformation.png" alt="后端errorInformation" /></p>
+    <p><img src="lab2/后端errorInformation.png" alt="后端errorInformation" /></p>
 
     <p>
       华为云指出，对于不带大括号的 if 语句，应该通过缩进来表示被 if
       包含的语句，一面引起其它开发者和其他代码阅读者（包括其他程序）在内的误解。由于该错误具有的潜在的致命威胁，华为云认为该错误是一个致命错误。后来我们将代码的缩进进行了调整之后，通过了代码检测，没有出现代码问题。下图为无代码问题时的检测结果。
     </p>
-    <p><img src="@/assets/lab2/后端errorClear.png" alt="后端errorClear" /></p>
+    <p><img src="lab2/后端errorClear.png" alt="后端errorClear" /></p>
 
     <p>代码检测还为我们提供了代码的其他信息，其中代码的圈复杂度为 6.0，代码重复率为 0.0%，有效代码行数 833/总代码行数 1292.</p>
-    <p><img src="@/assets/lab2/otherDetailedInformation.png" alt="otherDetailedInformation" /></p>
+    <p><img src="lab2/otherDetailedInformation.png" alt="otherDetailedInformation" /></p>
 
     <p>
       <strong>对于代码平均圈复杂度</strong>，由于采用了 SpringBoot 框架，利用 IOC 的特性，通过@Autowire 注解大大简化了 java bean 的构造，无需为每一个 java bean 在一个 main
@@ -39,15 +39,15 @@
         <font size="5">登录界面：</font>
       </strong>
     </p>
-    <img src="@/assets/lab2/loginPage.png" alt="loginPage" />
+    <img src="lab2/loginPage.png" alt="loginPage" />
     <p>用户可以在此界面进行通过输入用户名和密码进行登录，也可以单击 register 跳转到注册页面。同时前端会对信息是否输入完整进行检测。检查效果如下图：</p>
-    <img src="@/assets/lab2/loginPageInformationRequired.png" alt="loginPageInformationRequired" />
+    <img src="lab2/loginPageInformationRequired.png" alt="loginPageInformationRequired" />
     <p>
       <strong>
         <font size="5">注册界面</font>
       </strong>
     </p>
-    <img src="@/assets/lab2/registerPage.png" alt="registerPage" />
+    <img src="lab2/registerPage.png" alt="registerPage" />
     <p>
       用户可以在此界面进行通过输入用户名（<strong><em>username</em></strong
       >），密码（<strong><em>password</em></strong
@@ -59,7 +59,7 @@
     <p>
       <font size="5"><strong>用户系统界面</strong></font>
     </p>
-    <img src="@/assets/lab2/userSystemPage.png" alt="userSystemPage" />
+    <img src="lab2/userSystemPage.png" alt="userSystemPage" />
     <p>
       用户登陆成功后将会进入主界面，在后续功能逐渐完善之后，用户将可以在此界面查看自己的个人信息，查看自己创建的会议，作为投稿人加入的会议，作为审稿人加入的会议等等。此时浏览器已经接收到了登录时从后端返回的
       <strong><em>token</em></strong> ，并存放在 <strong><em>COOKIE</em></strong> 中。目前，用户系统主界面可以通过点击界面中央的
@@ -68,7 +68,7 @@
     <p>
       <font size="5"><strong>会议申请界面</strong></font>
     </p>
-    <img src="@/assets/lab2/meetingSetupPage.png" alt="meetingSetupPage" />
+    <img src="lab2/meetingSetupPage.png" alt="meetingSetupPage" />
     <p>
       与登录注册界面类似，在填写完毕申请信息后，单击 Set Up
       按钮就可以提交会议申请。前端会检查每一项信息是否填写完整（但对会议申请的逻辑验证还未完成，包括举办地点的格式验证，举办时间，投稿截止时间，评审结果时间等，留待会议类的实现敲定后再统一实现），并向后端提交申请。此时，前端会在
@@ -136,20 +136,20 @@
     <p><strong>问题 2：</strong> 用户主界面并未展示用户具体信息</p>
     <p><strong>原因：</strong> 用户主界面现为静态页面，没有通过 AJAX 向后端请求用户具体信息，同时后端也没有提供该请求的实现</p>
     <p><strong>解决：</strong> 留待下一阶段解决</p>
-    <p><img src="@/assets/lab2/usernameNotGet.png" alt="usernameNotGet" /></p>
+    <p><img src="lab2/usernameNotGet.png" alt="usernameNotGet" /></p>
     <p><strong>问题 3：</strong> 会议注册时，前后端均未对会议开始时间，投稿截止时间，评审结果发布时间进行合理性检查</p>
     <p><strong>解决：</strong> 留待下一阶段解决</p>
-    <img src="@/assets/lab2/invalidConferenceApplicationRequest.png" alt="invalidConferenceApplicationRequest" />
+    <img src="lab2/invalidConferenceApplicationRequest.png" alt="invalidConferenceApplicationRequest" />
     <h4>阶段六：云端部署 （3.23 3.24）</h4>
     <p>本地 DEBUG 之后，将前后端分别部署到云服务器上。前后端均部署在 /usr/local/lab2 目录下，部署顺利。</p>
     <p><strong>前后端编译构建</strong></p>
-    <p><img src="@/assets/lab2/complie.png" alt="complie" /></p>
+    <p><img src="lab2/complie.png" alt="complie" /></p>
     <p><strong>前后端部署</strong></p>
-    <p><img src="@/assets/lab2/updateToCloud.png" alt="updateToCloud" /></p>
+    <p><img src="lab2/updateToCloud.png" alt="updateToCloud" /></p>
     <p>细节</p>
     <p>编译构建改相对路径</p>
-    <img src="@/assets/lab2/编译部署1.png" width="600px" />
-    <img src="@/assets/lab2/编译部署2.png" width="600px" />
+    <img src="lab2/编译部署1.png" width="600px" />
+    <img src="lab2/编译部署2.png" width="600px" />
     <h4>阶段七：云端测试 （3.24）</h4>
     <p>通过 IP ( <a href="http://114.115.246.37:80/#/login">http://114.115.246.37:80/#/login</a> ) 访问登录界面，测试后与本地行为一致，登录，注册，会议申请等基本功能实现。</p>
     <h2>五、小组成员实验总结</h2>
