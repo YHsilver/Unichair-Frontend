@@ -1,8 +1,9 @@
 module.exports = {
   publicPath: './',
+  // 解决 dev 环境跨域问题，build 环境需配置 nginx
   devServer: {
     open: false, //配置自动启动浏览器
-    // host: 'localhost',
+    host: 'localhost',
     port: 80,
     proxy: {
       '/api': {
@@ -11,9 +12,7 @@ module.exports = {
         // target: 'http://localhost:8080',
         changeOrigin: true,
         ws: true,//是否代理websocket
-        pathRewrite: {
-          '^/api': ''
-        }
+        pathRewrite: { '^/api': '' }
       }
     },
   }
