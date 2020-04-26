@@ -1,5 +1,5 @@
 <template>
-  <div id="lab2">
+  <div id="lab">
     <h1>Lab2 初识 Web 开发 小组实验报告</h1>
     <p><strong>小组成员</strong>： 潘星宇 胡彧锋 颜华</p>
     <h2>引言：<em>WHERE IS MY HTML, CSS, JS, PHP AND MYSQL？</em></h2>
@@ -257,7 +257,7 @@ export default {
 </script>
 
 <style scoped>
-#lab2 {
+#lab {
   padding: 4%;
   text-align: left;
 }
