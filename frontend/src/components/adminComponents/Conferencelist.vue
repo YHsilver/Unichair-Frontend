@@ -18,10 +18,8 @@
           <el-table-column label="ChairMan" prop="chairMan"> </el-table-column>
           <el-table-column label="Operation" v-if="name === 'pending'">
             <template slot-scope="scope">
-              <el-button-group>
-                <el-button @click="handleConference(scope.row, 'PASS')" type="success" size="small"> PASS </el-button>
-                <el-button @click="handleConference(scope.row, 'REJECT')" type="danger" size="small">REJECT</el-button>
-              </el-button-group>
+              <el-button @click="handleConference(scope.row, 'PASS')" type="success" size="small"> PASS </el-button>
+              <el-button @click="handleConference(scope.row, 'REJECT')" type="danger" size="small">REJECT</el-button>
             </template>
           </el-table-column>
         </el-table>

@@ -58,4 +58,10 @@ th {
   padding: 10px;
   text-align: left;
 }
+
+label {
+  width: 200px !important;
+  color: #8669ed !important;
+  font-weight: 900;
+}
 </style>

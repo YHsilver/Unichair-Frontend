@@ -3,7 +3,7 @@
     <el-row id="intro">
       <el-col :md="8" :sm="24">
         <el-carousel indicator-position="outside" width="400px" height="min(400px,60vw)">
-          <el-carousel-item v-for="i in 5" v-bind:key="i">
+          <el-carousel-item v-for="i in 4" v-bind:key="i">
             <img style="max-height: 360px; padding: 10px;max-width: 100%;" alt="startup" :src="'welcome/setup (' + i + ').svg'" />
           </el-carousel-item>
         </el-carousel>
@@ -17,7 +17,9 @@
         <h3>Management of Submission and Review</h3>
         <h3>Exploration of Mysteries of the Universe</h3>
         <br />
-        <el-button @click="registerFormVisible = true" type="success" style="width:180px;height:50px;font-size:0.8rem" round>Try for free<i class="el-icon-right el-icon--right"></i></el-button>
+        <el-button @click="registerFormVisible = true" type="success" style="width:180px;height:50px;font-size:0.8rem" round
+          >Try for free<i class="el-icon-right el-icon--right"></i
+        ></el-button>
         <el-dialog :visible.sync="registerFormVisible" width="480px">
           <registerForm :v-bind="registerFormVisible" />
         </el-dialog>

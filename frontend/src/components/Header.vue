@@ -1,6 +1,6 @@
 <template>
   <el-menu mode="horizontal" :router="true" background-color="#8669ed" text-color="#ffffff" active-text-color="#8669ed">
-    <el-menu-item><img src="/uni.svg" height="40px" /> <strong>Uni Conference</strong> </el-menu-item>
+    <el-menu-item><img src="/uni.svg" style="height:40px;padding-right:10px;" /> <strong>Uni Conference</strong> </el-menu-item>
 
     <el-button v-if="loginSwitch" @click="logout" plain style="float:right;margin: 10px;">Log out</el-button>
 
