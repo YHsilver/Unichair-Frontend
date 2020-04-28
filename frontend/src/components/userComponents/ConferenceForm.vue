@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-form :model="meetingForm" :rules="rules" class="meeting_container" v-loading="loading" :ref="meetingForm">
-      <h3 class="meeting_title">Set Up Meeting</h3>
+      <h3 class="meeting_title">New Conference</h3>
 
       <el-form-item prop="abbreviation">
         <el-input type="text" v-model="meetingForm.abbreviation" auto-complete="off" placeholder="Abbreviation Name" clearable></el-input>
@@ -209,15 +209,17 @@ export default {
 .meeting_container {
   border-radius: 10px;
   width: 460px;
-  padding: 35px 35px 15px 35px;
+  padding: 40px;
   background-color: white;
   text-align: center;
+  margin: 20px;
 }
 
 .el-date-editor {
   width: 100%;
 }
 
+/* element UI tag 所需的 CSS */
 .el-tag + .el-tag {
   margin-left: 10px;
 }

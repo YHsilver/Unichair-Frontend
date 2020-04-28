@@ -50,6 +50,7 @@ export default {
 #card {
   background-color: white;
   padding: 40px;
+  margin: 20px;
   border-radius: 10px;
 }
 
