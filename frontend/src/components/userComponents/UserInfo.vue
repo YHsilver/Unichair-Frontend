@@ -1,5 +1,5 @@
 <template>
-  <div id="card">
+  <el-card shadow="hover" id="card">
     <el-avatar :size="120"> {{ user.username }} </el-avatar>
     <table>
       <!-- 键值 键名 -->
@@ -8,7 +8,7 @@
         <td>{{ value }}</td>
       </tr>
     </table>
-  </div>
+  </el-card>
 </template>
 
 <script>
@@ -48,9 +48,9 @@ export default {
 
 <style>
 #card {
-  background-color: white;
   padding: 40px;
   margin: 20px;
+  border: none;
   border-radius: 10px;
 }
 

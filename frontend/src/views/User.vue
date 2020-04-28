@@ -9,10 +9,23 @@
           <span slot="title">申请会议</span>
         </el-menu-item>
 
-        <el-menu-item index="2" @click="show = 'MyConference'">
-          <i class="el-icon-files"></i>
-          <span slot="title">我的会议</span>
-        </el-menu-item>
+        <el-submenu index="2">
+          <template slot="title">
+            <i class="el-icon-files"></i>
+            <span slot="uer">我的会议</span>
+          </template>
+          <el-menu-item-group>
+            <span slot="title">我的会议</span>
+            <el-menu-item index="2-1" @click="show = 'MyApplication'">
+              <i class="el-icon-edit-outline"></i>
+              <span slot="title">我申请的会议</span>
+            </el-menu-item>
+            <el-menu-item index="2-2" @click="show = 'MyConference'">
+              <i class="el-icon-pie-chart"></i>
+              <span slot="title">我参与的会议</span>
+            </el-menu-item>
+          </el-menu-item-group>
+        </el-submenu>
 
         <el-menu-item index="3" @click="show = 'ConferenceSquare'">
           <i class="el-icon-wind-power"></i>
