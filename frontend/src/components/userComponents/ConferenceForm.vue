@@ -35,9 +35,9 @@
         <el-input type="textarea" v-model="meetingForm.introduction" auto-complete="off" placeholder="Introduction" clearable></el-input>
       </el-form-item>
 
-      <el-form-item prop="dynamicTags">
-        <el-tag :key="tag" v-for="tag in meetingForm.dynamicTags" closable :disable-transitions="false" @close="handleClose(tag)">
-          {{ tag }}
+      <el-form-item prop="topics" style="text-align:left;">
+        <el-tag :key="topic" v-for="topic in meetingForm.topics" closable :disable-transitions="false" @close="handleClose(topic)">
+          {{ topic }}
         </el-tag>
         <el-input
           class="input-new-tag"
@@ -105,7 +105,7 @@ export default {
         submissionDeadline: '',
         releaseDate: '',
         introduction: '',
-        dynamicTags: [],
+        topics: [],
       },
       pickerOptions1: {
         disabledDate(time) {
@@ -149,6 +149,8 @@ export default {
           { required: true, message: '', trigger: 'blur' },
           { validator: releaseDateValid, message: 'release date must later than deadline Date.', trigger: 'blur' },
         ],
+        introduction: [{ required: true, message: '', trigger: 'blur' }],
+        topics: [{ required: true, message: '', trigger: 'blur' }],
       },
       loading: false,
     };
@@ -168,6 +170,7 @@ export default {
               contributeEndTime: this.meetingForm.Ddl,
               resultReleaseTime: this.meetingForm.releaseDate,
               introduction: this.meetingForm.introduction,
+              topics: this.meetingForm.topics,
             })
             .then((resp) => {
               if (resp.status === 200) {
@@ -184,8 +187,9 @@ export default {
         }
       });
     },
+    // 处理 tag 所需方法
     handleClose(tag) {
-      this.meetingForm.dynamicTags.splice(this.meetingForm.dynamicTags.indexOf(tag), 1);
+      this.meetingForm.topics.splice(this.meetingForm.topics.indexOf(tag), 1);
     },
     showInput() {
       this.inputVisible = true;
@@ -196,7 +200,7 @@ export default {
     handleInputConfirm() {
       let inputValue = this.inputValue;
       if (inputValue) {
-        this.meetingForm.dynamicTags.push(inputValue);
+        this.meetingForm.topics.push(inputValue);
       }
       this.inputVisible = false;
       this.inputValue = '';
@@ -224,8 +228,11 @@ export default {
   margin-left: 10px;
 }
 
-.button-new-tag {
+.el-tag + .button-new-tag {
   margin-left: 10px;
+}
+
+.button-new-tag {
   height: 32px;
   line-height: 30px;
   padding-top: 0;

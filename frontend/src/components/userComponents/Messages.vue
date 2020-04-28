@@ -11,6 +11,8 @@
 
       <el-table-column label="Conference" prop="conferenceFullName"> </el-table-column>
 
+      <el-table-column label="Topics" prop="topics"> </el-table-column>
+
       <el-table-column label="Operation">
         <template slot-scope="scope">
           <el-button @click="handleInvitation(scope.row, 'PASS')" type="success" plain size="small">PASS</el-button>
