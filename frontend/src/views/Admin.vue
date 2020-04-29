@@ -3,17 +3,17 @@
     <Header v-bind:loginSwitch="true" />
     <div style="display: flex;min-height: calc(100vh - 60px);">
       <el-menu v-bind:class="{ Bar: !isCollapse }" default-active="1" :collapse="isCollapse" :router="false" :collapse-transition="false">
-        <el-menu-item @click="show = 'Conferencelist'" index="1"  class="mainMenu">
+        <el-menu-item @click="show = 'Conferencelist'" index="1" class="mainMenu">
           <i class="el-icon-chat-line-square"></i>
           <span slot="title">会议审核</span>
         </el-menu-item>
 
-        <el-menu-item @click="show = 'setting'" index="2"  class="mainMenu">
+        <el-menu-item @click="show = 'setting'" index="2" class="mainMenu" disabled>
           <i class="el-icon-s-operation"></i>
-          <span slot="title">设置</span>
+          <span slot="title">管理用户</span>
         </el-menu-item>
 
-        <el-menu-item @click="isCollapse = !isCollapse" index="3" style="position: absolute;bottom: 0;width:100%">
+        <el-menu-item @click="isCollapse = !isCollapse" index="3" style="position: absolute;bottom: 0;width:100%"  class="mainMenu" >
           <i class="el-icon-more"></i>
         </el-menu-item>
       </el-menu>

@@ -24,7 +24,7 @@
               <i class="el-icon-pie-chart"></i>
               <span slot="title">我参与的会议</span>
             </el-menu-item>
-            <el-menu-item index="2-3" @click="show = 'MyStar'">
+            <el-menu-item index="2-3" @click="show = 'MyStar'" disabled>
               <i class="el-icon-collection-tag"></i>
               <span slot="title">我收藏的会议</span>
             </el-menu-item>
@@ -51,14 +51,14 @@
               <i class="el-icon-postcard"></i>
               <span slot="title">个人资料</span>
             </el-menu-item>
-            <el-menu-item index="4-3" @click="show = 'Setting'">
+            <el-menu-item index="4-3" @click="show = 'Setting'" disabled>
               <i class="el-icon-setting"></i>
               <span slot="title">设置</span>
             </el-menu-item>
           </el-menu-item-group>
         </el-submenu>
 
-        <el-menu-item @click="isCollapse = !isCollapse" index="5" style="position: absolute;bottom: 0;width:100%">
+        <el-menu-item @click="isCollapse = !isCollapse" index="5" style="position: absolute;bottom: 0;width:100%"  class="mainMenu" >
           <i class="el-icon-more"></i>
         </el-menu-item>
       </el-menu>
