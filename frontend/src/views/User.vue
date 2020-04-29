@@ -2,20 +2,20 @@
   <div style="display:flex;flex-direction:column">
     <Header v-bind:loginSwitch="true" />
 
-    <div style="display: flex;">
-      <el-menu class="Bar" default-active="3" :collapse="true">
-        <el-menu-item index="1" @click="show = 'ConferenceForm'">
+    <div style="display: flex;min-height: calc(100vh - 60px);">
+      <el-menu v-bind:class="{ Bar: !isCollapse }" default-active="3" :collapse="isCollapse" :collapse-transition="false">
+        <el-menu-item index="1" @click="show = 'ConferenceForm'" class="mainMenu">
           <i class="el-icon-circle-plus"></i>
           <span slot="title">申请会议</span>
         </el-menu-item>
 
-        <el-submenu index="2">
+        <el-submenu index="2" class="mainMenu">
           <template slot="title">
             <i class="el-icon-files"></i>
             <span slot="uer">我的会议</span>
           </template>
           <el-menu-item-group>
-            <span slot="title">我的会议</span>
+            <span slot="title">/* 我的会议 */</span>
             <el-menu-item index="2-1" @click="show = 'MyApplication'">
               <i class="el-icon-edit-outline"></i>
               <span slot="title">我申请的会议</span>
@@ -24,21 +24,25 @@
               <i class="el-icon-pie-chart"></i>
               <span slot="title">我参与的会议</span>
             </el-menu-item>
+            <el-menu-item index="2-3" @click="show = 'MyStar'">
+              <i class="el-icon-collection-tag"></i>
+              <span slot="title">我收藏的会议</span>
+            </el-menu-item>
           </el-menu-item-group>
         </el-submenu>
 
-        <el-menu-item index="3" @click="show = 'ConferenceSquare'">
+        <el-menu-item index="3" @click="show = 'ConferenceSquare'" class="mainMenu">
           <i class="el-icon-wind-power"></i>
           <span slot="title">会议广场</span>
         </el-menu-item>
 
-        <el-submenu index="4">
+        <el-submenu index="4" class="mainMenu">
           <template slot="title">
             <i class="el-icon-user"></i>
             <span slot="uer">个人中心</span>
           </template>
           <el-menu-item-group>
-            <span slot="title">个人中心</span>
+            <span slot="title">/* 个人中心 */</span>
             <el-menu-item index="4-1" @click="seeMessage()">
               <i class="el-icon-message"></i>
               <span slot="title">消息中心<el-badge :is-dot="isDot" style="top: -10px;"></el-badge></span>
@@ -53,6 +57,10 @@
             </el-menu-item>
           </el-menu-item-group>
         </el-submenu>
+
+        <el-menu-item @click="isCollapse = !isCollapse" index="5" style="position: absolute;bottom: 0;width:100%">
+          <i class="el-icon-more"></i>
+        </el-menu-item>
       </el-menu>
 
       <div class="Choice">
@@ -83,7 +91,7 @@ export default {
   name: 'User',
   components: { Header, UserInfo, ConferenceForm, ConferenceSquare, MyConference, Messages },
   data() {
-    return { show: 'ConferenceSquare', isDot: true };
+    return { show: 'ConferenceSquare', isDot: true, isCollapse: true };
   },
   methods: {
     seeMessage() {
@@ -96,7 +104,7 @@ export default {
 
 <style>
 .Bar {
-  min-height: calc(100vh - 60px);
+  min-width: 200px;
 }
 
 .Choice {
@@ -105,5 +113,9 @@ export default {
   text-align: center;
   justify-content: center;
   width: 100%;
+}
+
+.mainMenu {
+  text-align: left;
 }
 </style>
