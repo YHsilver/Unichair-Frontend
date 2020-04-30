@@ -58,7 +58,7 @@
           </el-menu-item-group>
         </el-submenu>
 
-        <el-menu-item @click="isCollapse = !isCollapse" index="5" style="position: absolute;bottom: 0;width:100%"  class="mainMenu" >
+        <el-menu-item @click="isCollapse = !isCollapse" index="5" style="position: absolute;bottom: 0;width:100%" class="mainMenu">
           <i class="el-icon-more"></i>
         </el-menu-item>
       </el-menu>
@@ -70,6 +70,8 @@
         <ConferenceSquare v-show="show === 'ConferenceSquare'" />
         <!-- 申请会议 -->
         <ConferenceForm v-show="show === 'ConferenceForm'" />
+        <!-- 我申请的会议 -->
+        <MyApplication v-show="show === 'MyApplication'" />
         <!-- 我的邀请函 -->
         <Messages v-show="show === 'Messages'" />
         <!-- 我的会议 -->
@@ -85,11 +87,12 @@ import UserInfo from '@/components/userComponents/UserInfo.vue';
 import ConferenceForm from '@/components/userComponents/ConferenceForm.vue';
 import ConferenceSquare from '@/components/userComponents/ConferenceSquare.vue';
 import MyConference from '@/components/userComponents/MyConference.vue';
+import MyApplication from '@/components/userComponents/MyApplication.vue';
 import Messages from '@/components/userComponents/Messages.vue';
 
 export default {
   name: 'User',
-  components: { Header, UserInfo, ConferenceForm, ConferenceSquare, MyConference, Messages },
+  components: { Header, UserInfo, ConferenceForm, ConferenceSquare, MyConference, Messages, MyApplication },
   data() {
     return { show: 'ConferenceSquare', isDot: true, isCollapse: true };
   },

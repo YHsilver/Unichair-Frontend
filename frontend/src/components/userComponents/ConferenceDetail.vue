@@ -53,18 +53,11 @@
 <script>
 export default {
   name: 'ConferenceDetail',
+  props: {
+    conferenceId: Number,
+  },
   data() {
     return {
-      // 会议申请部分
-      user: {
-        id: '',
-        username: '',
-        fullName: '',
-        email: '',
-        unit: '',
-        area: '',
-      },
-
       isChair: false,
       isPCMember: false,
       isAuthor: false,
@@ -84,67 +77,55 @@ export default {
     };
   },
   created() {
-    // this.$axios
-    //   .post('/system/userGetIdentity', {
-    //     token: this.$store.state.token,
-    //     conferenceId: this.$route.path.substring(this.$route.path.lastIndexOf('/') + 1),
-    //   })
-    //   .then((resp) => {
-    //     if (resp.status === 200) {
-    //       this.isChair = resp.data[0] === 0;
-    //       this.isPCMember = resp.data[1] === 0;
-    //       this.isAuthor = resp.data[2] === 0;
-    //     } else {
-    //       this.$message({
-    //         type: 'error',
-    //         message: resp.data.message,
-    //         duration: '2000',
-    //         showClose: 'true',
-    //         center: 'true',
-    //       });
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //     this.$message({
-    //       type: 'error',
-    //       message: 'get conference details error',
-    //       duration: '2000',
-    //       showClose: 'true',
-    //       center: 'true',
-    //     });
-    //   });
-    //   this.$axios
-    //     .post('/token', { token: this.$store.state.token })
-    //     .then((resp) => {
-    //       if (resp.status === 200) {
-    //         this.user = resp.data;
-    //         // let path = this.$route.path;
-    //         // this.conferenceDetail.id = path.substring(path.lastIndexOf('/') + 1);
-    //         this.getConferenceDetails();
-    //       } else {
-    //         this.$message({ type: 'error', message: 'token invalid', duration: '2000', showClose: 'true', center: 'true' });
-    //         // this.$router.replace('/');
-    //       }
-    //     })
-    //     .catch((error) => {
-    //       console.log(error);
-    //       this.$message({ type: 'error', message: 'token invalid', duration: '2000', showClose: 'true', center: 'true' });
-    //       // this.$router.replace('/');
-    //     });
+    this.$axios
+      .post('/system/userGetIdentity', {
+        token: this.$store.state.token,
+        conferenceId: this.$route.path.substring(this.$route.path.lastIndexOf('/') + 1),
+      })
+      .then((resp) => {
+        if (resp.status === 200) {
+          this.isChair = resp.data[0] === 0;
+          this.isPCMember = resp.data[1] === 0;
+          this.isAuthor = resp.data[2] === 0;
+        } else {
+          this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        this.$message({ type: 'error', message: 'get conference details error', duration: '2000', showClose: 'true', center: 'true' });
+      });
+    this.$axios
+      .post('/token', { token: this.$store.state.token })
+      .then((resp) => {
+        if (resp.status === 200) {
+          this.user = resp.data;
+          // let path = this.$route.path;
+          // this.conferenceDetail.id = path.substring(path.lastIndexOf('/') + 1);
+          this.getConferenceDetails();
+        } else {
+          this.$message({ type: 'error', message: 'token invalid', duration: '2000', showClose: 'true', center: 'true' });
+          // this.$router.replace('/');
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        this.$message({ type: 'error', message: 'token invalid', duration: '2000', showClose: 'true', center: 'true' });
+        // this.$router.replace('/');
+      });
   },
   methods: {
     getConferenceDetails() {
       this.$axios
-        .post('/system/userGetConferenceDetails', { conferenceId: 15 /* this.conferenceDetail.id */ })
+        .post('/system/userGetConferenceDetails', { conferenceId: this.conferenceId /* this.conferenceDetail.id */ })
         .then((resp) => {
           if (resp.status === 200) {
             console.log(resp.data);
             this.conferenceDetail = resp.data;
-            // this.conferenceDetail.stage = this.conferenceDetail.stage.charAt(0) + this.conferenceDetail.stage.substring(1).toLowerCase();
-            // this.setPCMembers();
-            // this.setAuthors();
-            // this.setButtons();
+            this.conferenceDetail.stage = this.conferenceDetail.stage.charAt(0) + this.conferenceDetail.stage.substring(1).toLowerCase();
+            this.setPCMembers();
+            this.setAuthors();
+            this.setButtons();
           } else {
             this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
           }
@@ -158,29 +139,28 @@ export default {
       this.conferenceDetail.PCMemberString = this.conferenceDetail.PCMember;
     },
     setAuthors() {
-      //this.conferenceDetail.Author = ["Dr. Chen", "Dr. Zh", "Yan hua", "Pan XingYu", "Hu YuFeng", "more author"];
+      this.conferenceDetail.Author = ['Dr. Chen', 'Dr. Zh', 'Yan hua', 'Pan XingYu', 'Hu YuFeng', 'more author'];
       this.conferenceDetail.AuthorString = this.conferenceDetail.Author;
-      // if(this.conferenceDetail.Author === "[]"){
-      //   return;
-      // }
-      // let tempString = "";
-      // for(let i = 0; i < this.conferenceDetail.Author.length; i++){
-      //   let item = this.conferenceDetail.Author[i];
-      //   tempString += item;
-      //   tempString += ", ";
-      // }
-      // if(this.conferenceDetail.Author.length > 5){
-      //   // 如果AUTHOR 多于5个，只显示五个
-      //   for(let i = 0; i < 5; i++){
-      //     this.conferenceDetail.AuthorString += tempString.substring(0, tempString.indexOf(',') + 2);
-      //     //console.log(this.conferenceDetail.AuthorString);
-      //     tempString = tempString.substring(tempString.indexOf(',') + 2);
-      //   }
-      //   this.conferenceDetail.AuthorString = this.conferenceDetail.AuthorString.substring(0, this.conferenceDetail.AuthorString.length - 2).concat(" ...");
-      //
-      // }else{
-      //   this.conferenceDetail.AuthorString = tempString.substring(0, tempString.length - 2);
-      // }
+      if (this.conferenceDetail.Author === '[]') {
+        return;
+      }
+      let tempString = '';
+      for (let i = 0; i < this.conferenceDetail.Author.length; i++) {
+        let item = this.conferenceDetail.Author[i];
+        tempString += item;
+        tempString += ', ';
+      }
+      if (this.conferenceDetail.Author.length > 5) {
+        // 如果AUTHOR 多于5个，只显示五个
+        for (let i = 0; i < 5; i++) {
+          this.conferenceDetail.AuthorString += tempString.substring(0, tempString.indexOf(',') + 2);
+          //console.log(this.conferenceDetail.AuthorString);
+          tempString = tempString.substring(tempString.indexOf(',') + 2);
+        }
+        this.conferenceDetail.AuthorString = this.conferenceDetail.AuthorString.substring(0, this.conferenceDetail.AuthorString.length - 2).concat(' ...');
+      } else {
+        this.conferenceDetail.AuthorString = tempString.substring(0, tempString.length - 2);
+      }
     },
     setButtons() {
       if (this.conferenceDetail.stage === 'Ending') {

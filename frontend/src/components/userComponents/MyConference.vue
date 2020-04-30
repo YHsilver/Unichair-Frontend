@@ -2,7 +2,7 @@
   <el-main>
     <el-tabs v-model="activeTab">
       <el-tab-pane v-for="(table, name, index) in tables" v-bind:label="name" v-bind:name="name" v-bind:key="index" @click="getAs(name)">
-        <el-table id="name" :data="table" height="calc(100vh - 160px)" v-loading="loading" @row-click="openDetails" :row-style="{ cursor: 'pointer' }">
+        <el-table id="name" :data="table" height="calc(100vh - 160px)" v-loading="loading">
           <el-table-column type="expand">
             <template slot-scope="props">
               <el-form label-position="left">
@@ -37,15 +37,13 @@ export default {
     // this.getAs('Chair');
   },
   methods: {
-    openDetails(row) {
-      this.$router.replace('/conferenceDetail/' + row.id);
-    },
     getAs(Identity) {
       this.$axios
         .post('/system/getPassedConference', { token: this.$store.state.token, identity: Identity, startIndex: 0, listLength: 10 })
         .then((resp) => {
           if (resp.status === 200) {
             this.tables.Identity = resp.data;
+            this.loading = false;
           } else {
             this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
           }

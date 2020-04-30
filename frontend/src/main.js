@@ -37,15 +37,15 @@ axios.interceptors.response.use(
   },
   error => {
     console.log(error.response)
-    if (error) {
-      // 清除token 如果不是/
-      store.commit('logout')
-      router.currentRoute.path !== '/' &&
-        router.replace({
-          path: '/',
-          query: { redirect: router.currentRoute.path }
-        })
-    }
+    // if (error) {
+    //   // 清除token 如果不是/
+    //   store.commit('logout')
+    //   router.currentRoute.path !== '/' &&
+    //     router.replace({
+    //       path: '/',
+    //       query: { redirect: router.currentRoute.path }
+    //     })
+    // }
     // 注意这里是返回了整条信息！！！
     return Promise.reject(error.response)
   }
