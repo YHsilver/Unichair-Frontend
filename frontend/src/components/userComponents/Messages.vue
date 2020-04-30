@@ -35,29 +35,21 @@ export default {
     };
   },
   created() {
-    // this.getInvitation();
+    this.getInvitation();
   },
   methods: {
     getInvitation() {
-      // 假装 loading
-      setTimeout(() => {
-        this.loading = false;
-      }, 2000);
       this.$axios
-        .post('/system/userCheckMyInvitations', {
-          token: this.$store.state.token,
-          status: 'PENDING',
-        })
+        .post('/system/userCheckMyInvitations', { token: this.$store.state.token, status: 'PENDING' })
         .then((resp) => {
           if (resp.status === 200) {
-            // console.log(resp.data);
             this.messageTable = resp.data;
+            this.loading = false;
           } else {
             this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
           }
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(() => {
           this.$message({ type: 'error', message: 'get information error', duration: '2000', showClose: 'true', center: 'true' });
         });
     },

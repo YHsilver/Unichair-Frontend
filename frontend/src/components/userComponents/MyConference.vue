@@ -1,7 +1,7 @@
 <template>
   <el-main>
-    <el-tabs v-model="activeTab">
-      <el-tab-pane v-for="(table, name, index) in tables" v-bind:label="name" v-bind:name="name" v-bind:key="index" @click="getAs(name)">
+    <el-tabs v-model="activeTab" @tab-click="handleTabClick">
+      <el-tab-pane v-for="(table, name, index) in tables" v-bind:label="name" v-bind:name="name" v-bind:key="index">
         <el-table id="name" :data="table" height="calc(100vh - 160px)" v-loading="loading">
           <el-table-column type="expand">
             <template slot-scope="props">
@@ -30,13 +30,16 @@ export default {
       loading: true,
       // 查看已申请部分
       activeTab: 'Chair',
-      tables: { Chair: [], Reviwer: [], Author: [] },
+      tables: { Chair: [], Reviwer: [], Author: [], All: [] },
     };
   },
   created() {
-    // this.getAs('Chair');
+    this.getAs('Chair');
   },
   methods: {
+    handleTabClick(tab) {
+      this.getAs(tab.name);
+    },
     getAs(Identity) {
       this.$axios
         .post('/system/getPassedConference', { token: this.$store.state.token, identity: Identity, startIndex: 0, listLength: 10 })

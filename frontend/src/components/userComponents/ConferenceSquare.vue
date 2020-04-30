@@ -1,29 +1,15 @@
 <template>
   <div class="tableFrame">
-    <el-table v-loading="loading" class="tableContent" row-click="openDetails()" :row-style="{ cursor: 'pointer' }">
-      <el-table-column>
-        <template slot-scope="props">
-          <el-form label-position="left">
-            <el-form-item v-bind:label="name" v-for="(value, name) in props.row" v-bind:key="name" @click="conferenceId = props.row.id">
-              <span>{{ value }}</span>
-            </el-form-item>
-          </el-form>
-        </template>
-      </el-table-column>
-
+    <el-table v-loading="loading" :data="table" height="100%" class="tableContent" :row-style="{ cursor: 'pointer' }" @row-click="openDetails">
       <el-table-column label="ID" prop="id"> </el-table-column>
-
       <el-table-column label="Abbr" prop="abbr"> </el-table-column>
-
       <el-table-column label="Name" prop="name"> </el-table-column>
-
       <el-table-column label="ChairMan" prop="chairMan"> </el-table-column>
-
-      <el-table-column label="Status" prop="status"> </el-table-column>
+      <el-table-column label="Stage" prop="stage"> </el-table-column>
     </el-table>
 
     <!-- Conference Detail -->
-    <el-dialog title="Conference Detail" :visible.sync="dialogVisible">
+    <el-dialog title="Conference Detail" v-if="dialogVisible" :visible.sync="dialogVisible" top="5vh">
       <ConferenceDetail v-bind:conferenceId="conferenceId" />
     </el-dialog>
   </div>
@@ -37,7 +23,7 @@ export default {
   components: { ConferenceDetail },
   data() {
     return {
-      tables: { passed: [] },
+      table: [],
       loading: true,
       dialogVisible: false,
       conferenceId: -1,
@@ -48,9 +34,9 @@ export default {
   },
   methods: {
     // 打开会议详细界面
-    openDetails() {
-      // this.$router.replace('/conferenceDetail/' + row.id);
+    openDetails(row) {
       this.dialogVisible = true;
+      this.conferenceId = Number(row.id);
     },
     // 获取所有会议
     getAllConference() {
@@ -58,14 +44,13 @@ export default {
         .post('/system/getPassedConference', { token: this.$store.state.token, identity: '*', startIndex: 0, listLength: 10 })
         .then((resp) => {
           if (resp.status === 200) {
-            this.tables.passed = resp.data;
+            this.table = resp.data;
             this.loading = false;
           } else {
             this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
           }
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(() => {
           this.$message({ type: 'error', message: 'get all conference error', duration: '2000', showClose: 'true', center: 'true' });
         });
     },

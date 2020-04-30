@@ -3,32 +3,32 @@
     <el-form :model="meetingForm" :rules="rules" class="meeting_container" v-loading="loading" :ref="meetingForm">
       <h3 class="meeting_title">New Conference</h3>
 
-      <el-form-item prop="abbreviation">
-        <el-input type="text" v-model="meetingForm.abbreviation" auto-complete="off" placeholder="Abbreviation Name" clearable></el-input>
+      <el-form-item prop="conferenceAbbreviation">
+        <el-input type="text" v-model="meetingForm.conferenceAbbreviation" auto-complete="off" placeholder="Conference Abbreviation" clearable></el-input>
       </el-form-item>
 
-      <el-form-item prop="full">
-        <el-input v-model="meetingForm.full" type="textarea" v-bind:row="2" placeholder="Full Name"> </el-input>
+      <el-form-item prop="conferenceFullName">
+        <el-input v-model="meetingForm.conferenceFullName" type="textarea" v-bind:row="2" placeholder="Conference FullName"> </el-input>
       </el-form-item>
 
-      <el-form-item prop="heldPlace">
-        <el-input v-model="meetingForm.heldPlace" placeholder="Held Place" clearable></el-input>
+      <el-form-item prop="conferenceLocation">
+        <el-input v-model="meetingForm.conferenceLocation" placeholder="Conference Location" clearable></el-input>
       </el-form-item>
 
-      <el-form-item prop="heldDate">
-        <el-date-picker v-model="meetingForm.heldDate" type="date" placeholder="Held Date" :picker-options="pickerOptions1"> </el-date-picker>
+      <el-form-item prop="conferenceTime">
+        <el-date-picker v-model="meetingForm.conferenceTime" type="date" placeholder="Conference Time" :picker-options="pickerOptions1"> </el-date-picker>
       </el-form-item>
 
-      <el-form-item prop="submissionDate">
-        <el-date-picker v-model="meetingForm.submissionDate" type="date" placeholder="Submission Date" :picker-options="pickerOptions2"> </el-date-picker>
+      <el-form-item prop="contributeStartTime">
+        <el-date-picker v-model="meetingForm.contributeStartTime" type="date" placeholder="Contribute Start Time" :picker-options="pickerOptions2"> </el-date-picker>
       </el-form-item>
 
-      <el-form-item prop="Ddl">
-        <el-date-picker v-model="meetingForm.Ddl" type="date" placeholder="Submission Deadline Date" :picker-options="pickerOptions3"> </el-date-picker>
+      <el-form-item prop="contributeEndTime">
+        <el-date-picker v-model="meetingForm.contributeEndTime" type="date" placeholder="Contribute End Time" :picker-options="pickerOptions3"> </el-date-picker>
       </el-form-item>
 
-      <el-form-item prop="releaseDate">
-        <el-date-picker v-model="meetingForm.releaseDate" type="date" placeholder="Release Date" :picker-options="pickerOptions4"> </el-date-picker>
+      <el-form-item prop="resultReleaseTime">
+        <el-date-picker v-model="meetingForm.resultReleaseTime" type="date" placeholder="Result Release Time" :picker-options="pickerOptions4"> </el-date-picker>
       </el-form-item>
 
       <el-form-item prop="introduction">
@@ -63,47 +63,47 @@
 export default {
   name: 'ConferenceForm',
   data() {
-    const heldDateValid = (rule, value, callback) => {
-      let heldDate = this.meetingForm.heldDate;
-      if (new Date().getTime() > heldDate.getTime()) {
+    const conferenceTimeValid = (rule, value, callback) => {
+      let conferenceTime = this.meetingForm.conferenceTime;
+      if (new Date().getTime() > conferenceTime.getTime()) {
         return callback(new Error('Held Date must later than today.'));
       }
       return callback();
     };
-    const submissionDateValid = (rule, value, callback) => {
-      let submissionDate = this.meetingForm.submissionDate;
-      let heldDate = this.meetingForm.heldDate;
-      if (heldDate.getTime() > submissionDate.getTime()) {
+    const contributeStartTimeValid = (rule, value, callback) => {
+      let contributeStartTime = this.meetingForm.contributeStartTime;
+      let conferenceTime = this.meetingForm.conferenceTime;
+      if (conferenceTime.getTime() > contributeStartTime.getTime()) {
         return callback(new Error('Deadline date must later than held Date.'));
       }
       return callback();
     };
-    const DdlValid = (rule, value, callback) => {
-      let submissionDate = this.meetingForm.submissionDate;
-      let Ddl = this.meetingForm.Ddl;
-      if (submissionDate.getTime() > Ddl.getTime()) {
+    const contributeEndTimeValid = (rule, value, callback) => {
+      let contributeStartTime = this.meetingForm.contributeStartTime;
+      let contributeEndTime = this.meetingForm.contributeEndTime;
+      if (contributeStartTime.getTime() > contributeEndTime.getTime()) {
         return callback(new Error('Deadline date must later than held Date.'));
       }
       return callback();
     };
-    const releaseDateValid = (rule, value, callback) => {
-      let Ddl = this.meetingForm.Ddl;
-      let releaseDate = this.meetingForm.releaseDate;
-      if (Ddl.getTime() > releaseDate.getTime()) {
+    const resultReleaseTimeValid = (rule, value, callback) => {
+      let contributeEndTime = this.meetingForm.contributeEndTime;
+      let resultReleaseTime = this.meetingForm.resultReleaseTime;
+      if (contributeEndTime.getTime() > resultReleaseTime.getTime()) {
         return callback(new Error('release date must later than deadline Date.'));
       }
       return callback();
     };
     return {
       meetingForm: {
-        abbreviation: '',
-        fullName: '',
-        heldDate: '',
-        heldPlace: '',
-        Ddl: '',
-        submissionDate: '',
+        conferenceAbbreviation: '',
+        conferenceFullName: '',
+        conferenceTime: '',
+        conferenceLocation: '',
+        contributeEndTime: '',
+        contributeStartTime: '',
         submissionDeadline: '',
-        releaseDate: '',
+        resultReleaseTime: '',
         introduction: '',
         topics: [],
       },
@@ -130,24 +130,24 @@ export default {
       inputVisible: false,
       inputValue: '',
       rules: {
-        abbreviation: [{ required: true, message: '', trigger: 'blur' }],
+        conferenceAbbreviation: [{ required: true, message: '', trigger: 'blur' }],
         full: [{ required: true, message: '', trigger: 'blur' }],
-        heldPlace: [{ required: true, message: '', trigger: 'blur' }],
-        heldDate: [
+        conferenceLocation: [{ required: true, message: '', trigger: 'blur' }],
+        conferenceTime: [
           { required: true, message: '', trigger: 'blur' },
-          { validator: heldDateValid, message: 'Held Date must later than today.', trigger: 'blur' },
+          { validator: conferenceTimeValid, message: 'Held Date must later than today.', trigger: 'blur' },
         ],
-        submissionDate: [
+        contributeStartTime: [
           { required: true, message: '', trigger: 'blur' },
-          { validator: submissionDateValid, message: 'submission date must later than held Date.', trigger: 'blur' },
+          { validator: contributeStartTimeValid, message: 'submission date must later than held Date.', trigger: 'blur' },
         ],
-        Ddl: [
+        contributeEndTime: [
           { required: true, message: '', trigger: 'blur' },
-          { validator: DdlValid, message: 'Deadline date must later than submission Date.', trigger: 'blur' },
+          { validator: contributeEndTimeValid, message: 'Deadline date must later than submission Date.', trigger: 'blur' },
         ],
-        releaseDate: [
+        resultReleaseTime: [
           { required: true, message: '', trigger: 'blur' },
-          { validator: releaseDateValid, message: 'release date must later than deadline Date.', trigger: 'blur' },
+          { validator: resultReleaseTimeValid, message: 'release date must later than deadline Date.', trigger: 'blur' },
         ],
         introduction: [{ required: true, message: '', trigger: 'blur' }],
         topics: [{ required: true, message: '', trigger: 'blur' }],
@@ -160,15 +160,15 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.$axios
-            .post('/setUpConference', {
+            .post('/system/addConferenceApplication', {
               token: this.$store.state.token,
-              conferenceAbbreviation: this.meetingForm.abbreviation,
-              conferenceFullName: this.meetingForm.fullName,
-              conferenceTime: this.meetingForm.heldDate,
-              conferenceLocation: this.meetingForm.heldPlace,
-              contributeStartTime: this.meetingForm.submissionDate,
-              contributeEndTime: this.meetingForm.Ddl,
-              resultReleaseTime: this.meetingForm.releaseDate,
+              conferenceAbbreviation: this.meetingForm.conferenceAbbreviation,
+              conferenceFullName: this.meetingForm.conferenceFullName,
+              conferenceTime: this.meetingForm.conferenceTime,
+              conferenceLocation: this.meetingForm.conferenceLocation,
+              contributeStartTime: this.meetingForm.contributeStartTime,
+              contributeEndTime: this.meetingForm.contributeEndTime,
+              resultReleaseTime: this.meetingForm.resultReleaseTime,
               introduction: this.meetingForm.introduction,
               topics: this.meetingForm.topics,
             })

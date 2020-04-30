@@ -1,12 +1,11 @@
 <template>
-  <div>
-    <template>
-      <el-table style="width: 100%">
-        <el-table-column :label="name" width="180" v-for="(value, name, index) in conferenceDetail" v-bind:key="index">
-          {{ value }}
-        </el-table-column>
-      </el-table>
-    </template>
+  <div v-loading="loading">
+    <table>
+      <tr :label="name" v-for="(value, name, index) in conferenceDetail" v-bind:key="index">
+        <th>{{ name }}</th>
+        <td>{{ value }}</td>
+      </tr>
+    </table>
 
     <el-row class="hint-div" v-if="isChair">
       <el-col>
@@ -74,45 +73,12 @@ export default {
       AuthorSubmitButtonMessage: 'Submit more',
       NormalSubmitButtonMessage: 'Submit paper now',
       conferenceDetail: {},
+
+      loading: true,
     };
   },
   created() {
-    this.$axios
-      .post('/system/userGetIdentity', {
-        token: this.$store.state.token,
-        conferenceId: this.$route.path.substring(this.$route.path.lastIndexOf('/') + 1),
-      })
-      .then((resp) => {
-        if (resp.status === 200) {
-          this.isChair = resp.data[0] === 0;
-          this.isPCMember = resp.data[1] === 0;
-          this.isAuthor = resp.data[2] === 0;
-        } else {
-          this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        this.$message({ type: 'error', message: 'get conference details error', duration: '2000', showClose: 'true', center: 'true' });
-      });
-    this.$axios
-      .post('/token', { token: this.$store.state.token })
-      .then((resp) => {
-        if (resp.status === 200) {
-          this.user = resp.data;
-          // let path = this.$route.path;
-          // this.conferenceDetail.id = path.substring(path.lastIndexOf('/') + 1);
-          this.getConferenceDetails();
-        } else {
-          this.$message({ type: 'error', message: 'token invalid', duration: '2000', showClose: 'true', center: 'true' });
-          // this.$router.replace('/');
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        this.$message({ type: 'error', message: 'token invalid', duration: '2000', showClose: 'true', center: 'true' });
-        // this.$router.replace('/');
-      });
+    this.getConferenceDetails();
   },
   methods: {
     getConferenceDetails() {
@@ -120,12 +86,12 @@ export default {
         .post('/system/userGetConferenceDetails', { conferenceId: this.conferenceId /* this.conferenceDetail.id */ })
         .then((resp) => {
           if (resp.status === 200) {
-            console.log(resp.data);
             this.conferenceDetail = resp.data;
             this.conferenceDetail.stage = this.conferenceDetail.stage.charAt(0) + this.conferenceDetail.stage.substring(1).toLowerCase();
             this.setPCMembers();
             this.setAuthors();
             this.setButtons();
+            this.loading = false;
           } else {
             this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
           }
@@ -230,3 +196,17 @@ export default {
   },
 };
 </script>
+
+<style>
+td,
+th {
+  padding: 10px;
+  text-align: left;
+}
+
+th {
+  width: 200px !important;
+  color: #8669ed !important;
+  font-weight: 900;
+}
+</style>

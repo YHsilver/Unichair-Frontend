@@ -60,7 +60,7 @@ th {
   text-align: left;
 }
 
-label {
+th {
   width: 200px !important;
   color: #8669ed !important;
   font-weight: 900;

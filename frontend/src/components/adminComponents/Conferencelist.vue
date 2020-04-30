@@ -34,7 +34,7 @@ export default {
   data() {
     return {
       activeTab: 'pending',
-      tables: { pending: [], passed: [], rejected: [] },
+      tables: { pending: [], pass: [], reject: [] },
       loading: true,
     };
   },
@@ -43,35 +43,27 @@ export default {
   },
   methods: {
     handleTabClick(tab) {
-      if (tab.name === 'pending') this.getConference('PENDING');
-      else if (tab.name === 'passed') this.getConference('PASS');
-      else if (tab.name === 'rejected') this.getConference('REJECT');
+      this.getConference(tab.name.toUpperCase());
     },
     getConference(Status) {
       this.$axios
-        .post('/admin/getConference', { token: this.$store.state.token, name: 'LOOK', content: Status })
+        .post('/admin/getConferenceApplications', { status: Status })
         .then((resp) => {
           if (resp.status === 200) {
-            if (Status === 'PENDING') {
-              this.tables.pending = resp.data;
-            } else if (Status === 'PASS') {
-              this.tables.passed = resp.data;
-            } else {
-              this.tables.rejected = resp.data;
-            }
+            this.tables[Status.toLowerCase()] = resp.data;
             this.loading = false;
           } else {
             this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
           }
         })
-        .catch((error) => {
-          console.log(error);
-          this.$message({ type: 'error', message: 'get information' + Status + 'error', duration: '2000', showClose: 'true', center: 'true' });
+        .catch(() => {
+          // console.log(error);
+          this.$message({ type: 'error', message: 'get ' + Status.toLowerCase() + ' table error', duration: '2000', showClose: 'true', center: 'true' });
         });
     },
     handleConference(arr, Status) {
       this.$axios
-        .post('/admin/changeStatus', { token: this.$store.state.token, name: 'CHANGESTATUS', id: arr.id, status: Status, chair: arr.chairMan })
+        .post('/admin/changeConferenceStatus', { id: arr.id, status: Status })
         .then((resp) => {
           if (resp.status === 200) {
             this.$message = resp.data.message;
@@ -80,8 +72,8 @@ export default {
             this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
           }
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(() => {
+          // console.log(error);
           this.$message({ type: 'error', message: 'operation error', duration: '2000', showClose: 'true', center: 'true' });
         });
     },
