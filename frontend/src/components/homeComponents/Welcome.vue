@@ -17,11 +17,12 @@
         <h3>Management of Submission and Review</h3>
         <h3>Exploration of Mysteries of the Universe</h3>
         <br />
-        <el-button @click="registerFormVisible = true" type="success" style="width:180px;height:50px;font-size:0.8rem" round
-          >Try for free<i class="el-icon-right el-icon--right"></i
-        ></el-button>
-        <el-dialog :visible.sync="registerFormVisible" width="480px">
-          <registerForm :v-bind="registerFormVisible" />
+        <el-button @click="registerFormVisible.name = true" type="success" style="width:180px;height:50px;font-size:0.8rem" round>
+          Try for free
+          <i class="el-icon-right el-icon--right"></i>
+        </el-button>
+        <el-dialog :visible.sync="registerFormVisible.name" width="520px">
+          <registerForm :registerFormVisible="registerFormVisible" />
         </el-dialog>
       </el-col>
     </el-row>
@@ -46,7 +47,7 @@ export default {
   name: 'Welcome',
   components: { registerForm },
   data() {
-    return { registerFormVisible: false };
+    return { registerFormVisible: { name: false } };
   },
 };
 </script>

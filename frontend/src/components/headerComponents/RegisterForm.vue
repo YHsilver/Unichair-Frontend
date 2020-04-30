@@ -5,7 +5,7 @@
 
       <!-- user -->
       <el-form-item prop="username" class="inputBox">
-        <el-input class="form-input" type="text" v-model="registerForm.username" auto-complete="off" placeholder="username" @blur.native.capture="aAjax" clearable>
+        <el-input class="form-input" type="text" v-model="registerForm.username" auto-complete="off" placeholder="username" clearable>
           <i slot="prefix" class="el-icon-user"></i>
         </el-input>
       </el-form-item>
@@ -77,6 +77,7 @@
 <script>
 export default {
   name: 'Register',
+  props: ['registerFormVisible'],
   data() {
     const dataValid = (rule, value, callback) => {
       let userName = this.registerForm.username;
@@ -159,9 +160,8 @@ export default {
             .then((resp) => {
               // 根据后端的返回数据修改
               if (resp.status === 200 && Object.prototype.hasOwnProperty.call(resp.data, 'id')) {
-                // 跳转到login
                 this.$message({ type: 'success', message: 'successful registration', duration: '2000', showClose: 'true', center: 'true' });
-                this.$router.replace('/');
+                this.registerFormVisible.name = false;
               } else {
                 this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
               }
@@ -176,29 +176,29 @@ export default {
         }
       });
     },
-    aAjax() {
-      this.$axios
-        .post('/login', {
-          username: this.registerForm.username,
-        })
-        .then((resp) => {
-          console.log(resp);
-        })
-        .catch((error) => {
-          if (error.status === 500) {
-            this.$message({
-              type: 'error',
-              message: "This username ' " + this.registerForm.username + " ' has been registered",
-              duration: '2000',
-              showClose: 'true',
-              center: 'true',
-            });
-            this.registerForm.username = '';
-          } else {
-            console.log('error');
-          }
-        });
-    },
+    // aAjax() {
+    //   this.$axios
+    //     .post('/login', {
+    //       username: this.registerForm.username,
+    //     })
+    //     .then((resp) => {
+    //       console.log(resp);
+    //     })
+    //     .catch((error) => {
+    //       if (error.status === 500) {
+    //         this.$message({
+    //           type: 'error',
+    //           message: "This username ' " + this.registerForm.username + " ' has been registered",
+    //           duration: '2000',
+    //           showClose: 'true',
+    //           center: 'true',
+    //         });
+    //         this.registerForm.username = '';
+    //       } else {
+    //         console.log('error');
+    //       }
+    //     });
+    // },
   },
 };
 </script>
