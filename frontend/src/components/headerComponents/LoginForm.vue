@@ -25,9 +25,9 @@
       <!-- register tip -->
       <el-form-item>
         <span>No account yet? 👉 </span>
-        <el-link type="primary" :underline="false" @click="registerFormVisible.name = true">register now </el-link>
-        <el-dialog :visible.sync="registerFormVisible.name" width="520px" append-to-body>
-          <RegisterForm :registerFormVisible="registerFormVisible" />
+        <el-link type="primary" :underline="false" @click="registerFormVisible = true">register now </el-link>
+        <el-dialog :visible.sync="registerFormVisible" width="520px" append-to-body>
+          <RegisterForm @registerFinished="registerFormVisible = false" />
         </el-dialog>
       </el-form-item>
     </el-form>
@@ -49,7 +49,7 @@ export default {
         username: [{ required: true, message: '', trigger: 'blur' }],
         password: [{ required: true, message: '', trigger: 'blur' }],
       },
-      registerFormVisible: { name: false },
+      registerFormVisible: false,
     };
   },
   methods: {
