@@ -57,7 +57,6 @@ export default {
           }
         })
         .catch(() => {
-          // console.log(error);
           this.$message({ type: 'error', message: 'get ' + Status.toLowerCase() + ' table error', duration: '2000', showClose: 'true', center: 'true' });
         });
     },
@@ -73,7 +72,6 @@ export default {
           }
         })
         .catch(() => {
-          // console.log(error);
           this.$message({ type: 'error', message: 'operation error', duration: '2000', showClose: 'true', center: 'true' });
         });
     },

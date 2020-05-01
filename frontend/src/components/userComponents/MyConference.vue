@@ -30,7 +30,7 @@ export default {
       loading: true,
       // 查看已申请部分
       activeTab: 'Chair',
-      tables: { Chair: [], Reviwer: [], Author: [], All: [] },
+      tables: { Chair: [], Reviwer: [], Author: [] },
     };
   },
   created() {
@@ -38,11 +38,13 @@ export default {
   },
   methods: {
     handleTabClick(tab) {
+      console.log(tab.name);
+
       this.getAs(tab.name);
     },
     getAs(Identity) {
       this.$axios
-        .post('/system/getPassedConference', { token: this.$store.state.token, identity: Identity, startIndex: 0, listLength: 10 })
+        .post('/system/getMyConferenceApplications', { token: this.$store.state.token, identity: Identity })
         .then((resp) => {
           if (resp.status === 200) {
             this.tables.Identity = resp.data;

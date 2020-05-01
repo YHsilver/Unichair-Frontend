@@ -20,7 +20,6 @@ axios.interceptors.request.use(
     if (store.state.token) {
       // 判断是否有token，若存在，每个http header加上token
       // console.log('token exist');
-      // xhr.setRequestHeader("token", store.state.token); 
       config.headers.token = store.state.token;
     }
     return config
@@ -36,7 +35,7 @@ axios.interceptors.response.use(
     return response
   },
   error => {
-    console.log(error.response)
+    // console.log(error.response)
     // if (error) {
     //   // 清除token 如果不是/
     //   store.commit('logout')
