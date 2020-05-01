@@ -46,7 +46,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #card {
   padding: 40px;
   margin: 20px;

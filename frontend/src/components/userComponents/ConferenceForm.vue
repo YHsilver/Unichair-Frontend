@@ -15,20 +15,20 @@
         <el-input v-model="meetingForm.conferenceLocation" placeholder="Conference Location" clearable></el-input>
       </el-form-item>
 
-      <el-form-item prop="conferenceTime">
-        <el-date-picker v-model="meetingForm.conferenceTime" type="date" placeholder="Conference Time" :picker-options="pickerOptions1"> </el-date-picker>
-      </el-form-item>
-
       <el-form-item prop="contributeStartTime">
-        <el-date-picker v-model="meetingForm.contributeStartTime" type="date" placeholder="Contribute Start Time" :picker-options="pickerOptions2"> </el-date-picker>
+        <el-date-picker v-model="meetingForm.contributeStartTime" type="date" placeholder="Contribute Start Time" :picker-options="pickerOptions"> </el-date-picker>
       </el-form-item>
 
       <el-form-item prop="contributeEndTime">
-        <el-date-picker v-model="meetingForm.contributeEndTime" type="date" placeholder="Contribute End Time" :picker-options="pickerOptions3"> </el-date-picker>
+        <el-date-picker v-model="meetingForm.contributeEndTime" type="date" placeholder="Contribute End Time" :picker-options="pickerOptions"> </el-date-picker>
       </el-form-item>
 
       <el-form-item prop="resultReleaseTime">
-        <el-date-picker v-model="meetingForm.resultReleaseTime" type="date" placeholder="Result Release Time" :picker-options="pickerOptions4"> </el-date-picker>
+        <el-date-picker v-model="meetingForm.resultReleaseTime" type="date" placeholder="Result Release Time" :picker-options="pickerOptions"> </el-date-picker>
+      </el-form-item>
+
+      <el-form-item prop="conferenceTime">
+        <el-date-picker v-model="meetingForm.conferenceTime" type="date" placeholder="Conference Time" :picker-options="pickerOptions"> </el-date-picker>
       </el-form-item>
 
       <el-form-item prop="introduction">
@@ -63,34 +63,42 @@
 export default {
   name: 'ConferenceForm',
   data() {
-    const conferenceTimeValid = (rule, value, callback) => {
-      let conferenceTime = this.meetingForm.conferenceTime;
-      if (new Date().getTime() > conferenceTime.getTime()) {
-        return callback(new Error('Held Date must later than today.'));
-      }
-      return callback();
-    };
     const contributeStartTimeValid = (rule, value, callback) => {
       let contributeStartTime = this.meetingForm.contributeStartTime;
-      let conferenceTime = this.meetingForm.conferenceTime;
-      if (conferenceTime.getTime() > contributeStartTime.getTime()) {
-        return callback(new Error('Deadline date must later than held Date.'));
+      if (contributeStartTime.getTime() <= new Date().getTime()) {
+        return callback(new Error('contribute start time must later than today.'));
       }
       return callback();
     };
     const contributeEndTimeValid = (rule, value, callback) => {
       let contributeStartTime = this.meetingForm.contributeStartTime;
       let contributeEndTime = this.meetingForm.contributeEndTime;
-      if (contributeStartTime.getTime() > contributeEndTime.getTime()) {
-        return callback(new Error('Deadline date must later than held Date.'));
+      if (contributeStartTime.getTime() >= contributeEndTime.getTime()) {
+        return callback(new Error('contribute end time must later than contribute start time.'));
       }
       return callback();
     };
     const resultReleaseTimeValid = (rule, value, callback) => {
-      let contributeEndTime = this.meetingForm.contributeEndTime;
       let resultReleaseTime = this.meetingForm.resultReleaseTime;
-      if (contributeEndTime.getTime() > resultReleaseTime.getTime()) {
-        return callback(new Error('release date must later than deadline Date.'));
+      let contributeEndTime = this.meetingForm.contributeEndTime;
+      if (contributeEndTime.getTime() >= resultReleaseTime.getTime()) {
+        return callback(new Error('result release time must later than contribute end time.'));
+      }
+      return callback();
+    };
+    const conferenceTimeValid = (rule, value, callback) => {
+      let resultReleaseTime = this.meetingForm.resultReleaseTime;
+      let conferenceTime = this.meetingForm.conferenceTime;
+      if (resultReleaseTime.getTime() >= conferenceTime.getTime()) {
+        return callback(new Error('conference time must later than result release time.'));
+      }
+      return callback();
+    };
+    const topicsValid = (rule, value, callback) => {
+      let topics = this.meetingForm.topics;
+      const topicsSet = new Set(topics);
+      if (topics.length > topicsSet.size) {
+        return callback(new Error('conference topic cannot be the same.'));
       }
       return callback();
     };
@@ -98,33 +106,17 @@ export default {
       meetingForm: {
         conferenceAbbreviation: '',
         conferenceFullName: '',
-        conferenceTime: '',
         conferenceLocation: '',
-        contributeEndTime: '',
-        contributeStartTime: '',
-        submissionDeadline: '',
         resultReleaseTime: '',
+        contributeStartTime: '',
+        contributeEndTime: '',
+        conferenceTime: '',
         introduction: '',
         topics: [],
       },
-      pickerOptions1: {
+      pickerOptions: {
         disabledDate(time) {
           return time.getTime() <= Date.now();
-        },
-      },
-      pickerOptions2: {
-        disabledDate(time) {
-          return time.getTime() <= new Date().getTime();
-        },
-      },
-      pickerOptions3: {
-        disabledDate(time) {
-          return time.getTime() <= new Date().getTime();
-        },
-      },
-      pickerOptions4: {
-        disabledDate(time) {
-          return time.getTime() <= new Date().getTime();
         },
       },
       inputVisible: false,
@@ -133,24 +125,27 @@ export default {
         conferenceAbbreviation: [{ required: true, message: '', trigger: 'blur' }],
         full: [{ required: true, message: '', trigger: 'blur' }],
         conferenceLocation: [{ required: true, message: '', trigger: 'blur' }],
-        conferenceTime: [
-          { required: true, message: '', trigger: 'blur' },
-          { validator: conferenceTimeValid, message: 'Held Date must later than today.', trigger: 'blur' },
-        ],
         contributeStartTime: [
           { required: true, message: '', trigger: 'blur' },
-          { validator: contributeStartTimeValid, message: 'submission date must later than held Date.', trigger: 'blur' },
+          { validator: contributeStartTimeValid, message: 'contribute start time must later than today.', trigger: 'blur' },
         ],
         contributeEndTime: [
           { required: true, message: '', trigger: 'blur' },
-          { validator: contributeEndTimeValid, message: 'Deadline date must later than submission Date.', trigger: 'blur' },
+          { validator: contributeEndTimeValid, message: 'contribute end time must later than contribute start time.', trigger: 'blur' },
         ],
         resultReleaseTime: [
           { required: true, message: '', trigger: 'blur' },
-          { validator: resultReleaseTimeValid, message: 'release date must later than deadline Date.', trigger: 'blur' },
+          { validator: resultReleaseTimeValid, message: 'result release time must later than contribute end time.', trigger: 'blur' },
+        ],
+        conferenceTime: [
+          { required: true, message: '', trigger: 'blur' },
+          { validator: conferenceTimeValid, message: 'conference time must later than result release time.', trigger: 'blur' },
         ],
         introduction: [{ required: true, message: '', trigger: 'blur' }],
-        topics: [{ required: true, message: '', trigger: 'blur' }],
+        topics: [
+          { required: true, message: '', trigger: 'blur' },
+          { validator: topicsValid, message: 'conference topic cannot be the same.', trigger: 'blur' },
+        ],
       },
       loading: false,
     };
@@ -164,11 +159,11 @@ export default {
               token: this.$store.state.token,
               conferenceAbbreviation: this.meetingForm.conferenceAbbreviation,
               conferenceFullName: this.meetingForm.conferenceFullName,
-              conferenceTime: this.meetingForm.conferenceTime,
+              resultReleaseTime: this.meetingForm.resultReleaseTime,
               conferenceLocation: this.meetingForm.conferenceLocation,
               contributeStartTime: this.meetingForm.contributeStartTime,
               contributeEndTime: this.meetingForm.contributeEndTime,
-              resultReleaseTime: this.meetingForm.resultReleaseTime,
+              conferenceTime: this.meetingForm.conferenceTime,
               introduction: this.meetingForm.introduction,
               topics: this.meetingForm.topics,
             })
@@ -180,12 +175,20 @@ export default {
               }
             })
             .catch((error) => {
-              this.$message({ type: 'error', message: error, duration: '1000', showClose: 'true', center: 'true' });
+              this.$message({ type: 'error', message: error.data.message, duration: '1000', showClose: 'true', center: 'true' });
             });
         } else {
           this.$message({ type: 'error', message: 'wrong submit', duration: '1000', showClose: 'true', center: 'true' });
         }
       });
+    },
+    checkDate() {
+      console.log(this.pickerOptions1);
+      this.pickerOptions2 = {
+        disabledDate(time) {
+          return time.getTime() <= this.meetingForm.contributeStartTime;
+        },
+      };
     },
     // 处理 tag 所需方法
     handleClose(tag) {

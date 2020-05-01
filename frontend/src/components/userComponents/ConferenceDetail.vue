@@ -1,5 +1,7 @@
 <template>
   <div v-loading="loading">
+    <!-- <ConferenceTable v-bind:data="conferenceDetail" v-bind:loading="loading" /> -->
+
     <table>
       <tr :label="name" v-for="(value, name, index) in conferenceDetail" v-bind:key="index">
         <th>{{ name }}</th>
@@ -50,11 +52,14 @@
 </template>
 
 <script>
+// import ConferenceTable from '@/components/ConferenceTable.vue';
+
 export default {
   name: 'ConferenceDetail',
   props: {
     conferenceId: Number,
   },
+  // components: { ConferenceTable },
   data() {
     return {
       isChair: false,
@@ -72,6 +77,7 @@ export default {
       PCMemberButtonMessage: 'Review paper',
       AuthorSubmitButtonMessage: 'Submit more',
       NormalSubmitButtonMessage: 'Submit paper now',
+
       conferenceDetail: {},
 
       loading: true,
@@ -197,7 +203,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 td,
 th {
   padding: 10px;
