@@ -1,8 +1,10 @@
 <template>
   <el-main>
+    <h5 style="margin:0"><i class="el-icon-edit-outline" /> 我申请的会议</h5>
+
     <el-tabs v-model="activeTab" @tab-click="handleTabClick">
       <el-tab-pane v-bind:label="name" v-bind:name="name" v-for="(table, name, index) in tables" v-bind:key="index">
-        <ConferenceTable v-bind:data="table" v-bind:loading="loading" />
+        <ConferenceTable v-bind:data="table" v-bind:loading="loading" style="height:calc(100vh - 200px)" />
       </el-tab-pane>
     </el-tabs>
   </el-main>

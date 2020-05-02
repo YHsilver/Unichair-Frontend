@@ -1,5 +1,7 @@
 <template>
   <div class="tableFrame">
+    <h5 style="margin:0 0 20px"><i class="el-icon-message" /> 消息中心</h5>
+
     <el-table :data="messageTable" class="tableContent" v-loading="loading">
       <el-table-column label="Sender" prop="sender"> </el-table-column>
 

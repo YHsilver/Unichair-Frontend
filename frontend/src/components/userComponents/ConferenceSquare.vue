@@ -1,6 +1,8 @@
 <template>
   <div class="tableFrame">
-    <el-table v-loading="loading" :data="table" height="100%" class="tableContent" :row-style="{ cursor: 'pointer' }" @row-click="openDetails">
+    <h5 style="margin:0 0 20px"><i class="el-icon-wind-power" /> 会议广场</h5>
+
+    <el-table v-loading="loading" :data="table" height="95%" class="tableContent" :row-style="{ cursor: 'pointer' }" @row-click="openDetails">
       <el-table-column label="ID" prop="id"> </el-table-column>
       <el-table-column label="Abbr" prop="abbr"> </el-table-column>
       <el-table-column label="Name" prop="name"> </el-table-column>

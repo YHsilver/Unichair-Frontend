@@ -13,7 +13,7 @@
           <span slot="title">管理用户</span>
         </el-menu-item>
 
-        <el-menu-item @click="isCollapse = !isCollapse" index="3" style="position: absolute;bottom: 0;width:100%"  class="mainMenu" >
+        <el-menu-item @click="isCollapse = !isCollapse" index="3" style="position: absolute;bottom: 0;width:100%" class="mainMenu">
           <i class="el-icon-more"></i>
         </el-menu-item>
       </el-menu>
