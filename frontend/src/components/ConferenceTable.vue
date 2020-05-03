@@ -51,7 +51,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 label {
   width: 200px !important;
   color: #8669ed !important;

@@ -1,7 +1,5 @@
 <template>
   <div v-loading="loading">
-    <!-- <ConferenceTable v-bind:data="conferenceDetail" v-bind:loading="loading" /> -->
-
     <table>
       <tr :label="name" v-for="(value, name, index) in conferenceDetail" v-bind:key="index">
         <th>{{ name }}</th>
@@ -14,13 +12,14 @@
         <span>{{ ChairHintMessage }}</span>
       </el-col>
       <el-col>
-        <el-button v-if="this.conferenceDetail.stage === 'Preparation' || this.conferenceDetail.stage === 'Contribution'" type="primary" class="uni-button" @click="gotoInvite"
-          >Invite PC Member</el-button
-        >
+        <el-button v-if="this.conferenceDetail.stage === 'Preparation' || this.conferenceDetail.stage === 'Contribution'" type="primary" class="uni-button" @click="gotoInvite">
+          Invite PC Member
+        </el-button>
         <span v-if="this.conferenceDetail.stage === 'Preparation' || this.conferenceDetail.stage === 'Contribution'" style="margin-left: 5px;"> </span>
         <el-button :disabled="!ChairButtonIsAble" style="min-width: 10%" type="primary" class="uni-button" @click="moveToNextStage">{{ ChairButtonMessage }}</el-button>
       </el-col>
     </el-row>
+
     <el-row class="hint-div" v-if="isPCMember">
       <el-col>
         <span>{{ PCMemberHintMessage }}</span>
@@ -29,6 +28,7 @@
         <el-button :disabled="!PCMemberButtonIsAble" style="min-width: 10%" type="primary" class="uni-button" @click="reviewPaper">{{ PCMemberButtonMessage }}</el-button>
       </el-col>
     </el-row>
+
     <el-row class="hint-div" v-if="isAuthor">
       <el-col>
         <span>{{ AuthorHintMessage }}</span>
@@ -40,28 +40,36 @@
         }}</el-button>
       </el-col>
     </el-row>
+
     <el-row class="hint-div" v-if="!isAuthor && !isChair">
       <el-col>
         <span>{{ NormalHintMessage }}</span>
       </el-col>
       <el-col>
-        <el-button :disabled="!SubmitButtonIsAble" style="min-width: 10%" type="primary" class="uni-button" @click="submitPaper">{{ NormalSubmitButtonMessage }}</el-button>
+        <el-button :disabled="!SubmitButtonIsAble" style="min-width: 10%" type="primary" class="uni-button" @click="submitPaper"> {{ NormalSubmitButtonMessage }}</el-button>
       </el-col>
     </el-row>
+
+    <el-dialog :visible.sync="contributeFormVisible" append-to-body :fullscreen="true" title="Contribute to">
+      <ContributeForm @contributeFinished="contributeFormVisible = false" :conferenceId="Number(conferenceDetail.id)" :conferenceFullName="conferenceDetail.fullName" />
+    </el-dialog>
   </div>
 </template>
 
 <script>
-// import ConferenceTable from '@/components/ConferenceTable.vue';
+import ContributeForm from '@/components/userComponents/ContributeForm.vue';
 
 export default {
   name: 'ConferenceDetail',
   props: {
     conferenceId: Number,
   },
-  // components: { ConferenceTable },
+  components: { ContributeForm },
   data() {
     return {
+      conferenceDetail: {},
+      contributeFormVisible: false,
+
       isChair: false,
       isPCMember: false,
       isAuthor: false,
@@ -78,8 +86,6 @@ export default {
       AuthorSubmitButtonMessage: 'Submit more',
       NormalSubmitButtonMessage: 'Submit paper now',
 
-      conferenceDetail: {},
-
       loading: true,
     };
   },
@@ -94,8 +100,6 @@ export default {
           if (resp.status === 200) {
             this.conferenceDetail = resp.data;
             this.conferenceDetail.stage = this.conferenceDetail.stage.charAt(0) + this.conferenceDetail.stage.substring(1).toLowerCase();
-            this.setPCMembers();
-            this.setAuthors();
             this.setButtons();
             this.loading = false;
           } else {
@@ -106,33 +110,6 @@ export default {
           console.log(error);
           this.$message({ type: 'error', message: 'get conference details error', duration: '2000', showClose: 'true', center: 'true' });
         });
-    },
-    setPCMembers() {
-      this.conferenceDetail.PCMemberString = this.conferenceDetail.PCMember;
-    },
-    setAuthors() {
-      this.conferenceDetail.Author = ['Dr. Chen', 'Dr. Zh', 'Yan hua', 'Pan XingYu', 'Hu YuFeng', 'more author'];
-      this.conferenceDetail.AuthorString = this.conferenceDetail.Author;
-      if (this.conferenceDetail.Author === '[]') {
-        return;
-      }
-      let tempString = '';
-      for (let i = 0; i < this.conferenceDetail.Author.length; i++) {
-        let item = this.conferenceDetail.Author[i];
-        tempString += item;
-        tempString += ', ';
-      }
-      if (this.conferenceDetail.Author.length > 5) {
-        // 如果AUTHOR 多于5个，只显示五个
-        for (let i = 0; i < 5; i++) {
-          this.conferenceDetail.AuthorString += tempString.substring(0, tempString.indexOf(',') + 2);
-          //console.log(this.conferenceDetail.AuthorString);
-          tempString = tempString.substring(tempString.indexOf(',') + 2);
-        }
-        this.conferenceDetail.AuthorString = this.conferenceDetail.AuthorString.substring(0, this.conferenceDetail.AuthorString.length - 2).concat(' ...');
-      } else {
-        this.conferenceDetail.AuthorString = tempString.substring(0, tempString.length - 2);
-      }
     },
     setButtons() {
       if (this.conferenceDetail.stage === 'Ending') {
@@ -197,7 +174,7 @@ export default {
     reviewPaper() {},
     // 提交会议
     submitPaper() {
-      this.$router.replace('/contribute/' + this.conferenceDetail.id);
+      this.contributeFormVisible = true;
     },
   },
 };
