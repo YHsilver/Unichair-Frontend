@@ -53,19 +53,12 @@
       </el-form-item>
 
       <!-- verification code -->
-      <!-- <el-form-item>
+      <el-form-item>
+        <el-input class="form-input" placeholder="verification code" style="width: 60%;" disabled>
           <i slot="prefix" class="el-icon-circle-check"></i>
-          <el-input
-            class="form-input"
-            placeholder="verification code"
-            style="width: 48%;"
-          ></el-input>
-          <el-button
-            class="verification-code-get-button"
-            style="width: 22%; text-align: center; font-size: 1.2em; font-family: Georgia;"
-            >Send</el-button
-          >
-        </el-form-item> -->
+        </el-input>
+        <el-button style="width: 18%;margin-left:2%" disabled>Send</el-button>
+      </el-form-item>
 
       <el-form-item>
         <el-button class="uni-button" type="primary" v-on:click="register(registerForm)">Submit</el-button>

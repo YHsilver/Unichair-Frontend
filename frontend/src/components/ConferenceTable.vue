@@ -3,9 +3,6 @@
     <el-table-column type="expand">
       <template slot-scope="props">
         <el-form label-position="left" inline>
-          <el-form-item label="ID">
-            <span>{{ props.row.id }}</span>
-          </el-form-item>
           <el-form-item label="Abbreviation">
             <span>{{ props.row.abbr }}</span>
           </el-form-item>
@@ -67,9 +64,12 @@ label {
   width: 200px !important;
   color: #8669ed !important;
   font-weight: 900;
+  word-wrap: break-word;
+  word-break: normal;
 }
 
 .el-form--inline .el-form-item {
-  display: block;
+  display: inline-block;
+  width: 45%;
 }
 </style>

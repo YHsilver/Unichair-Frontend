@@ -71,7 +71,6 @@ export default {
           }
         })
         .catch(() => {
-          // console.log(error);
           this.$message({ type: 'error', message: 'login error', duration: '2000', showClose: 'true', center: 'true' });
         });
     },

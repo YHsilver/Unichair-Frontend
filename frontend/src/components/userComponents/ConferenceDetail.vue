@@ -1,31 +1,59 @@
 <template>
   <div v-loading="loading">
-    <table>
-      <tr :label="name" v-for="(value, name, index) in conferenceDetail" v-bind:key="index">
-        <th>{{ name }}</th>
-        <td>{{ value }}</td>
-      </tr>
-    </table>
+    <el-form label-position="left" label-width="80px">
+      <!-- <el-form-item label="ID">
+        <span>{{ conferenceDetail.id }}</span>
+      </el-form-item> -->
+      <el-form-item label="Full Name / Abbreviation">
+        <span>{{ conferenceDetail.fullName }} / {{ conferenceDetail.abbreviation }}</span>
+      </el-form-item>
+      <el-form-item label="Conference Location">
+        <span>{{ conferenceDetail.heldPlace }}</span>
+      </el-form-item>
+      <el-form-item label="Contribute Start Time / Contribute End Time">
+        <span>{{ conferenceDetail.submissionDate }} / {{ conferenceDetail.submissionDeadline }}</span>
+      </el-form-item>
+      <el-form-item label="Result Release Time / Conference Time">
+        <span>{{ conferenceDetail.releaseDate }} / {{ conferenceDetail.heldDate }}</span>
+      </el-form-item>
+      <el-form-item label="Conference Stage">
+        <span>{{ conferenceDetail.stage }}</span>
+      </el-form-item>
+      <el-form-item label="Conference Introduction">
+        <span>{{ conferenceDetail.introduction }}</span>
+      </el-form-item>
+      <el-form-item label="Chairman">
+        <span>{{ conferenceDetail.chair }}</span>
+      </el-form-item>
+      <el-form-item label="Reviewers">
+        <span>{{ conferenceDetail.PCMember }}</span>
+      </el-form-item>
+      <el-form-item label="Authors">
+        <span>{{ conferenceDetail.Author }}</span>
+      </el-form-item>
+    </el-form>
 
     <el-row class="hint-div" v-if="isChair">
       <el-col>
         <span>{{ ChairHintMessage }}</span>
       </el-col>
       <el-col>
-        <el-button v-if="this.conferenceDetail.stage === 'Preparation' || this.conferenceDetail.stage === 'Contribution'" type="primary" class="uni-button" @click="gotoInvite">
+        <el-button type="primary" @click="gotoInvite">
           Invite PC Member
         </el-button>
         <span v-if="this.conferenceDetail.stage === 'Preparation' || this.conferenceDetail.stage === 'Contribution'" style="margin-left: 5px;"> </span>
-        <el-button :disabled="!ChairButtonIsAble" style="min-width: 10%" type="primary" class="uni-button" @click="moveToNextStage">{{ ChairButtonMessage }}</el-button>
+        <el-button :disabled="!ChairButtonIsAble" style="min-width: 10%" type="primary" @click="moveToNextStage">{{ ChairButtonMessage }}</el-button>
       </el-col>
     </el-row>
-
+    <el-button type="primary" @click="gotoInvite">
+      Invite PC Member
+    </el-button>
     <el-row class="hint-div" v-if="isPCMember">
       <el-col>
         <span>{{ PCMemberHintMessage }}</span>
       </el-col>
       <el-col>
-        <el-button :disabled="!PCMemberButtonIsAble" style="min-width: 10%" type="primary" class="uni-button" @click="reviewPaper">{{ PCMemberButtonMessage }}</el-button>
+        <el-button :disabled="!PCMemberButtonIsAble" style="min-width: 10%" type="primary" @click="reviewPaper">{{ PCMemberButtonMessage }}</el-button>
       </el-col>
     </el-row>
 
@@ -35,9 +63,7 @@
         <a href="#">My paper</a>
       </el-col>
       <el-col>
-        <el-button :disabled="!SubmitButtonIsAble" style="min-width: 200px; height: 40px;" type="primary" class="uni-button" @click="submitPaper">{{
-          AuthorSubmitButtonMessage
-        }}</el-button>
+        <el-button :disabled="!SubmitButtonIsAble" style="min-width: 200px; height: 40px;" type="primary" @click="submitPaper">{{ AuthorSubmitButtonMessage }}</el-button>
       </el-col>
     </el-row>
 
@@ -46,29 +72,35 @@
         <span>{{ NormalHintMessage }}</span>
       </el-col>
       <el-col>
-        <el-button :disabled="!SubmitButtonIsAble" style="min-width: 10%" type="primary" class="uni-button" @click="submitPaper"> {{ NormalSubmitButtonMessage }}</el-button>
+        <el-button :disabled="!SubmitButtonIsAble" style="min-width: 10%" type="primary" @click="submitPaper"> {{ NormalSubmitButtonMessage }}</el-button>
       </el-col>
     </el-row>
 
     <el-dialog :visible.sync="contributeFormVisible" append-to-body :fullscreen="true" title="Contribute to">
       <ContributeForm @contributeFinished="contributeFormVisible = false" :conferenceId="Number(conferenceDetail.id)" :conferenceFullName="conferenceDetail.fullName" />
     </el-dialog>
+
+    <el-dialog :visible.sync="InviteReviewerVisible" append-to-body :fullscreen="true">
+      <InviteReviewer @inviteReviewerFinished="InviteReviewerVisible = false" :conferenceId="Number(conferenceDetail.id)" :conferenceFullName="conferenceDetail.fullName" />
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import ContributeForm from '@/components/userComponents/ContributeForm.vue';
+import InviteReviewer from '@/components/userComponents/InviteReviewer.vue';
 
 export default {
   name: 'ConferenceDetail',
   props: {
     conferenceId: Number,
   },
-  components: { ContributeForm },
+  components: { ContributeForm, InviteReviewer },
   data() {
     return {
       conferenceDetail: {},
       contributeFormVisible: false,
+      InviteReviewerVisible: false,
 
       isChair: false,
       isPCMember: false,
@@ -95,10 +127,14 @@ export default {
   methods: {
     getConferenceDetails() {
       this.$axios
-        .post('/system/userGetConferenceDetails', { conferenceId: this.conferenceId /* this.conferenceDetail.id */ })
+        .post('/system/userGetConferenceDetails', { conferenceId: this.conferenceId })
         .then((resp) => {
           if (resp.status === 200) {
             this.conferenceDetail = resp.data;
+            for (let key in this.conferenceDetail) {
+              if (this.conferenceDetail[key] === '') this.conferenceDetail[key] = '暂无';
+            }
+            // 转化为第一个字母大写
             this.conferenceDetail.stage = this.conferenceDetail.stage.charAt(0) + this.conferenceDetail.stage.substring(1).toLowerCase();
             this.setButtons();
             this.loading = false;
@@ -127,7 +163,7 @@ export default {
     },
     //跳转到邀请 PC Member界面
     gotoInvite() {
-      this.$router.replace('/invitation/' + this.conferenceDetail.id + '&' + this.conferenceDetail.fullName);
+      this.InviteReviewerVisible = true;
     },
     // chair 发起使会议进入下一步的请求
     getNextStage(currStage) {
@@ -179,17 +215,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-td,
-th {
-  padding: 10px;
-  text-align: left;
-}
-
-th {
-  width: 200px !important;
-  color: #8669ed !important;
-  font-weight: 900;
-}
-</style>
