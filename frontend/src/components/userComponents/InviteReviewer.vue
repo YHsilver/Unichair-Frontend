@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>Conference: {{ conferenceFullName }}</h2>
+    <h2>{{ conferenceFullName }}</h2>
     <el-divider></el-divider>
     <el-row :gutter="40">
       <el-col :span="14">

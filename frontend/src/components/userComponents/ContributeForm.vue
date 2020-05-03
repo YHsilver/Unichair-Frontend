@@ -1,6 +1,7 @@
 <template>
   <el-form :model="contributeForm" :rules="rules" :ref="contributeForm" label-width="80px" enctype="multipart/form-data" label-position="top" style="width:600px;margin:auto">
-    <h2>Conference: {{ conferenceFullName }}</h2>
+    <h2>{{ conferenceFullName }}</h2>
+    <el-divider></el-divider>
 
     <el-form-item label="Title" prop="title">
       <el-input v-model="contributeForm.title" maxlength="50" show-word-limit></el-input>

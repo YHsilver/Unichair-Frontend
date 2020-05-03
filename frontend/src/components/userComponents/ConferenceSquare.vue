@@ -1,45 +1,30 @@
 <template>
-  <div class="tableFrame">
+  <div style="width: 90%;">
     <h5 style="margin:0 0 20px"><i class="el-icon-wind-power" /> 会议广场</h5>
 
-    <el-table v-loading="loading" :data="table" height="95%" class="tableContent" :row-style="{ cursor: 'pointer' }" @row-click="openDetails">
-      <el-table-column label="ID" prop="id"> </el-table-column>
-      <el-table-column label="Abbr" prop="abbr"> </el-table-column>
-      <el-table-column label="Name" prop="name"> </el-table-column>
-      <el-table-column label="Chairman" prop="chairman"> </el-table-column>
-      <el-table-column label="Stage" prop="stage"> </el-table-column>
-    </el-table>
-
-    <!-- Conference Detail -->
-    <el-dialog title="Conference Detail" v-if="dialogVisible" :visible.sync="dialogVisible" top="5vh">
-      <ConferenceDetail v-bind:conferenceId="conferenceId" />
-    </el-dialog>
+    <ConferenceTable v-bind:showList="showList" v-bind:data="table" v-bind:loading="loading" />
   </div>
 </template>
 
 <script>
-import ConferenceDetail from '@/components/userComponents/ConferenceDetail.vue';
+import ConferenceTable from '@/components/ConferenceTable.vue';
 
 export default {
   name: 'ConferenceSquare',
-  components: { ConferenceDetail },
+  components: { ConferenceTable },
   data() {
     return {
       table: [],
       loading: true,
       dialogVisible: false,
       conferenceId: -1,
+      showList: ['ID', 'Abbr', 'Name', 'Chairman', 'Stage'],
     };
   },
   created() {
     this.getAllConference();
   },
   methods: {
-    // 打开会议详细界面
-    openDetails(row) {
-      this.dialogVisible = true;
-      this.conferenceId = Number(row.id);
-    },
     // 获取所有会议
     getAllConference() {
       this.$axios
@@ -59,21 +44,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-label {
-  width: 200px !important;
-  color: #8669ed !important;
-  font-weight: 900;
-}
-
-.tableFrame {
-  width: 100%;
-  height: calc(100vh - 120px);
-}
-
-.tableContent {
-  width: 90%;
-  margin-left: 5%;
-}
-</style>

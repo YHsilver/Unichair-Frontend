@@ -76,10 +76,12 @@
       </el-col>
     </el-row>
 
-    <el-dialog :visible.sync="contributeFormVisible" append-to-body :fullscreen="true" title="Contribute to">
+    <!-- contribute -->
+    <el-dialog :visible.sync="contributeFormVisible" append-to-body :fullscreen="true">
       <ContributeForm @contributeFinished="contributeFormVisible = false" :conferenceId="Number(conferenceDetail.id)" :conferenceFullName="conferenceDetail.fullName" />
     </el-dialog>
 
+    <!-- Invite Reviewer -->
     <el-dialog :visible.sync="InviteReviewerVisible" append-to-body :fullscreen="true">
       <InviteReviewer @inviteReviewerFinished="InviteReviewerVisible = false" :conferenceId="Number(conferenceDetail.id)" :conferenceFullName="conferenceDetail.fullName" />
     </el-dialog>

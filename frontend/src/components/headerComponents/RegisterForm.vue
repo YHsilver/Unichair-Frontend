@@ -150,29 +150,6 @@ export default {
         }
       });
     },
-    // aAjax() {
-    //   this.$axios
-    //     .post('/login', {
-    //       username: this.registerForm.username,
-    //     })
-    //     .then((resp) => {
-    //       console.log(resp);
-    //     })
-    //     .catch((error) => {
-    //       if (error.status === 500) {
-    //         this.$message({
-    //           type: 'error',
-    //           message: "This username ' " + this.registerForm.username + " ' has been registered",
-    //           duration: '2000',
-    //           showClose: 'true',
-    //           center: 'true',
-    //         });
-    //         this.registerForm.username = '';
-    //       } else {
-    //         console.log('error');
-    //       }
-    //     });
-    // },
   },
 };
 </script>
