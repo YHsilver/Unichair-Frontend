@@ -6,7 +6,7 @@
       <el-table-column label="ID" prop="id"> </el-table-column>
       <el-table-column label="Abbr" prop="abbr"> </el-table-column>
       <el-table-column label="Name" prop="name"> </el-table-column>
-      <el-table-column label="ChairMan" prop="chairMan"> </el-table-column>
+      <el-table-column label="Chairman" prop="chairman"> </el-table-column>
       <el-table-column label="Stage" prop="stage"> </el-table-column>
     </el-table>
 
