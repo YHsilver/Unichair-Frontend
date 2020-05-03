@@ -1,13 +1,24 @@
 <template>
   <el-card shadow="hover" id="card">
-    <el-avatar :size="120"> {{ user.username }} </el-avatar>
-    <table>
-      <!-- 键值 键名 -->
-      <tr v-for="(value, name) in user" :key="name">
-        <th>{{ name }}</th>
-        <td>{{ value }}</td>
-      </tr>
-    </table>
+    <el-form label-position="left" label-width="80px">
+      <el-avatar :size="120"> {{ user.username }} </el-avatar>
+
+      <el-form-item label="Username">
+        <span>{{ user.username }}</span>
+      </el-form-item>
+      <el-form-item label="Full Name">
+        <span>{{ user.fullName }}</span>
+      </el-form-item>
+      <el-form-item label="Unit">
+        <span>{{ user.unit }}</span>
+      </el-form-item>
+      <el-form-item label="Area">
+        <span>{{ user.area }}</span>
+      </el-form-item>
+      <el-form-item label="Email">
+        <span>{{ user.email }}</span>
+      </el-form-item>
+    </el-form>
   </el-card>
 </template>
 
@@ -52,17 +63,6 @@ export default {
   margin: 20px;
   border: none;
   border-radius: 10px;
-}
-
-td,
-th {
-  padding: 10px;
-  text-align: left;
-}
-
-th {
-  width: 200px !important;
-  color: #8669ed !important;
-  font-weight: 900;
+  width: 400px;
 }
 </style>
