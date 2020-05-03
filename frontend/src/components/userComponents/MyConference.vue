@@ -21,7 +21,7 @@ export default {
       loading: true,
       activeTab: 'Chair',
       tables: { Chair: [], Reviewer: [], Author: [] },
-      showList: ['Id', 'Abbr', 'Name', 'Stage'],
+      showList: ['Abbr', 'Name', 'Stage'],
     };
   },
   created() {

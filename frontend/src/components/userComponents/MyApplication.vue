@@ -21,7 +21,7 @@ export default {
       loading: true,
       activeTab: 'pass',
       tables: { pass: [], pending: [], reject: [] },
-      showList: ['Id', 'Abbr', 'Name', 'Status'],
+      showList: ['Abbr', 'Name', 'Status'],
     };
   },
   created() {

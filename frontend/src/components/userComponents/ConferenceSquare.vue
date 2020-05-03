@@ -18,7 +18,7 @@ export default {
       loading: true,
       dialogVisible: false,
       conferenceId: -1,
-      showList: ['ID', 'Abbr', 'Name', 'Chairman', 'Stage'],
+      showList: ['Abbr', 'Name', 'Chairman', 'Stage'],
     };
   },
   created() {
