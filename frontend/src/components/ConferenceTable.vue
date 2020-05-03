@@ -1,5 +1,5 @@
 <template>
-  <el-table :data="data" v-loading="loading" height="calc(100vh - 160px)">
+  <el-table :data="data" v-loading="loading" height="calc(100vh - 200px)" label-position="left" label-width="200px">
     <el-table-column type="expand">
       <template slot-scope="props">
         <el-form label-position="left" inline>
@@ -34,10 +34,7 @@
       </template>
     </el-table-column>
 
-    <el-table-column label="ID" prop="id"> </el-table-column>
-    <el-table-column label="Abbr" prop="abbr"> </el-table-column>
-    <el-table-column label="Name" prop="name"> </el-table-column>
-    <el-table-column label="Status" prop="status"> </el-table-column>
+    <el-table-column v-for="show in showList" :key="show" :label="show" :prop="show.toLowerCase()"> </el-table-column>
   </el-table>
 </template>
 
@@ -47,11 +44,12 @@ export default {
   props: {
     data: Array,
     loading: Boolean,
+    showList: Array,
   },
 };
 </script>
 
-<style scoped>
+<style>
 label {
   width: 200px !important;
   color: #8669ed !important;

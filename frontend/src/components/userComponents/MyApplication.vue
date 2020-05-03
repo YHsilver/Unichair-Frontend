@@ -4,7 +4,7 @@
 
     <el-tabs v-model="activeTab" @tab-click="handleTabClick">
       <el-tab-pane v-bind:label="name" v-bind:name="name" v-for="(table, name, index) in tables" v-bind:key="index">
-        <ConferenceTable v-bind:data="table" v-bind:loading="loading" style="height:calc(100vh - 200px)" />
+        <ConferenceTable v-bind:showList="showList" v-bind:data="table" v-bind:loading="loading" style="height:calc(100vh - 200px)" />
       </el-tab-pane>
     </el-tabs>
   </el-main>
@@ -19,9 +19,9 @@ export default {
   data() {
     return {
       loading: true,
-      // 查看已申请部分
       activeTab: 'pass',
       tables: { pass: [], pending: [], reject: [] },
+      showList: ['Id', 'Abbr', 'Name', 'Status'],
     };
   },
   created() {
