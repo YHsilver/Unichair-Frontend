@@ -4,7 +4,7 @@
 
     <el-tabs v-model="activeTab" @tab-click="handleTabClick">
       <el-tab-pane v-for="(table, name, index) in tables" :label="name" :name="name" :key="index">
-        <ConferenceTable :showList="showList" :data="table" :loading="loading" :AdminOperation="name" @handleConferenceFinished="handleConference" />
+        <ConferenceTable :showList="showList" :data="table" :loading="loading" :AdminOperation="name" @handleConferenceFinished="handleConference" :Identity="'Admin'" />
       </el-tab-pane>
     </el-tabs>
   </el-main>

@@ -2,7 +2,7 @@
   <div style="width: 90%;">
     <h5 style="margin:0 0 20px"><i class="el-icon-wind-power" /> 会议广场</h5>
 
-    <ConferenceTable v-bind:showList="showList" v-bind:data="table" v-bind:loading="loading" />
+    <ConferenceTable v-bind:showList="showList" v-bind:data="table" v-bind:loading="loading" :Identity="'Passerby'" />
   </div>
 </template>
 
