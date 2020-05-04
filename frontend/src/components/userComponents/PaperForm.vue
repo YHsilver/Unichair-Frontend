@@ -5,21 +5,21 @@
 
     <!-- Author -->
     <el-form :model="paperForm" :rules="paperFormRules" :ref="paperForm" label-width="80px" enctype="multipart/form-data" label-position="top">
-      <el-form-item label="Title" prop="title" class="left">
+      <el-form-item label="Title" prop="title" class="leftInput">
         <el-input v-model="paperForm.title" maxlength="50" show-word-limit></el-input>
       </el-form-item>
 
-      <el-form-item label="Author" prop="author" class="right">
+      <el-form-item label="Author" prop="author" class="rightInput">
         <el-input v-model="paperForm.author"></el-input>
       </el-form-item>
 
-      <el-form-item label="Topics" class="left">
+      <el-form-item label="Topics" class="leftInput">
         <el-tag :key="topic" v-for="topic in conferenceTopics" effect="dark" style="margin-right: 10px;cursor: pointer;" @click="add(topic)" closable @close="handleClose(topic)">
           {{ topic }}
         </el-tag>
       </el-form-item>
 
-      <el-form-item label="My Topics" prop="topics" class="right">
+      <el-form-item label="My Topics" prop="topics" class="rightInput">
         <el-button :key="topic" v-for="topic in paperForm.topics" type="text" style="height:40px">{{ topic }}</el-button>
       </el-form-item>
 
@@ -157,12 +157,12 @@ export default {
 };
 </script>
 <style>
-.left {
+.leftInput {
   width: 60% !important;
   display: inline-block !important;
 }
 
-.right {
+.rightInput {
   width: 38% !important;
   display: inline-block !important;
   margin-left: 2% !important;

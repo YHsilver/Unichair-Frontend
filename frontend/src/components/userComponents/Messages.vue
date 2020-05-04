@@ -13,9 +13,7 @@
 
       <el-table-column label="Conference" prop="conferenceFullName">
         <template slot-scope="scope">
-          <el-tooltip effect="dark" content="双击查看会议详情" placement="top" :hide-after="600">
-            <el-button type="text">{{ scope.row.conferenceFullName }}</el-button>
-          </el-tooltip>
+          <el-button type="text">{{ scope.row.conferenceFullName }}</el-button>
         </template>
       </el-table-column>
 

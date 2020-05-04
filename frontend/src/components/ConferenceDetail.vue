@@ -57,7 +57,7 @@
       <el-button type="primary" @click="myPaperVisible = true" v-if="Identity === 'Author'">My paper</el-button>
 
       <!-- reviewer -->
-      <el-button type="primary" @click="reviewPaperVisible = true" v-if="Identity === 'Reviewer'">Review paper</el-button>
+      <el-button type="primary" @click="reviewPaperVisible = true" v-if="Identity === 'Reviewer' && conferenceDetail.stage === 'Reviewing'">Review paper</el-button>
 
       <!-- Passer -->
       <el-button type="primary" @click="contributeFormVisible = true" v-if="Identity === 'Passerby' && conferenceDetail.stage === 'Contribution'">Submit paper</el-button>
