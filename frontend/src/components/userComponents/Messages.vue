@@ -21,7 +21,11 @@
 
       <!-- <el-table-column label="Status" prop="status"> </el-table-column> -->
 
-      <el-table-column label="Topics" prop="topics"> </el-table-column>
+      <el-table-column label="Topics" prop="topics">
+        <el-tag :key="topic" v-for="topic in topics" effect="dark" style="margin-right: 10px;cursor: pointer;" @click="add(topic)" closable @close="handleClose(topic)">
+          {{ topic }}
+        </el-tag>
+      </el-table-column>
 
       <el-table-column label="Operation">
         <template slot-scope="scope">

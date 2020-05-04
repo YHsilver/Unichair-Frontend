@@ -24,6 +24,11 @@
       <el-form-item label="Conference Introduction">
         <span>{{ conferenceDetail.introduction }}</span>
       </el-form-item>
+      <el-form-item label="Conference Topics" class="tag-group">
+        <el-tag :key="topic" v-for="topic in conferenceDetail.topics" :disable-transitions="false" effect="dark" style="margin-right: 10px;">
+          {{ topic }}
+        </el-tag>
+      </el-form-item>
       <el-form-item label="Chairman">
         <span>{{ conferenceDetail.chair }}</span>
       </el-form-item>
@@ -60,27 +65,35 @@
 
     <!-- contribute -->
     <el-dialog :visible.sync="contributeFormVisible" append-to-body :fullscreen="true">
-      <ContributeForm @contributeFinished="contributeFormVisible = false" :conferenceId="Number(conferenceDetail.id)" :conferenceFullName="conferenceDetail.fullName" />
+      <PaperForm
+        @contributeFinished="contributeFormVisible = false"
+        :conferenceId="Number(conferenceDetail.id)"
+        :conferenceFullName="conferenceDetail.fullName"
+        :conferenceTopics="conferenceDetail.topics"
+        :Identity="Identity"
+      />
     </el-dialog>
 
     <!-- Invite Reviewer -->
     <el-dialog :visible.sync="InviteReviewerVisible" append-to-body :fullscreen="true">
       <InviteReviewer @inviteReviewerFinished="InviteReviewerVisible = false" :conferenceId="Number(conferenceDetail.id)" :conferenceFullName="conferenceDetail.fullName" />
     </el-dialog>
+
+    <!-- reviewPaper -->
+    <el-dialog :visible.sync="reviewPaperVisible" append-to-body :fullscreen="true">
+      <PaperForm @reviewFinished="reviewPaperVisible = false" :Identity="Identity" :conferenceTopics="conferenceDetail.topics" :conferenceId="Number(conferenceDetail.id)" />
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import ContributeForm from '@/components/userComponents/ContributeForm.vue';
+import PaperForm from '@/components/userComponents/PaperForm.vue';
 import InviteReviewer from '@/components/userComponents/InviteReviewer.vue';
 
 export default {
   name: 'ConferenceDetail',
-  props: {
-    conferenceId: Number,
-    Identity: String,
-  },
-  components: { ContributeForm, InviteReviewer },
+  props: { conferenceId: Number, Identity: String },
+  components: { InviteReviewer, PaperForm },
   data() {
     return {
       conferenceDetail: {},
@@ -105,6 +118,7 @@ export default {
             for (let key in this.conferenceDetail) {
               if (this.conferenceDetail[key] === '') this.conferenceDetail[key] = '暂无';
             }
+            this.conferenceDetail.topics = ['a', 'b', 'c'];
             // 转化为第一个字母大写
             this.conferenceDetail.stage = this.conferenceDetail.stage.charAt(0) + this.conferenceDetail.stage.substring(1).toLowerCase();
             this.loading = false;
