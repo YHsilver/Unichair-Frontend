@@ -46,7 +46,7 @@
     </el-tooltip>
 
     <!-- Conference Detail -->
-    <el-dialog title="Conference Detail" v-if="dialogVisible" :visible.sync="dialogVisible" top="5vh">
+    <el-dialog title="Conference Detail" v-if="ConferenceDetailVisible" :visible.sync="ConferenceDetailVisible" top="5vh">
       <ConferenceDetail :conferenceId="conferenceId" :Identity="Identity" />
     </el-dialog>
   </div>
@@ -66,7 +66,7 @@ export default {
   },
   data() {
     return {
-      dialogVisible: false,
+      ConferenceDetailVisible: false,
       conferenceId: -1,
     };
   },
@@ -77,7 +77,7 @@ export default {
     },
     // 打开会议详细界面
     openDetails(row) {
-      this.dialogVisible = true;
+      this.ConferenceDetailVisible = true;
       this.conferenceId = Number(row.id);
     },
   },

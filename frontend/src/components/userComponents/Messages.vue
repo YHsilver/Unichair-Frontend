@@ -2,7 +2,7 @@
   <div class="tableFrame">
     <h5 style="margin:0 0 20px"><i class="el-icon-message" /> 消息中心</h5>
 
-    <el-table :data="messageTable" class="tableContent" v-loading="loading">
+    <el-table :data="messageTable" class="tableContent" v-loading="loading" @cell-dblclick="openDetails">
       <el-table-column label="Sender" prop="sender"> </el-table-column>
 
       <el-table-column label="Full Name" prop="fullName">
@@ -11,7 +11,15 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="Conference" prop="conferenceFullName"> </el-table-column>
+      <el-table-column label="Conference" prop="conferenceFullName">
+        <template slot-scope="scope">
+          <el-tooltip effect="dark" content="双击查看会议详情" placement="top" :hide-after="600">
+            <el-button type="text">{{ scope.row.conferenceFullName }}</el-button>
+          </el-tooltip>
+        </template>
+      </el-table-column>
+
+      <!-- <el-table-column label="Status" prop="status"> </el-table-column> -->
 
       <el-table-column label="Topics" prop="topics"> </el-table-column>
 
@@ -22,16 +30,26 @@
         </template>
       </el-table-column>
     </el-table>
+
+    <!-- Conference Detail -->
+    <el-dialog title="Conference Detail" v-if="ConferenceDetailVisible" :visible.sync="ConferenceDetailVisible" top="5vh">
+      <ConferenceDetail :conferenceId="conferenceId" />
+    </el-dialog>
   </div>
 </template>
 
 <script>
+import ConferenceDetail from '@/components/ConferenceDetail.vue';
+
 export default {
   name: 'Messages',
+  components: { ConferenceDetail },
   data() {
     return {
       messageTable: [],
       loading: true,
+      ConferenceDetailVisible: false,
+      conferenceId: -1,
     };
   },
   created() {
@@ -67,6 +85,13 @@ export default {
         .catch(() => {
           this.$message({ type: 'error', message: 'operation error', duration: '2000', showClose: 'true', center: 'true' });
         });
+    },
+    // 打开会议详细界面
+    openDetails(row, column) {
+      if (column.label === 'Conference') {
+        this.ConferenceDetailVisible = true;
+        this.conferenceId = Number(row.conferenceId);
+      }
     },
   },
 };
