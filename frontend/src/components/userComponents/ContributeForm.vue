@@ -12,10 +12,16 @@
     </el-form-item>
 
     <el-form-item label="pdf File" prop="file">
-      <input type="file" ref="inputFile" required @change="getContributeFile($event)" accept=".pdf" id="inputFile" />
+      <input type="file" required @change="getContributeFile($event)" accept=".pdf" style="display:none" id="uploadInput" />
+      <el-button type="primary" size="small" @click="upload">choose file</el-button> <span>{{ fileName }}</span>
+      <el-button type="primary" v-on:click="pdfVisible = true" size="small" v-show="previewVisible" style="float: right;">Preview</el-button>
     </el-form-item>
 
-    <el-button type="primary" v-on:click="submitContributeForm(contributeForm)">Send </el-button>
+    <el-button type="primary" v-on:click="submitContributeForm(contributeForm)">Send</el-button>
+
+    <el-dialog :visible.sync="pdfVisible" :fullscreen="true" append-to-body>
+      <iframe :src="src" style="width: 100%;height: 80vh;"></iframe>
+    </el-dialog>
   </el-form>
 </template>
 
@@ -37,37 +43,50 @@ export default {
         ],
         file: [{ required: true, message: '', trigger: 'blur' }],
       },
+      fileName: '',
+      previewVisible: false,
+      src: '',
+      pdfVisible: false,
     };
   },
-  computed: {
-    ContributeData: function() {
-      return this.contributeForm;
-    },
-  },
   methods: {
+    upload() {
+      document.getElementById('uploadInput').click();
+    },
     getContributeFile(event) {
       this.contributeForm.file = event.currentTarget.files[0];
+      this.fileName = this.contributeForm.file.name;
+      this.previewVisible = true;
     },
-    submitContributeForm() {
+    getContributeData: function() {
       let formData = new FormData();
       formData.append('file', this.contributeForm.file);
       formData.append('conferenceId', this.conferenceId);
       formData.append('title', this.contributeForm.title);
       formData.append('token', this.$store.state.token);
       formData.append('summary', this.contributeForm.summary);
-      this.$axios
-        .post('/system/userSubmitPaper', formData)
-        .then((resp) => {
-          if (resp.status === 200) {
-            this.$message({ type: 'success', message: 'contribute successfully', duration: '2000', showClose: 'true', center: 'true' });
-            this.$emit('contributeFinished');
-          } else {
-            this.$message({ type: 'error', message: 'contribute failed', duration: '2000', showClose: 'true', center: 'true' });
-          }
-        })
-        .catch(() => {
-          this.$message({ type: 'error', message: 'contribute failed', duration: '2000', showClose: 'true', center: 'true' });
-        });
+      return formData;
+    },
+    submitContributeForm(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.$axios
+            .post('/system/userSubmitPaper', this.getContributeData())
+            .then((resp) => {
+              if (resp.status === 200) {
+                this.$message({ type: 'success', message: 'contribute successfully', duration: '2000', showClose: 'true', center: 'true' });
+                this.$emit('contributeFinished');
+              } else {
+                this.$message({ type: 'error', message: 'contribute failed', duration: '2000', showClose: 'true', center: 'true' });
+              }
+            })
+            .catch(() => {
+              this.$message({ type: 'error', message: 'contribute failed', duration: '2000', showClose: 'true', center: 'true' });
+            });
+        } else {
+          this.$message({ type: 'warning', message: 'Please fill in the information', duration: '2000', showClose: 'true', center: 'true' });
+        }
+      });
     },
   },
 };

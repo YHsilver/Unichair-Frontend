@@ -4,11 +4,11 @@
       <h3 class="meeting_title">New Conference</h3>
 
       <el-form-item prop="conferenceAbbreviation">
-        <el-input type="text" v-model="meetingForm.conferenceAbbreviation" auto-complete="off" placeholder="Conference Abbreviation" clearable></el-input>
+        <el-input type="text" v-model="meetingForm.conferenceAbbreviation" placeholder="Conference Abbreviation" clearable></el-input>
       </el-form-item>
 
       <el-form-item prop="conferenceFullName">
-        <el-input v-model="meetingForm.conferenceFullName" type="textarea" v-bind:row="2" placeholder="Conference FullName"> </el-input>
+        <el-input v-model="meetingForm.conferenceFullName" type="text" placeholder="Conference FullName" clearable> </el-input>
       </el-form-item>
 
       <el-form-item prop="conferenceLocation">
@@ -32,7 +32,7 @@
       </el-form-item>
 
       <el-form-item prop="introduction">
-        <el-input type="textarea" v-model="meetingForm.introduction" auto-complete="off" placeholder="Introduction" clearable></el-input>
+        <el-input type="textarea" v-model="meetingForm.introduction" placeholder="Introduction" clearable></el-input>
       </el-form-item>
 
       <el-form-item prop="topics" style="text-align:left;">
@@ -123,7 +123,7 @@ export default {
       inputValue: '',
       rules: {
         conferenceAbbreviation: [{ required: true, message: '', trigger: 'blur' }],
-        full: [{ required: true, message: '', trigger: 'blur' }],
+        conferenceFullName: [{ required: true, message: '', trigger: 'blur' }],
         conferenceLocation: [{ required: true, message: '', trigger: 'blur' }],
         contributeStartTime: [
           { required: true, message: '', trigger: 'blur' },

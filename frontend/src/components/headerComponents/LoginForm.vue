@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-form id="loginContent" :model="loginForm" :rules="rules">
+    <el-form id="loginContent" :model="loginForm" :rules="rules" :ref="loginForm">
       <h2>Login</h2>
 
       <!-- user -->
@@ -19,7 +19,7 @@
 
       <!-- submit -->
       <el-form-item>
-        <el-button type="primary" v-on:click="login">login</el-button>
+        <el-button type="primary" v-on:click="login(loginForm)">login</el-button>
       </el-form-item>
 
       <!-- register tip -->
@@ -53,26 +53,32 @@ export default {
     };
   },
   methods: {
-    login() {
-      this.$axios
-        .post('/login', { username: this.loginForm.username, password: this.loginForm.password })
-        .then((resp) => {
-          if (resp.status === 200 && Object.prototype.hasOwnProperty.call(resp.data, 'token')) {
-            this.$store.commit('login', resp.data);
-            this.$store.state.token = resp.data.token;
-            if (this.$store.state.userDetails.username === 'admin') {
-              this.$router.replace({ path: '/admin' });
-            } else {
-              this.$router.replace({ path: '/user' });
-            }
-            this.$message({ type: 'success', message: 'welcome aboard ' + this.loginForm.username + ' !', duration: '2000', showClose: 'true', center: 'true' });
-          } else {
-            this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
-          }
-        })
-        .catch(() => {
-          this.$message({ type: 'error', message: 'login error', duration: '2000', showClose: 'true', center: 'true' });
-        });
+    login(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.$axios
+            .post('/login', { username: this.loginForm.username, password: this.loginForm.password })
+            .then((resp) => {
+              if (resp.status === 200 && Object.prototype.hasOwnProperty.call(resp.data, 'token')) {
+                this.$store.commit('login', resp.data);
+                this.$store.state.token = resp.data.token;
+                if (this.$store.state.userDetails.username === 'admin') {
+                  this.$router.replace({ path: '/admin' });
+                } else {
+                  this.$router.replace({ path: '/user' });
+                }
+                this.$message({ type: 'success', message: 'welcome aboard ' + this.loginForm.username + ' !', duration: '2000', showClose: 'true', center: 'true' });
+              } else {
+                this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
+              }
+            })
+            .catch(() => {
+              this.$message({ type: 'error', message: 'login error', duration: '2000', showClose: 'true', center: 'true' });
+            });
+        } else {
+          this.$message({ type: 'warning', message: 'Please fill in the information', duration: '2000', showClose: 'true', center: 'true' });
+        }
+      });
     },
   },
 };

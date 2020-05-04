@@ -145,7 +145,6 @@ export default {
               this.$message({ type: 'error', message: error.data.message, duration: '2000', showClose: 'true', center: 'true' });
             });
         } else {
-          // console.log("wrong submit");
           this.$message({ type: 'warning', message: 'Please fill in the information', duration: '2000', showClose: 'true', center: 'true' });
         }
       });

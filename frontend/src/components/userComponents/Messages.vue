@@ -30,9 +30,7 @@ export default {
   name: 'Messages',
   data() {
     return {
-      messageTable: [
-        // { sender: 'ha', fullName: 'ha', conferenceFullName: 'haha' },
-      ],
+      messageTable: [],
       loading: true,
     };
   },
@@ -56,19 +54,17 @@ export default {
         });
     },
     handleInvitation(row, Status) {
-      console.log(row.invitationId);
       this.$axios
         .post('/system/userDecideMyInvitations', { token: this.$store.state.token, invitationId: row.invitationId, status: Status })
         .then((resp) => {
           if (resp.status === 200) {
-            this.$message = resp.data.message;
+            this.$message({ type: 'success', message: resp.data, duration: '2000', showClose: 'true', center: 'true' });
             this.getInvitation();
           } else {
             this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
           }
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(() => {
           this.$message({ type: 'error', message: 'operation error', duration: '2000', showClose: 'true', center: 'true' });
         });
     },
