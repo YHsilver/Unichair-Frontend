@@ -118,7 +118,7 @@ export default {
             for (let key in this.conferenceDetail) {
               if (this.conferenceDetail[key] === '') this.conferenceDetail[key] = '暂无';
             }
-            this.conferenceDetail.topics = ['a', 'b', 'c'];
+            // this.conferenceDetail.topics = ['a', 'b', 'c'];
             // 转化为第一个字母大写
             this.conferenceDetail.stage = this.conferenceDetail.stage.charAt(0) + this.conferenceDetail.stage.substring(1).toLowerCase();
             this.loading = false;

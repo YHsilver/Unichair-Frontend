@@ -53,9 +53,9 @@
     <el-divider v-if="Identity === 'Reviewer'"></el-divider>
     <RatingForm v-if="Identity === 'Reviewer'" />
 
-    <el-dialog :visible.sync="pdfVisible" :fullscreen="true" append-to-body>
-      <iframe :src="src" style="width: 100%;height: 80vh;"></iframe>
-    </el-dialog>
+    <el-drawer :visible.sync="pdfVisible" :size="'60%'" :title="fileName" append-to-body>
+      <iframe :src="src" style="width: 90%;height: 90vh;margin-left: 5%;"></iframe>
+    </el-drawer>
   </div>
 </template>
 

@@ -75,7 +75,7 @@ export default {
           }
         })
         .catch(() => {
-          this.$message({ type: 'error', message: 'get information error', duration: '1000', showClose: 'true', center: 'true' });
+          this.$message({ type: 'error', message: 'get information error', duration: '2000', showClose: 'true', center: 'true' });
         });
     },
     searchUser() {
@@ -90,7 +90,7 @@ export default {
           }
         })
         .catch(() => {
-          this.$message({ type: 'error', message: 'get information error', duration: '1000', showClose: 'true', center: 'true' });
+          this.$message({ type: 'error', message: 'get information error', duration: '2000', showClose: 'true', center: 'true' });
         });
     },
     sendInvitation() {
@@ -111,7 +111,7 @@ export default {
           }
         })
         .catch(() => {
-          this.$message({ type: 'error', message: 'failed to send invitation', duration: '1000', showClose: 'true', center: 'true' });
+          this.$message({ type: 'error', message: 'failed to send invitation', duration: '2000', showClose: 'true', center: 'true' });
         });
     },
     handleSelectionChange(val) {

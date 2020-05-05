@@ -169,16 +169,16 @@ export default {
             })
             .then((resp) => {
               if (resp.status === 200) {
-                this.$message({ type: 'success', message: 'You have submitted your application', duration: '1000', showClose: 'true', center: 'true' });
+                this.$message({ type: 'success', message: 'You have submitted your application', duration: '2000', showClose: 'true', center: 'true' });
               } else {
-                this.$message({ type: 'error', message: 'setting up meeting failed', duration: '1000', showClose: 'true', center: 'true' });
+                this.$message({ type: 'error', message: 'setting up meeting failed', duration: '2000', showClose: 'true', center: 'true' });
               }
             })
             .catch((error) => {
-              this.$message({ type: 'error', message: error.data.message, duration: '1000', showClose: 'true', center: 'true' });
+              this.$message({ type: 'error', message: error.data.message, duration: '2000', showClose: 'true', center: 'true' });
             });
         } else {
-          this.$message({ type: 'error', message: 'wrong submit', duration: '1000', showClose: 'true', center: 'true' });
+          this.$message({ type: 'warning', message: 'Please fill in the information', duration: '2000', showClose: 'true', center: 'true' });
         }
       });
     },

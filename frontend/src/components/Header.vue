@@ -26,11 +26,11 @@ export default {
       this.$confirm('Are you sure you wanna log out?', 'tips', { confirmButtonText: 'Yes', cancelButtonText: 'No', type: 'warning' })
         .then(() => {
           this.$store.commit('logout');
-          this.$message({ type: 'success', message: 'log out successfully!', duration: '1000', showClose: 'true', center: 'true' });
+          this.$message({ type: 'success', message: 'log out successfully!', duration: '2000', showClose: 'true', center: 'true' });
           this.$router.push({ path: '/' });
         })
         .catch(() => {
-          this.$message({ type: 'info', message: 'canceled', duration: '1000', showClose: 'true', center: 'true' });
+          this.$message({ type: 'info', message: 'canceled', duration: '2000', showClose: 'true', center: 'true' });
         });
     },
   },

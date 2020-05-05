@@ -9,11 +9,8 @@
       <el-form-item label="Full Name">
         <span>{{ user.fullName }}</span>
       </el-form-item>
-      <el-form-item label="Unit">
-        <span>{{ user.unit }}</span>
-      </el-form-item>
-      <el-form-item label="Area">
-        <span>{{ user.area }}</span>
+      <el-form-item label="Area / Unit">
+        <span>{{ user.area }} / {{ user.unit }}</span>
       </el-form-item>
       <el-form-item label="Email">
         <span>{{ user.email }}</span>

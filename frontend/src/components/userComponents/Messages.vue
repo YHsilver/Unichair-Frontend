@@ -17,17 +17,26 @@
         </template>
       </el-table-column>
 
-      <!-- <el-table-column label="Status" prop="status"> </el-table-column> -->
-
-      <el-table-column label="Topics" prop="topics">
-        <el-tag :key="topic" v-for="topic in topics" effect="dark" style="margin-right: 10px;cursor: pointer;" @click="add(topic)" closable @close="handleClose(topic)">
-          {{ topic }}
-        </el-tag>
+      <el-table-column label="Topics" prop="topics" :min-width="'200%'">
+        <template slot-scope="scope">
+          <el-tag :key="topic" v-for="topic in scope.row.topics" effect="light" @click="add($event, scope.row)" closable @close="handleClose($event, scope.row)">
+            {{ topic }}
+          </el-tag>
+        </template>
       </el-table-column>
 
       <el-table-column label="Operation">
         <template slot-scope="scope">
-          <el-button @click="handleInvitation(scope.row, 'PASS')" type="success" plain size="small">PASS</el-button>
+          <el-popover placement="top" width="160" v-model="passVisible" trigger="manual">
+            <p>
+              您确定您负责的 topics 是 <strong v-for="topic in scope.row.chosedTopics" :key="topic">{{ topic }}</strong> 吗？
+            </p>
+            <div style="text-align: right; margin: 0">
+              <el-button size="mini" type="text" @click="passVisible = false">取消</el-button>
+              <el-button type="primary" size="mini" @click="handleInvitation(scope.row, 'PASS')">确定</el-button>
+            </div>
+            <el-button slot="reference" type="success" plain size="small" @click="checkChosedTopics(scope.row)">PASS</el-button>
+          </el-popover>
           <el-button @click="handleInvitation(scope.row, 'REJECT')" type="info" plain size="small">REJECT</el-button>
         </template>
       </el-table-column>
@@ -52,6 +61,7 @@ export default {
       loading: true,
       ConferenceDetailVisible: false,
       conferenceId: -1,
+      passVisible: false,
     };
   },
   created() {
@@ -65,6 +75,7 @@ export default {
           if (resp.status === 200) {
             this.messageTable = resp.data;
             this.loading = false;
+            this.messageTable.push({ sender: 'hh', fullName: 'hh', conferenceFullName: 'hh', topics: ['1', 'a', 'asd'], chosedTopics: [] });
           } else {
             this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
           }
@@ -73,9 +84,14 @@ export default {
           this.$message({ type: 'error', message: 'get information error', duration: '2000', showClose: 'true', center: 'true' });
         });
     },
+    checkChosedTopics(row) {
+      if (row.chosedTopics.length === 0) this.$message({ type: 'warning', message: 'You must choose at least one topic', duration: '2000', showClose: 'true', center: 'true' });
+      else this.passVisible = true;
+    },
     handleInvitation(row, Status) {
+      this.passVisible = false;
       this.$axios
-        .post('/system/userDecideMyInvitations', { token: this.$store.state.token, invitationId: row.invitationId, status: Status })
+        .post('/system/userDecideMyInvitations', { token: this.$store.state.token, invitationId: row.invitationId, topics: row.chosedTopics, status: Status })
         .then((resp) => {
           if (resp.status === 200) {
             this.$message({ type: 'success', message: resp.data, duration: '2000', showClose: 'true', center: 'true' });
@@ -94,6 +110,18 @@ export default {
         this.ConferenceDetailVisible = true;
         this.conferenceId = Number(row.conferenceId);
       }
+    },
+    add(tag, row) {
+      let topicSet = new Set(row.chosedTopics);
+      topicSet.add(tag.target.innerText);
+      row.chosedTopics = [...topicSet];
+      tag.target.classList = 'el-tag el-tag--dark';
+    },
+    handleClose(tag, row) {
+      let topicSet = new Set(row.chosedTopics);
+      topicSet.delete(tag.target.parentNode.innerText);
+      row.chosedTopics = [...topicSet];
+      tag.target.parentNode.classList = 'el-tag el-tag--light';
     },
   },
 };
@@ -114,5 +142,10 @@ label {
 .tableContent {
   width: 90%;
   margin-left: 5%;
+}
+
+.el-tag {
+  margin-right: 10px;
+  cursor: pointer;
 }
 </style>
