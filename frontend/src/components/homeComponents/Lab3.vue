@@ -76,7 +76,7 @@
       Conference List 用来处理与已通过（PASSED）会议相关的事务。进入
       <strong>ALL Conferences</strong> 板块可以查看到所有已通过（PASSED）会议的缩略信息。单击表格中的一行，则可以进入到对应会议的详细信息界面。
     </p>
-    <img src="lab3/ConferenceList.png" alt="ConferenceList" />
+    <img src="lab3/conferenceList.png" alt="ConferenceList" />
     <ul>
       <li>
         <strong>
