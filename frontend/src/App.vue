@@ -10,6 +10,9 @@
 export default {
   name: 'APP',
   components: {},
+  created() {
+    console.log('\n'.concat(' %c Uni Conference 🎉 v', '1.2.1', ' \n'), 'color: #fafafa; background: #8669ed; padding:5px 0;');
+  },
 };
 </script>
 

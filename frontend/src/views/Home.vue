@@ -22,22 +22,9 @@ import Footer from '@/components/Footer.vue';
 
 export default {
   name: 'Home',
-  components: {
-    Welcome,
-    Lab2,
-    Lab3,
-    Header,
-    Footer,
-  },
+  components: { Welcome, Lab2, Lab3, Header, Footer },
   data() {
     return { activeLab: '1' };
-  },
-  created() {
-    console.log(
-      ''.concat(' %c Uni Conference 🎉 v', '1.2.1', ' ').concat(' %c http://114.115.246.37/ '),
-      'color: #fafafa; background: #8669ed; padding:5px 0;',
-      'padding:4px 0; border:1px solid #444444'
-    );
   },
 };
 </script>
