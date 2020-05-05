@@ -114,9 +114,27 @@ export default {
       this.paperForm.topics = [...topicSet];
     },
     getContributeFile(event) {
-      this.paperForm.file = event.currentTarget.files[0];
-      this.fileName = this.paperForm.file.name;
-      this.previewVisible = true;
+      const file = event.currentTarget.files[0]; // 上传的文件
+      this.paperForm.file = file;
+      this.fileName = file.name; // 文件名
+      this.src = this.getObjectURL(file); // 文件地址
+      this.previewVisible = true; // 预览的按钮
+      let index = this.fileName.lastIndexOf('.'); //获取最后一个.的位置
+      let type = this.fileName.substr(index + 1); //获取后缀
+      if (type !== 'PDF' && type !== 'pdf') {
+        this.$message({ type: 'error', message: 'only PDF file allowed!', duration: '2000', showClose: 'true', center: 'true' });
+      }
+    },
+    getObjectURL(file) {
+      let url = null;
+      if (window.createObjectURL != undefined) {
+        url = window.createObjectURL(file); // basic
+      } else if (window.webkitURL != undefined) {
+        url = window.webkitURL.createObjectURL(file); // webkit or chrome
+      } else if (window.URL != undefined) {
+        url = window.URL.createObjectURL(file); // mozilla(firefox)
+      }
+      return url;
     },
     getContributeData: function() {
       let topics = [...new Set(this.paperForm.topics).delete('')];
