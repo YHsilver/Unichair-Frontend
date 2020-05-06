@@ -1,5 +1,5 @@
 <template>
-  <el-main>
+  <div style="width:90%">
     <h5 style="margin:0"><i class="el-icon-edit-outline" /> 我申请的会议</h5>
 
     <el-tabs v-model="activeTab" @tab-click="handleTabClick">
@@ -7,7 +7,7 @@
         <ConferenceTable v-bind:showList="showList" v-bind:data="table" v-bind:loading="loading" :Identity="name === 'pass' ? 'Chair' : 'Other'" />
       </el-tab-pane>
     </el-tabs>
-  </el-main>
+  </div>
 </template>
 
 <script>

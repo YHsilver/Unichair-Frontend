@@ -1,5 +1,5 @@
 <template>
-  <el-main>
+  <div style="width:90%">
     <h5 style="margin:0"><i class="el-icon-s-custom" /> 会议审核</h5>
 
     <el-tabs v-model="activeTab" @tab-click="handleTabClick">
@@ -7,7 +7,7 @@
         <ConferenceTable :showList="showList" :data="table" :loading="loading" :AdminOperation="name" @handleConferenceFinished="handleConference" :Identity="'Admin'" />
       </el-tab-pane>
     </el-tabs>
-  </el-main>
+  </div>
 </template>
 
 <script>
