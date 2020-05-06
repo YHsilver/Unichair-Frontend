@@ -11,7 +11,7 @@
               <span>{{ props.row.name }}</span>
             </el-form-item>
             <el-form-item label="Chairman">
-              <span>{{ props.row.chairman }}</span>
+              <el-tag type="warning" effect="plain">{{ props.row.chairman }}</el-tag>
             </el-form-item>
             <el-form-item label="Conference Location">
               <span>{{ props.row.place }}</span>
