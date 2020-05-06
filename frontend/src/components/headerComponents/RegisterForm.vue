@@ -72,7 +72,24 @@
 export default {
   name: 'Register',
   data() {
-    const dataValid = (rule, value, callback) => {
+    const usernameValid = (rule, value, callback) => {
+      let username = this.registerForm.username;
+      this.$axios
+        .post('/system/checkUsername', { username: username })
+        .then((resp) => {
+          if (resp.status === 200) {
+            return callback();
+          } else {
+            this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
+            return callback(new Error(resp.data.message));
+          }
+        })
+        .catch(() => {
+          this.$message({ type: 'error', message: 'operation error', duration: '2000', showClose: 'true', center: 'true' });
+          return callback();
+        });
+    };
+    const passwordValid = (rule, value, callback) => {
       let userName = this.registerForm.username;
       let password = this.registerForm.password;
       // 如果userName为''，则indexOf返回0
@@ -81,7 +98,7 @@ export default {
       }
       return callback();
     };
-    const confirmValid = (rule, value, callback) => {
+    const confirmPasswordValid = (rule, value, callback) => {
       let password = this.registerForm.password;
       let confirmPassword = this.registerForm.confirmPassword;
       if (password !== confirmPassword) {
@@ -98,21 +115,26 @@ export default {
           { min: 5, max: 32, message: '长度为5-32个字符', trigger: 'blur' },
           // 开头匹配字母和-使用^[A-Za-z-]+?而不能是^[A-z|-]+?，这样还可以匹配到_
           { pattern: /^[A-Za-z-]+?[A-Za-z0-9_-]{4,31}$/, message: '只能包含字母，数字或两种特殊字符（-_）且只能以字母或-开头', trigger: 'blur' },
+          { validator: usernameValid, message: 'username has been regisred.', trigger: 'blur' },
         ],
         password: [
           { required: true, message: '', trigger: 'blur' },
           { min: 6, max: 32, message: '长度为6-32个字符', trigger: 'blur' },
           { pattern: /^(?![0-9]+$)(?![A-Z]+$)(?![a-z]+$)(?!([-_])+$)[A-Za-z0-9_-].{5,32}$/, message: '字母，数字或者特殊字符（-_）至少包含两种', trigger: 'blur' },
-          { validator: dataValid, message: '不能包含账号', trigger: 'blur' },
+          { validator: passwordValid, message: '不能包含账号', trigger: 'blur' },
         ],
         confirmPassword: [
           { required: true, message: 'confirm password is required.', trigger: 'blur' },
-          { validator: confirmValid, message: 'password & confirm password must be the same.', trigger: 'blur' },
+          { validator: confirmPasswordValid, message: 'password & confirm password must be the same.', trigger: 'blur' },
         ],
         fullName: [{ required: true, message: 'full name is required', trigger: 'blur' }],
         email: [
           { required: true, message: '', trigger: 'blur' },
-          { pattern: /\w+@\w+\.\w+/, message: '使用雷·汤姆林森创立的标准E-mail格式，即用户标识符+ @ + 域名', trigger: 'blur' },
+          {
+            pattern: /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,
+            message: '使用雷·汤姆林森创立的标准E-mail格式，即用户标识符+ @ + 域名',
+            trigger: 'blur',
+          },
         ],
         unit: [{ required: true, message: '', trigger: 'blur' }],
         area: [{ required: true, message: '', trigger: 'blur' }],

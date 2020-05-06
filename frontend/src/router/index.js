@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import store from '../store'
 
 Vue.use(VueRouter)
 
@@ -13,6 +14,9 @@ const routes = [
   {
     path: '/user',
     name: 'User',
+    meta: {
+      requireAuth: true,// 需要登录权限
+    },
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
@@ -21,6 +25,9 @@ const routes = [
   {
     path: '/admin',
     name: 'Admin',
+    meta: {
+      requireAdminAuth: true,// 需要登录权限
+    },
     component: () => import('../views/Admin.vue')
   },
 ]
@@ -32,7 +39,12 @@ const router = new VueRouter({
 // 前端登录拦截
 router.beforeEach(function (to, from, next) {
   if (to.matched.some(record => record.meta.requireAdminAuth)) {
-    if ((!this.$store.state.userDetails) || (this.$store.state.userDetails.username !== "admin")) {
+    if (!store.state.token) {
+      next({
+        path: '/',
+        query: { redirect: to.fullPath } // 登录成功之后重新跳转到该路由
+      })
+    } else if (store.state.userDetails.username !== "admin") {
       next({
         path: '/',
         query: { redirect: to.fullPath }
@@ -41,17 +53,13 @@ router.beforeEach(function (to, from, next) {
       next();
     }
   } else if (to.matched.some(record => record.meta.requireAuth)) {
-    if (!this.$store.state.token) {
+    if (!store.state.token) {
       next({
-        path: '/user',
+        path: '/',
         query: { redirect: to.fullPath } // 登录成功之后重新跳转到该路由
       })
-    } else if (this.$store.state.userDetails.username === "admin") {
-      next({
-        path: '/admin',
-        query: { redirect: to.fullPath } // 登录成功之后重新跳转到该路由
-      })
-    } else {
+    }
+    else {
       next();
     }
   } else {

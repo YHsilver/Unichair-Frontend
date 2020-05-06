@@ -63,9 +63,13 @@ export default {
                 this.$store.commit('login', resp.data);
                 this.$store.state.token = resp.data.token;
                 if (this.$store.state.userDetails.username === 'admin') {
-                  this.$router.replace({ path: '/admin' });
+                  this.$router.replace({ path: '/admin' }).catch((err) => {
+                    err;
+                  });
                 } else {
-                  this.$router.replace({ path: '/user' });
+                  this.$router.replace({ path: '/user' }).catch((err) => {
+                    err;
+                  });
                 }
                 this.$message({ type: 'success', message: 'welcome aboard ' + this.loginForm.username + ' !', duration: '2000', showClose: 'true', center: 'true' });
               } else {
