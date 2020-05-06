@@ -114,6 +114,7 @@ export default {
         .post('/system/userGetConferenceDetails', { conferenceId: this.conferenceId })
         .then((resp) => {
           if (resp.status === 200) {
+            // console.log(resp.data);
             this.conferenceDetail = resp.data;
             for (let key in this.conferenceDetail) {
               if (this.conferenceDetail[key] === '') this.conferenceDetail[key] = '暂无';

@@ -137,11 +137,15 @@ export default {
       return url;
     },
     getContributeData: function() {
-      let topics = [...new Set(this.paperForm.topics).delete('')];
+      // 去除占位符
+      let topicSet = new Set(this.paperForm.topics);
+      topicSet.delete('');
+      this.paperForm.topics = [...topicSet];
+      // formData
       let formData = new FormData();
       formData.append('file', this.paperForm.file);
-      formData.append('author', this.paperForm.author);
-      formData.append('topics', topics);
+      formData.append('authors', this.paperForm.author);
+      formData.append('topics', this.paperForm.topics);
       formData.append('conferenceId', this.conferenceId);
       formData.append('title', this.paperForm.title);
       formData.append('token', this.$store.state.token);

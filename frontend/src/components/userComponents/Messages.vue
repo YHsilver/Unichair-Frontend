@@ -73,9 +73,21 @@ export default {
         .post('/system/userCheckMyInvitations', { token: this.$store.state.token, status: 'PENDING' })
         .then((resp) => {
           if (resp.status === 200) {
+            // 获取 topics
+            for (const message of resp.data) {
+              this.$axios
+                .post('/system/getConferenceTopics', { conferenceId: Number(message.conferenceId) })
+                .then((resp) => {
+                  if (resp.status === 200) message.topics = resp.data;
+                  else this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
+                })
+                .catch(() => {
+                  this.$message({ type: 'error', message: 'get information error', duration: '2000', showClose: 'true', center: 'true' });
+                });
+              message.chosedTopics = [];
+            }
             this.messageTable = resp.data;
             this.loading = false;
-            this.messageTable.push({ sender: 'hh', fullName: 'hh', conferenceFullName: 'hh', topics: ['1', 'a', 'asd'], chosedTopics: [] });
           } else {
             this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
           }
@@ -113,13 +125,13 @@ export default {
     },
     add(tag, row) {
       let topicSet = new Set(row.chosedTopics);
-      topicSet.add(tag.target.innerText);
+      topicSet.add(tag.target.innerText.trim());
       row.chosedTopics = [...topicSet];
       tag.target.classList = 'el-tag el-tag--dark';
     },
     handleClose(tag, row) {
       let topicSet = new Set(row.chosedTopics);
-      topicSet.delete(tag.target.parentNode.innerText);
+      topicSet.delete(tag.target.parentNode.innerText.trim());
       row.chosedTopics = [...topicSet];
       tag.target.parentNode.classList = 'el-tag el-tag--light';
     },
