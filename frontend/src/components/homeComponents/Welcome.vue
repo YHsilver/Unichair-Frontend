@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import registerForm from '@/components/headerComponents/RegisterForm.vue';
+import registerForm from '@/components/authComponents/RegisterForm.vue';
 
 export default {
   name: 'Welcome',

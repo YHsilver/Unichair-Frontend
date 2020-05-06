@@ -74,7 +74,7 @@
     <!-- Reviewer -->
     <el-divider v-if="Identity === 'Reviewer'"></el-divider>
     <RatingForm v-if="Identity === 'Reviewer'" />
-
+    <PaperInfo :conferenceId="conferenceId" address="/system/authorGetMyPapers" :conferenceTopics="conferenceTopics" />
     <el-drawer :visible.sync="pdfVisible" :size="'60%'" :title="fileName" append-to-body>
       <iframe :src="src" style="width: 90%;height: 90vh;margin-left: 5%;"></iframe>
     </el-drawer>
@@ -82,11 +82,12 @@
 </template>
 
 <script>
-import RatingForm from '@/components/userComponents/RatingForm.vue';
+import RatingForm from '@/components/reviewerComponents/RatingForm.vue';
+import PaperInfo from '@/components/PaperInfo.vue';
 
 export default {
   name: 'PaperForm',
-  components: { RatingForm },
+  components: { RatingForm, PaperInfo },
   props: { conferenceId: Number, conferenceFullName: String, conferenceTopics: Array, Identity: String },
   data() {
     const topicsValid = (rule, value, callback) => {

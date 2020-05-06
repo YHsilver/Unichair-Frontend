@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import LoginForm from '@/components/headerComponents/LoginForm.vue';
+import LoginForm from '@/components/authComponents/LoginForm.vue';
 
 export default {
   name: 'Header',

@@ -43,8 +43,12 @@
 
     <el-button-group>
       <!-- chair -->
+      <!-- invite reviewer -->
       <el-button type="primary" @click="InviteReviewerVisible = true" v-if="Identity === 'Chair' && conferenceDetail.stage === 'Preparation'"> Invite PC Member </el-button>
-
+      <el-dialog :visible.sync="InviteReviewerVisible" append-to-body :fullscreen="true">
+        <InviteReviewer @inviteReviewerFinished="InviteReviewerVisible = false" :conferenceId="Number(conferenceDetail.id)" :conferenceFullName="conferenceDetail.fullName" />
+      </el-dialog>
+      <!-- move to next stage -->
       <el-popover placement="top" width="160" v-model="popoverVisible" v-if="Identity === 'Chair'" :disabled="conferenceDetail.stage === 'Ending'">
         <p>Are you sure you wanna move the conference to the next stage?</p>
         <div style="text-align: right; margin: 0">
@@ -55,46 +59,45 @@
       </el-popover>
 
       <!-- author -->
+      <!-- modify Paper -->
       <el-button type="primary" @click="myPaperVisible = true" v-if="Identity === 'Author'">My paper</el-button>
+      <el-dialog :visible.sync="reviewPaperVisible" append-to-body :fullscreen="true">
+        <ModifyPaper @reviewFinished="reviewPaperVisible = false" :Identity="Identity" :conferenceTopics="conferenceDetail.topics" :conferenceId="Number(conferenceDetail.id)" />
+      </el-dialog>
 
       <!-- reviewer -->
+      <!-- reviewPaper -->
       <el-button type="primary" @click="reviewPaperVisible = true" v-if="Identity === 'Reviewer' && conferenceDetail.stage === 'Reviewing'">Review paper</el-button>
+      <el-dialog :visible.sync="reviewPaperVisible" append-to-body :fullscreen="true">
+        <ReviewingPaper @reviewFinished="reviewPaperVisible = false" :Identity="Identity" :conferenceTopics="conferenceDetail.topics" :conferenceId="Number(conferenceDetail.id)" />
+      </el-dialog>
 
-      <!-- Passer -->
+      <!-- Passerby -->
+      <!-- submit paper -->
       <el-button type="primary" @click="contributeFormVisible = true" v-if="Identity === 'Passerby' && conferenceDetail.stage === 'Contribution'">Submit paper</el-button>
+      <el-dialog :visible.sync="contributeFormVisible" append-to-body :fullscreen="true">
+        <SubmitPaper
+          @contributeFinished="contributeFormVisible = false"
+          :conferenceId="Number(conferenceDetail.id)"
+          :conferenceFullName="conferenceDetail.fullName"
+          :conferenceTopics="conferenceDetail.topics"
+          :Identity="Identity"
+        />
+      </el-dialog>
     </el-button-group>
-
-    <!-- contribute -->
-    <el-dialog :visible.sync="contributeFormVisible" append-to-body :fullscreen="true">
-      <PaperForm
-        @contributeFinished="contributeFormVisible = false"
-        :conferenceId="Number(conferenceDetail.id)"
-        :conferenceFullName="conferenceDetail.fullName"
-        :conferenceTopics="conferenceDetail.topics"
-        :Identity="Identity"
-      />
-    </el-dialog>
-
-    <!-- Invite Reviewer -->
-    <el-dialog :visible.sync="InviteReviewerVisible" append-to-body :fullscreen="true">
-      <InviteReviewer @inviteReviewerFinished="InviteReviewerVisible = false" :conferenceId="Number(conferenceDetail.id)" :conferenceFullName="conferenceDetail.fullName" />
-    </el-dialog>
-
-    <!-- reviewPaper -->
-    <el-dialog :visible.sync="reviewPaperVisible" append-to-body :fullscreen="true">
-      <PaperForm @reviewFinished="reviewPaperVisible = false" :Identity="Identity" :conferenceTopics="conferenceDetail.topics" :conferenceId="Number(conferenceDetail.id)" />
-    </el-dialog>
   </div>
 </template>
 
 <script>
-import PaperForm from '@/components/userComponents/PaperForm.vue';
-import InviteReviewer from '@/components/userComponents/InviteReviewer.vue';
+import InviteReviewer from '@/components/chairComponents/InviteReviewer.vue';
+import ModifyPaper from '@/components/authorComponents/ModifyPaper.vue';
+import ReviewingPaper from '@/components/reviewerComponents/ReviewingPaper.vue';
+import SubmitPaper from '@/components/userComponents/SubmitPaper.vue';
 
 export default {
   name: 'ConferenceDetail',
   props: { conferenceId: Number, Identity: String },
-  components: { InviteReviewer, PaperForm },
+  components: { InviteReviewer, ModifyPaper, ReviewingPaper, SubmitPaper },
   data() {
     return {
       conferenceDetail: {},
