@@ -23,7 +23,10 @@
 
       <el-form-item label="Paper Name" prop="file">
         <span>{{ paperInfo.fileName }}</span>
-        <el-button type="primary" size="small" style="float: right;">Preview</el-button>
+        <el-button-group style="float: right">
+          <el-button type="plain" size="small">Download</el-button>
+          <el-button type="primary" size="small">Preview</el-button>
+        </el-button-group>
       </el-form-item>
     </el-form>
   </div>

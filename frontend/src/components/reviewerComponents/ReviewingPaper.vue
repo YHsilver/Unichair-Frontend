@@ -1,10 +1,10 @@
 <template>
   <div>
     <el-row :gutter="200">
-      <el-col :span="16">
+      <el-col :span="10">
         <!-- TODO: add paper lists -->
       </el-col>
-      <el-col :span="8">
+      <el-col :span="14">
         <PaperInfo :conferenceId="conferenceId" :address="'/system/reviewerGetPapers'" :Identity="'Reviewer'" /> <el-divider></el-divider>
         <RatingForm />
       </el-col>
