@@ -1,6 +1,6 @@
 <template>
   <el-card shadow="hover" id="card">
-    <el-form label-position="left" label-width="80px">
+    <el-form label-position="left" label-width="200px">
       <el-avatar :size="120"> {{ user.username }} </el-avatar>
 
       <el-form-item label="Username">

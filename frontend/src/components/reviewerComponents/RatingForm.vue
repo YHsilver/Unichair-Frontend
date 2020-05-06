@@ -1,5 +1,5 @@
 <template>
-  <el-form :model="RatingForm" :rules="RatingFormRules" :ref="RatingForm" label-width="80px" label-position="top">
+  <el-form :model="RatingForm" :rules="RatingFormRules" :ref="RatingForm" label-width="200px" label-position="top">
     <el-form-item label="Rating" prop="ratingValue">
       <el-rate v-model="RatingForm.ratingValue" :show-text="true" :texts="ratingTexts" :colors="colors" :max="4"> </el-rate>
     </el-form-item>
@@ -48,5 +48,3 @@ export default {
   },
 };
 </script>
-
-<style></style>

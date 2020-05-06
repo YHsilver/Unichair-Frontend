@@ -62,14 +62,15 @@
       <!-- modify Paper -->
       <el-button type="primary" @click="myPaperVisible = true" v-if="Identity === 'Author'">My paper</el-button>
       <el-dialog :visible.sync="reviewPaperVisible" append-to-body :fullscreen="true">
-        <ModifyPaper @reviewFinished="reviewPaperVisible = false" :Identity="Identity" :conferenceTopics="conferenceDetail.topics" :conferenceId="Number(conferenceDetail.id)" />
+        <ModifyPaper />
       </el-dialog>
 
       <!-- reviewer -->
       <!-- reviewPaper -->
-      <el-button type="primary" @click="reviewPaperVisible = true" v-if="Identity === 'Reviewer' && conferenceDetail.stage === 'Reviewing'">Review paper</el-button>
+      <!-- v-if="Identity === 'Reviewer' && conferenceDetail.stage === 'Reviewing'" -->
+      <el-button type="primary" @click="reviewPaperVisible = true">Review paper</el-button>
       <el-dialog :visible.sync="reviewPaperVisible" append-to-body :fullscreen="true">
-        <ReviewingPaper @reviewFinished="reviewPaperVisible = false" :Identity="Identity" :conferenceTopics="conferenceDetail.topics" :conferenceId="Number(conferenceDetail.id)" />
+        <ReviewingPaper :Identity="Identity" :conferenceId="Number(conferenceDetail.id)" />
       </el-dialog>
 
       <!-- Passerby -->
