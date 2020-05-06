@@ -18,7 +18,9 @@
         </el-menu-item>
       </el-menu>
 
-      <Conferencelist v-show="show === 'Conferencelist'" />
+      <div class="Choice">
+        <Conferencelist v-show="show === 'Conferencelist'" />
+      </div>
     </div>
   </div>
 </template>
@@ -40,12 +42,20 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .Bar {
   min-width: 200px;
 }
 
 .mainMenu {
   text-align: left;
+}
+
+.Choice {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  width: 100%;
 }
 </style>

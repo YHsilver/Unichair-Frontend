@@ -54,6 +54,7 @@
 
       <el-form-item>
         <el-button type="primary" v-on:click="setUp(meetingForm)">Submit</el-button>
+        <el-button @click="resetForm(meetingForm)">Reset</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -169,6 +170,7 @@ export default {
             })
             .then((resp) => {
               if (resp.status === 200) {
+                this.resetForm(this.meetingForm);
                 this.$message({ type: 'success', message: 'You have submitted your application', duration: '2000', showClose: 'true', center: 'true' });
               } else {
                 this.$message({ type: 'error', message: 'setting up meeting failed', duration: '2000', showClose: 'true', center: 'true' });
@@ -182,13 +184,8 @@ export default {
         }
       });
     },
-    checkDate() {
-      console.log(this.pickerOptions1);
-      this.pickerOptions2 = {
-        disabledDate(time) {
-          return time.getTime() <= this.meetingForm.contributeStartTime;
-        },
-      };
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
     },
     // 处理 tag 所需方法
     handleClose(tag) {

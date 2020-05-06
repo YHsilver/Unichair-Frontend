@@ -18,6 +18,7 @@
         </div>
         <el-button type="primary" slot="reference">Rating</el-button>
       </el-popover>
+      <el-button @click="resetForm(RatingForm)" style="margin-left:10px">Reset</el-button>
     </el-form-item>
   </el-form>
 </template>
@@ -40,7 +41,11 @@ export default {
       },
     };
   },
-  methods: {},
+  methods: {
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
+    },
+  },
 };
 </script>
 

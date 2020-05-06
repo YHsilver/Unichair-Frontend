@@ -62,6 +62,7 @@
 
       <el-form-item>
         <el-button class="uni-button" type="primary" v-on:click="register(registerForm)">Submit</el-button>
+        <el-button @click="resetForm(registerForm)">Reset</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -134,6 +135,7 @@ export default {
             .then((resp) => {
               // 根据后端的返回数据修改
               if (resp.status === 200 && Object.prototype.hasOwnProperty.call(resp.data, 'id')) {
+                this.resetForm(this.registerForm);
                 this.$message({ type: 'success', message: 'successful registration', duration: '2000', showClose: 'true', center: 'true' });
                 this.$emit('registerFinished');
               } else {
@@ -148,6 +150,9 @@ export default {
           this.$message({ type: 'warning', message: 'Please fill in the information', duration: '2000', showClose: 'true', center: 'true' });
         }
       });
+    },
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
     },
   },
 };

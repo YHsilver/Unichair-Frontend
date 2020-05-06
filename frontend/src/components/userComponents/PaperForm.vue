@@ -5,16 +5,37 @@
 
     <!-- Author -->
     <el-form :model="paperForm" :rules="paperFormRules" :ref="paperForm" label-width="80px" enctype="multipart/form-data" label-position="top">
-      <el-form-item label="Title" prop="title" class="leftInput">
+      <el-form-item label="Title" prop="title">
         <el-input v-model="paperForm.title" maxlength="50" show-word-limit></el-input>
       </el-form-item>
 
-      <el-form-item label="Author" prop="author" class="rightInput">
-        <el-input v-model="paperForm.author"></el-input>
+      <el-form-item label="Authors" prop="authors">
+        <el-tag :key="author" v-for="author in paperForm.authors" closable :disable-transitions="false" @close="handleAuthorClose(author)">
+          {{ author }}
+        </el-tag>
+        <el-input
+          class="input-new-tag"
+          v-if="inputVisible"
+          v-model="inputValue"
+          ref="saveTagInput"
+          size="small"
+          @keyup.enter.native="handleInputConfirm"
+          @blur="handleInputConfirm"
+        >
+        </el-input>
+        <el-button v-else class="button-new-tag" size="small" @click="showInput">+ Author</el-button>
       </el-form-item>
 
       <el-form-item label="Topics" class="leftInput">
-        <el-tag :key="topic" v-for="topic in conferenceTopics" effect="dark" style="margin-right: 10px;cursor: pointer;" @click="add(topic)" closable @close="handleClose(topic)">
+        <el-tag
+          :key="topic"
+          v-for="topic in conferenceTopics"
+          effect="dark"
+          style="margin-right: 10px;cursor: pointer;"
+          @click="addTopic(topic)"
+          closable
+          @close="handleTopicClose(topic)"
+        >
           {{ topic }}
         </el-tag>
       </el-form-item>
@@ -23,7 +44,7 @@
         <el-button :key="topic" v-for="topic in paperForm.topics" type="text" style="height:40px">{{ topic }}</el-button>
       </el-form-item>
 
-      <el-form-item label="Abstract" prop="summary">
+      <el-form-item label="Summary" prop="summary">
         <el-input v-model="paperForm.summary" type="textarea" maxlength="800" show-word-limit rows="5"> </el-input>
       </el-form-item>
 
@@ -46,6 +67,7 @@
           <!-- Author -->
           <el-button slot="reference" type="primary" v-if="Identity === 'Author'">Modify</el-button>
         </el-popover>
+        <el-button @click="resetForm(paperForm)" style="margin-left:10px">Reset</el-button>
       </el-form-item>
     </el-form>
 
@@ -69,20 +91,31 @@ export default {
   data() {
     const topicsValid = (rule, value, callback) => {
       let topics = this.paperForm.topics;
-      if (topics.length < 2) {
+      if (topics.length < 1) {
         return callback(new Error('至少选择一个主题!'));
+      }
+      return callback();
+    };
+    const authorsValid = (rule, value, callback) => {
+      let authors = this.paperForm.authors;
+      const authorsSet = new Set(authors);
+      if (authors.length > authorsSet.size) {
+        return callback(new Error("Author's name cannot be the same!"));
       }
       return callback();
     };
     return {
       visible: false,
-      paperForm: { title: '', author: '', summary: '', topics: [''], file: null },
+      paperForm: { title: '', authors: [], summary: '', topics: [''], file: null },
       paperFormRules: {
         title: [
           { required: true, message: '', trigger: 'blur' },
           { max: 50, message: 'max length is 50 character', trigger: 'blur' },
         ],
-        author: [{ required: true, message: '', trigger: 'blur' }],
+        authors: [
+          { required: true, message: '', trigger: 'blur' },
+          { validator: authorsValid, message: "Author's name cannot be the same!", trigger: 'blur' },
+        ],
         summary: [
           { required: true, message: '', trigger: 'blur' },
           { max: 800, message: 'max length is 800 character', trigger: 'blur' },
@@ -93,6 +126,8 @@ export default {
         ],
         file: [{ required: true, message: '', trigger: 'blur' }],
       },
+      inputVisible: false,
+      inputValue: '',
       fileName: '',
       previewVisible: false,
       src: '',
@@ -103,15 +138,32 @@ export default {
     upload() {
       document.getElementById('uploadInput').click();
     },
-    add(topic) {
+    addTopic(topic) {
       let topicSet = new Set(this.paperForm.topics);
       topicSet.add(topic);
       this.paperForm.topics = [...topicSet];
     },
-    handleClose(topic) {
+    handleTopicClose(topic) {
       let topicSet = new Set(this.paperForm.topics);
       topicSet.delete(topic);
       this.paperForm.topics = [...topicSet];
+    },
+    handleAuthorClose(tag) {
+      this.paperForm.authors.splice(this.paperForm.authors.indexOf(tag), 1);
+    },
+    showInput() {
+      this.inputVisible = true;
+      this.$nextTick(() => {
+        this.$refs.saveTagInput.$refs.input.focus();
+      });
+    },
+    handleInputConfirm() {
+      let inputValue = this.inputValue;
+      if (inputValue) {
+        this.paperForm.authors.push(inputValue);
+      }
+      this.inputVisible = false;
+      this.inputValue = '';
     },
     getContributeFile(event) {
       const file = event.currentTarget.files[0]; // 上传的文件
@@ -144,7 +196,7 @@ export default {
       // formData
       let formData = new FormData();
       formData.append('file', this.paperForm.file);
-      formData.append('authors', this.paperForm.author);
+      formData.append('authors', this.paperForm.authors);
       formData.append('topics', this.paperForm.topics);
       formData.append('conferenceId', this.conferenceId);
       formData.append('title', this.paperForm.title);
@@ -152,7 +204,6 @@ export default {
       formData.append('summary', this.paperForm.summary);
       return formData;
     },
-    getPaperForm() {},
     submitPaperForm(formName) {
       this.visible = false;
       this.$refs[formName].validate((valid) => {
@@ -161,6 +212,7 @@ export default {
             .post('/system/userSubmitPaper', this.getContributeData())
             .then((resp) => {
               if (resp.status === 200) {
+                this.resetForm(this.paperForm);
                 this.$message({ type: 'success', message: 'contribute successfully', duration: '2000', showClose: 'true', center: 'true' });
                 this.$emit('contributeFinished');
               } else {
@@ -175,6 +227,10 @@ export default {
         }
       });
     },
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
+    },
+    getPaperForm() {},
   },
 };
 </script>
@@ -188,5 +244,27 @@ export default {
   width: 38% !important;
   display: inline-block !important;
   margin-left: 2% !important;
+}
+
+/* element tag */
+.el-tag + .el-tag {
+  margin-left: 10px;
+}
+
+.el-tag + .button-new-tag {
+  margin-left: 10px;
+}
+
+.button-new-tag {
+  height: 32px;
+  line-height: 30px;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.input-new-tag {
+  width: 90px;
+  margin-left: 10px;
+  vertical-align: bottom;
 }
 </style>

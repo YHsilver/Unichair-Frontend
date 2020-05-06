@@ -1,6 +1,6 @@
 <template>
   <div v-loading="loading">
-    <el-form label-position="left" label-width="80px">
+    <el-form label-position="left" label-width="200px" align="left">
       <!-- admin 专属 -->
       <el-form-item label="ID" v-if="Identity === 'Admin'">
         <span>{{ conferenceDetail.id }}</span>
@@ -29,6 +29,7 @@
           {{ topic }}
         </el-tag>
       </el-form-item>
+      <el-divider></el-divider>
       <el-form-item label="Chairman">
         <el-tag type="warning" effect="plain">{{ conferenceDetail.chair }}</el-tag>
       </el-form-item>
