@@ -5,7 +5,7 @@
         <!-- TODO: add paper lists -->
       </el-col>
       <el-col :span="14">
-        <PaperInfo :conferenceId="conferenceId" :address="'/system/reviewerGetPapers'" :Identity="'Reviewer'" /> <el-divider></el-divider>
+        <PaperInfo :conferenceId="conferenceId" :address="'/system/reviewerGetPapers'" :Identity="'Reviewer'" />
         <RatingForm />
       </el-col>
     </el-row>

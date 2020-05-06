@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="width:520px;margin:auto">
     <el-form :model="paperInfo" label-width="200px" label-position="left">
       <el-form-item label="Title" prop="title">
         <span>{{ paperInfo.title }}</span>
@@ -29,6 +29,7 @@
         </el-button-group>
       </el-form-item>
     </el-form>
+    <el-divider></el-divider>
   </div>
 </template>
 

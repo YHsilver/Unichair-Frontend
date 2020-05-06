@@ -63,7 +63,7 @@
       <!-- v-if="Identity === 'Author'" -->
       <el-button type="primary" @click="myPaperVisible = true">My paper</el-button>
       <el-dialog :visible.sync="myPaperVisible" append-to-body :fullscreen="true">
-        <ModifyPaper @modifyFinished="myPaperVisible = false" />
+        <MyPaper @modifyFinished="myPaperVisible = false" />
       </el-dialog>
 
       <!-- reviewer -->
@@ -92,14 +92,14 @@
 
 <script>
 import InviteReviewer from '@/components/chairComponents/InviteReviewer.vue';
-import ModifyPaper from '@/components/authorComponents/ModifyPaper.vue';
+import MyPaper from '@/components/authorComponents/MyPaper.vue';
 import ReviewingPaper from '@/components/reviewerComponents/ReviewingPaper.vue';
 import SubmitPaper from '@/components/userComponents/SubmitPaper.vue';
 
 export default {
   name: 'ConferenceDetail',
   props: { conferenceId: Number, Identity: String },
-  components: { InviteReviewer, ModifyPaper, ReviewingPaper, SubmitPaper },
+  components: { InviteReviewer, MyPaper, ReviewingPaper, SubmitPaper },
   data() {
     return {
       conferenceDetail: {},

@@ -7,7 +7,10 @@
       <el-col :span="14">
         <PaperInfo v-show="toggle === 'PaperInfo'" :address="'/system/reviewerGetPapers'" :Identity="'Author'" />
         <ModifyForm @modifyCancel="finish()" v-show="toggle === 'ModifyForm'" :paperInfo="paperInfo" />
-        <el-button v-show="toggle === 'PaperInfo'" type="primary" @click="toggle === 'PaperInfo' ? (toggle = 'ModifyForm') : (toggle = 'PaperInfo')">Modify</el-button>
+        <div style="width:520px;margin:auto">
+          <el-button v-show="toggle === 'PaperInfo'" type="primary" @click="toggle === 'PaperInfo' ? (toggle = 'ModifyForm') : (toggle = 'PaperInfo')">Modify</el-button>
+          <el-button v-show="toggle === 'PaperInfo'" @click="finish()" type="text" style="float:right">Cancel</el-button>
+        </div>
       </el-col>
     </el-row>
   </div>
@@ -18,7 +21,7 @@ import ModifyForm from '@/components/authorComponents/ModifyForm.vue';
 import PaperInfo from '@/components/PaperInfo.vue';
 
 export default {
-  name: 'ModifyPaper',
+  name: 'MyPaper',
   components: { ModifyForm, PaperInfo },
   props: { conferenceId: Number },
   data() {
