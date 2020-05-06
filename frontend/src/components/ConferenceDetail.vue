@@ -7,7 +7,7 @@
       </el-form-item>
       <!-- 通用 -->
       <el-form-item label="Full Name / Abbreviation">
-        <span>{{ conferenceDetail.fullName }} / {{ conferenceDetail.abbreviation }}</span>
+        <strong>{{ conferenceDetail.fullName }} / {{ conferenceDetail.abbreviation }}</strong>
       </el-form-item>
       <el-form-item label="Conference Location">
         <span>{{ conferenceDetail.heldPlace }}</span>
@@ -19,7 +19,7 @@
         <span>{{ conferenceDetail.releaseDate }} / {{ conferenceDetail.heldDate }}</span>
       </el-form-item>
       <el-form-item label="Conference Stage">
-        <span>{{ conferenceDetail.stage }}</span>
+        <el-button type="text">{{ conferenceDetail.stage }}</el-button>
       </el-form-item>
       <el-form-item label="Conference Introduction">
         <span>{{ conferenceDetail.introduction }}</span>
@@ -30,7 +30,7 @@
         </el-tag>
       </el-form-item>
       <el-form-item label="Chairman">
-        <span>{{ conferenceDetail.chair }}</span>
+        <el-tag type="warning" effect="plain">{{ conferenceDetail.chair }}</el-tag>
       </el-form-item>
       <el-form-item label="Reviewers">
         <span>{{ conferenceDetail.PCMember }}</span>

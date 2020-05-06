@@ -19,8 +19,8 @@ export default {
   data() {
     return {
       loading: true,
-      activeTab: 'pass',
-      tables: { pass: [], pending: [], reject: [] },
+      activeTab: 'pending',
+      tables: { pending: [], pass: [], reject: [] },
       showList: ['Abbr', 'Name', 'Status'],
     };
   },

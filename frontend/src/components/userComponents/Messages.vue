@@ -37,7 +37,7 @@
             </div>
             <el-button slot="reference" type="success" plain size="small" @click="checkChosedTopics(scope.row)">PASS</el-button>
           </el-popover>
-          <el-button @click="handleInvitation(scope.row, 'REJECT')" type="info" plain size="small">REJECT</el-button>
+          <el-button @click="handleInvitation(scope.row, 'REJECT')" style="margin-left:10px" type="info" plain size="small">REJECT</el-button>
         </template>
       </el-table-column>
     </el-table>
