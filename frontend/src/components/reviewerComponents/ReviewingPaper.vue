@@ -1,8 +1,8 @@
 <template>
   <div>
-    <el-row :gutter="200">
+    <el-row :gutter="100">
       <el-col :span="10">
-        <!-- TODO: add paper lists -->
+       <PaperList :Identity="'Reviewer'" />
       </el-col>
       <el-col :span="14">
         <PaperInfo :conferenceId="conferenceId" :address="'/system/reviewerGetPapers'" :Identity="'Reviewer'" />
@@ -15,6 +15,7 @@
 <script>
 import RatingForm from '@/components/reviewerComponents/RatingForm.vue';
 import PaperInfo from '@/components/PaperInfo.vue';
+import PaperList from '@/components/PaperList.vue';
 
-export default { name: 'ReviewingPaper', components: { RatingForm, PaperInfo }, props: { conferenceId: Number } };
+export default { name: 'ReviewingPaper', components: { RatingForm, PaperInfo,PaperList }, props: { conferenceId: Number } };
 </script>

@@ -3,8 +3,8 @@
     <h5 style="margin:0"><i class="el-icon-pie-chart" /> 我参与的会议</h5>
 
     <el-tabs v-model="activeTab" @tab-click="handleTabClick">
-      <el-tab-pane v-for="(table, name, index) in tables" v-bind:label="name" v-bind:name="name" v-bind:key="index">
-        <ConferenceTable v-bind:showList="showList" v-bind:data="table" v-bind:loading="loading" :Identity="name" />
+      <el-tab-pane v-for="(table, name, index) in tables" :label="name" :name="name" :key="index">
+        <ConferenceTable :showList="showList" :data="table" :loading="loading" :Identity="name" />
       </el-tab-pane>
     </el-tabs>
   </div>

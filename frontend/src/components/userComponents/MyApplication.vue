@@ -3,7 +3,7 @@
     <h5 style="margin:0"><i class="el-icon-edit-outline" /> 我申请的会议</h5>
 
     <el-tabs v-model="activeTab" @tab-click="handleTabClick">
-      <el-tab-pane v-bind:label="name" v-bind:name="name" v-for="(table, name, index) in tables" v-bind:key="index">
+      <el-tab-pane v-bind:label="name" v-bind:name="name" v-for="(table, name, index) in tables" :key="index">
         <ConferenceTable v-bind:showList="showList" v-bind:data="table" v-bind:loading="loading" :Identity="name === 'pass' ? 'Chair' : 'Other'" />
       </el-tab-pane>
     </el-tabs>

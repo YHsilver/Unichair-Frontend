@@ -1,8 +1,8 @@
 <template>
   <div>
-    <el-row :gutter="200">
+    <el-row :gutter="100">
       <el-col :span="10">
-        <!-- TODO: add paper lists -->
+        <PaperList :Identity="'Author'" />
       </el-col>
       <el-col :span="14">
         <PaperInfo v-show="toggle === 'PaperInfo'" :address="'/system/reviewerGetPapers'" :Identity="'Author'" />
@@ -19,10 +19,11 @@
 <script>
 import ModifyForm from '@/components/authorComponents/ModifyForm.vue';
 import PaperInfo from '@/components/PaperInfo.vue';
+import PaperList from '@/components/PaperList.vue';
 
 export default {
   name: 'MyPaper',
-  components: { ModifyForm, PaperInfo },
+  components: { ModifyForm, PaperInfo, PaperList },
   props: { conferenceId: Number },
   data() {
     return { toggle: 'PaperInfo', paperInfo: {} };

@@ -6,13 +6,13 @@
       </el-form-item>
 
       <el-form-item label="Authors" prop="authors" v-if="Identity === 'Author'">
-        <el-tag :key="author" v-for="author in paperInfo.authors">
+        <el-tag :key="index" v-for="(author, index) in paperInfo.authors">
           {{ author }}
         </el-tag>
       </el-form-item>
 
-      <el-form-item label="Topics">
-        <el-tag :key="topic" v-for="topic in paperInfo.topics" effect="dark" style="margin-right: 10px;cursor: pointer;">
+      <el-form-item label="Topics" prop="topic">
+        <el-tag :key="index" v-for="(topic, index) in paperInfo.topics" effect="dark" style="margin-right: 10px;cursor: pointer;">
           {{ topic }}
         </el-tag>
       </el-form-item>
@@ -21,7 +21,7 @@
         <span>{{ paperInfo.summary }}</span>
       </el-form-item>
 
-      <el-form-item label="Paper Name" prop="file">
+      <el-form-item>
         <span>{{ paperInfo.fileName }}</span>
         <el-button-group style="float: right">
           <el-button type="plain" size="small">Download</el-button>

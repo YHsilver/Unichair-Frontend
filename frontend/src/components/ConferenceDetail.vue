@@ -25,7 +25,7 @@
         <span>{{ conferenceDetail.introduction }}</span>
       </el-form-item>
       <el-form-item label="Conference Topics" class="tag-group">
-        <el-tag :key="topic" v-for="topic in conferenceDetail.topics" :disable-transitions="false" effect="dark" style="margin-right: 10px;">
+        <el-tag :key="index" v-for="(topic, index) in conferenceDetail.topics" :disable-transitions="false" effect="dark" style="margin-right: 10px;">
           {{ topic }}
         </el-tag>
       </el-form-item>

@@ -32,7 +32,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column v-for="show in showList" :key="show" :label="show" :prop="show.toLowerCase()"> </el-table-column>
+      <el-table-column v-for="(show, index) in showList" :key="index" :label="show" :prop="show.toLowerCase()"> </el-table-column>
 
       <!-- admin pending -->
       <el-table-column label="Operation" v-if="AdminOperation === 'pending'">
@@ -44,7 +44,7 @@
     </el-table>
 
     <!-- Conference Detail -->
-    <el-dialog title="Conference Detail" v-if="ConferenceDetailVisible" :visible.sync="ConferenceDetailVisible" top="5vh">
+    <el-dialog title="Conference Detail" v-if="ConferenceDetailVisible" :visible.sync="ConferenceDetailVisible" top="5vh" width="min(80%,600px)">
       <ConferenceDetail :conferenceId="conferenceId" :Identity="Identity" />
     </el-dialog>
   </div>

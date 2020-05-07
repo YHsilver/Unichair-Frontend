@@ -6,7 +6,7 @@
       </el-form-item>
 
       <el-form-item label="Authors" prop="authors">
-        <el-tag :key="author" v-for="author in paperInfo.authors" closable :disable-transitions="false" @close="handleAuthorClose(author)">
+        <el-tag :key="index" v-for="(author, index) in paperInfo.authors" closable :disable-transitions="false" @close="handleAuthorClose(author)">
           {{ author }}
         </el-tag>
         <el-input
@@ -24,20 +24,21 @@
 
       <el-form-item label="Topics" style="width: 60%;display:inline-block;">
         <el-tag
-          :key="topic"
-          v-for="topic in paperInfo"
+          :key="index"
+          v-for="(topic, index) in paperInfo"
           effect="dark"
           style="margin-right: 10px;cursor: pointer;"
           @click="addTopic(topic)"
           closable
           @close="handleTopicClose(topic)"
         >
+          <!-- TODO: -->
           {{ topic }}
         </el-tag>
       </el-form-item>
 
       <el-form-item label="My Topics" prop="topics" style="width: 38%;display: inline-block;margin-left: 2%;">
-        <el-button :key="topic" v-for="topic in paperInfo.topics" type="text" style="height:40px">{{ topic }}</el-button>
+        <el-button :key="index" v-for="(topic, index) in paperInfo.topics" type="text" style="height:40px">{{ topic }}</el-button>
       </el-form-item>
 
       <el-form-item label="Summary" prop="summary">

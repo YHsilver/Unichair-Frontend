@@ -9,7 +9,7 @@
       </el-form-item>
 
       <el-form-item label="Authors" prop="authors">
-        <el-tag :key="author" v-for="author in paperForm.authors" closable :disable-transitions="false" @close="handleAuthorClose(author)">
+        <el-tag :key="index" v-for="(author,index) in paperForm.authors" closable :disable-transitions="false" @close="handleAuthorClose(author)">
           {{ author }}
         </el-tag>
         <el-input
@@ -27,8 +27,8 @@
 
       <el-form-item label="Topics" style="width: 60%;display:inline-block;">
         <el-tag
-          :key="topic"
-          v-for="topic in conferenceTopics"
+          :key="index"
+          v-for="(topic, index) in conferenceTopics"
           effect="dark"
           style="margin-right: 10px;cursor: pointer;"
           @click="addTopic(topic)"
@@ -40,7 +40,7 @@
       </el-form-item>
 
       <el-form-item label="My Topics" prop="topics" style="width: 38%;display: inline-block;margin-left: 2%;">
-        <el-button :key="topic" v-for="topic in paperForm.topics" type="text" style="height:40px">{{ topic }}</el-button>
+        <el-button :key="index" v-for="(topic, index) in paperForm.topics" type="text" style="height:40px">{{ topic }}</el-button>
       </el-form-item>
 
       <el-form-item label="Summary" prop="summary">
@@ -51,7 +51,7 @@
         <input type="file" required @change="getContributeFile($event)" accept=".pdf" style="display:none" id="uploadInput" />
         <el-button type="primary" size="small" @click="upload">choose file</el-button> <span>{{ fileName }}</span>
         <el-button type="primary" @click="pdfVisible = true" size="small" v-show="previewVisible" style="float: right;">Preview</el-button>
-        <el-drawer :visible.sync="pdfVisible" :size="'60%'" :title="fileName" append-to-body>
+        <el-drawer :visible.sync="pdfVisible" :size="'720px'" :title="fileName" append-to-body>
           <iframe :src="src" style="width: 90%;height: 90vh;margin-left: 5%;"></iframe>
         </el-drawer>
       </el-form-item>
@@ -68,6 +68,7 @@
           <el-button slot="reference" type="primary">Send</el-button>
         </el-popover>
         <el-button @click="resetForm(paperForm)" style="margin-left:10px">Reset</el-button>
+        <el-button @click="cancel()" type="text" style="float:right">Cancel</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -218,6 +219,9 @@ export default {
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
+    },
+    cancel() {
+      this.$emit('contributeFinished');
     },
   },
 };

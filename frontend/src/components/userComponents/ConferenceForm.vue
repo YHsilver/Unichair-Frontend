@@ -36,7 +36,7 @@
       </el-form-item>
 
       <el-form-item prop="topics" style="text-align:left;">
-        <el-tag :key="topic" v-for="topic in meetingForm.topics" closable :disable-transitions="false" @close="handleClose(topic)">
+        <el-tag :key="index" v-for="(topic,index) in meetingForm.topics" closable :disable-transitions="false" @close="handleClose(topic)">
           {{ topic }}
         </el-tag>
         <el-input
