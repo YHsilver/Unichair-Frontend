@@ -8,8 +8,10 @@
         <el-input v-model="paperForm.title" maxlength="50" show-word-limit></el-input>
       </el-form-item>
 
+      <!-- 分别是name,unit,area,email) -->
+
       <el-form-item label="Authors" prop="authors">
-        <el-tag :key="index" v-for="(author,index) in paperForm.authors" closable :disable-transitions="false" @close="handleAuthorClose(author)">
+        <el-tag :key="index" v-for="(author, index) in paperForm.authors" closable :disable-transitions="false" @close="handleAuthorClose(author)">
           {{ author }}
         </el-tag>
         <el-input

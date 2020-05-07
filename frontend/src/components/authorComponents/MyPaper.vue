@@ -2,11 +2,16 @@
   <div>
     <el-row :gutter="100">
       <el-col :span="10">
-        <PaperList :Identity="'Author'" />
+        <!-- paper list -->
+        <PaperList :Identity="'Author'" :conferenceId="conferenceId" @choosedPaper="passPaperId" />
       </el-col>
       <el-col :span="14">
-        <PaperInfo v-show="toggle === 'PaperInfo'" :address="'/system/reviewerGetPapers'" :Identity="'Author'" />
+        <!-- paper details -->
+        <PaperInfo v-show="toggle === 'PaperInfo'" :Identity="'Author'" :paperId="choosedPaperId" @getPaperInfo="passPaperInfo" />
+
+        <!-- modify paper -->
         <ModifyForm @modifyCancel="finish()" v-show="toggle === 'ModifyForm'" :paperInfo="paperInfo" />
+
         <div style="width:520px;margin:auto">
           <el-button v-show="toggle === 'PaperInfo'" type="primary" @click="toggle === 'PaperInfo' ? (toggle = 'ModifyForm') : (toggle = 'PaperInfo')">Modify</el-button>
           <el-button v-show="toggle === 'PaperInfo'" @click="finish()" type="text" style="float:right">Cancel</el-button>
@@ -26,12 +31,18 @@ export default {
   components: { ModifyForm, PaperInfo, PaperList },
   props: { conferenceId: Number },
   data() {
-    return { toggle: 'PaperInfo', paperInfo: {} };
+    return { toggle: 'PaperInfo', paperInfo: {}, choosedPaperId: undefined };
   },
   methods: {
     finish() {
       this.toggle = 'PaperInfo';
       this.$emit('modifyFinished');
+    },
+    passPaperId(paperId) {
+      this.choosedPaperId = paperId;
+    },
+    passPaperInfo(paperInfo) {
+      this.paperInfo = paperInfo;
     },
   },
 };

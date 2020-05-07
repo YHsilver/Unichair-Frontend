@@ -150,13 +150,38 @@ export default {
       return 'UNDEFINED';
     },
     moveToNextStage() {
+      // from Contribution to Reviewing
+      if (this.conferenceDetail.stage === 'Contribution') {
+        this.$confirm('', '请选择稿件分配策略', { confirmButtonText: 'TOPIC_RELATED', cancelButtonText: 'RANDOM' })
+          .then(() => {
+            this.moveToReviewing('TOPIC_RELATED');
+          })
+          .catch(() => {
+            this.moveToReviewing('RANDOM');
+          });
+      } else {
+        this.$axios
+          .post('/system/chairChangeConferenceStage', {
+            conferenceId: this.conferenceDetail.id,
+            changedStage: this.getNextStage(this.conferenceDetail.stage),
+            token: this.$store.state.token,
+          })
+          .then((resp) => {
+            if (resp.status === 200) {
+              this.$message({ type: 'success', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
+            } else {
+              this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
+            }
+          })
+          .catch(() => {
+            this.$message({ type: 'error', message: 'change stage error', duration: '2000', showClose: 'true', center: 'true' });
+          });
+      }
       this.popoverVisible = false;
+    },
+    moveToReviewing(Strategy) {
       this.$axios
-        .post('/system/chairChangeConferenceStage', {
-          conferenceId: this.conferenceDetail.id,
-          changedStage: this.getNextStage(this.conferenceDetail.stage),
-          token: this.$store.state.token,
-        })
+        .post('/system/chairStartReviewing', { conferenceId: this.conferenceDetail.id, strategy: Strategy, token: this.$store.state.token })
         .then((resp) => {
           if (resp.status === 200) {
             this.$message({ type: 'success', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });

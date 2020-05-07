@@ -36,17 +36,19 @@
 <script>
 export default {
   name: 'PaperInfo',
-  props: { conferenceId: Number, address: String, Identity: String },
+  props: { paperId: Number, Identity: String },
   data() {
-    return { paperInfo: {} };
+    return { paperInfo: {}, address: '' };
   },
   methods: {
     getpaperInfo() {
+      this.Identity === 'Author' ? (this.address = '/system/authorGetMyPaperDetails') : (this.address = '/system/reviewerGetPaperDetails');
       this.$axios
-        .post(this.address, { token: this.$store.state.token, conferenceId: this.conferenceId })
+        .post(this.address, { token: this.$store.state.token, paperId: this.paperId })
         .then((resp) => {
           if (resp.status === 200) {
             this.paperInfo = resp.data;
+            this.$emit('getPaperInfo', this.paperInfo);
           } else {
             this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
           }

@@ -2,11 +2,15 @@
   <div>
     <el-row :gutter="100">
       <el-col :span="10">
-       <PaperList :Identity="'Reviewer'" />
+        <!-- paper list -->
+        <PaperList :Identity="'Reviewer'" :conferenceId="conferenceId" @choosedPaper="passPaperId" />
       </el-col>
       <el-col :span="14">
-        <PaperInfo :conferenceId="conferenceId" :address="'/system/reviewerGetPapers'" :Identity="'Reviewer'" />
-        <RatingForm />
+        <!-- paper details -->
+        <PaperInfo :conferenceId="conferenceId" :Identity="'Reviewer'" :paperId="choosedPaperId" />
+
+        <!-- rating -->
+        <RatingForm :paperId="paperId" />
       </el-col>
     </el-row>
   </div>
@@ -17,5 +21,17 @@ import RatingForm from '@/components/reviewerComponents/RatingForm.vue';
 import PaperInfo from '@/components/PaperInfo.vue';
 import PaperList from '@/components/PaperList.vue';
 
-export default { name: 'ReviewingPaper', components: { RatingForm, PaperInfo,PaperList }, props: { conferenceId: Number } };
+export default {
+  name: 'ReviewingPaper',
+  components: { RatingForm, PaperInfo, PaperList },
+  props: { conferenceId: Number },
+  data() {
+    return { choosedPaperId: undefined };
+  },
+  methods: {
+    passPaperId(paperId) {
+      this.choosedPaperId = paperId;
+    },
+  },
+};
 </script>

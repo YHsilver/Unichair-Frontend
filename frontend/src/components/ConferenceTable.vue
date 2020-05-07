@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-table :data="data" height="calc(100vh - 200px)" :row-style="{ cursor: 'pointer' }" @row-dblclick="openDetails">
+    <el-table :data="data" height="calc(100vh - 200px)" :row-style="{ cursor: 'pointer' }" @row-dblclick="openConferenceDetails">
       <el-table-column type="expand">
         <template slot-scope="props">
           <el-form label-position="left" inline>
@@ -74,7 +74,7 @@ export default {
       this.$emit('handleConferenceFinished', row.id, Status);
     },
     // 打开会议详细界面
-    openDetails(row) {
+    openConferenceDetails(row) {
       this.ConferenceDetailVisible = true;
       this.conferenceId = Number(row.id);
     },

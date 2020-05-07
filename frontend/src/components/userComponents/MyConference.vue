@@ -32,6 +32,8 @@ export default {
       this.getAs(tab.name);
     },
     getAs(Identity) {
+      console.log(Identity);
+      
       this.$axios
         .post('/system/getPassedConference', { token: this.$store.state.token, identity: Identity, startIndex: 0, listLength: 10 })
         .then((resp) => {

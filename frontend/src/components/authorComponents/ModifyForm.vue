@@ -60,7 +60,7 @@
           <p>确定提交吗？</p>
           <div style="text-align: right; margin: 0">
             <el-button size="mini" type="text" @click="visible = false">取消</el-button>
-            <el-button type="primary" size="mini" @click="submitpaperInfo(paperInfo)">确定</el-button>
+            <el-button type="primary" size="mini" @click="modifyPaper(paperInfo)">确定</el-button>
           </div>
           <!-- Passerby -->
           <el-button slot="reference" type="primary">Send</el-button>
@@ -175,7 +175,7 @@ export default {
       }
       return url;
     },
-    getContributeData: function() {
+    getModifiedData: function() {
       // 去除占位符
       let topicSet = new Set(this.paperInfo.topics);
       topicSet.delete('');
@@ -183,6 +183,7 @@ export default {
       // formData
       let formData = new FormData();
       formData.append('file', this.paperInfo.file);
+      formData.append('paperId', this.paperInfo.paperId);
       formData.append('authors', this.paperInfo.authors);
       formData.append('topics', this.paperInfo.topics);
       formData.append('conferenceId', this.conferenceId);
@@ -191,12 +192,12 @@ export default {
       formData.append('summary', this.paperInfo.summary);
       return formData;
     },
-    submitpaperInfo(formName) {
+    modifyPaper(formName) {
       this.visible = false;
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.$axios
-            .post('/system/userSubmitPaper', this.getContributeData())
+            .post('/system/authorModifyPaper', this.getModifiedData())
             .then((resp) => {
               if (resp.status === 200) {
                 this.resetForm(this.paperInfo);
