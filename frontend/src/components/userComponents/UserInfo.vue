@@ -33,21 +33,16 @@ export default {
   methods: {
     getUser() {
       this.$axios
-        .post('/token', {
-          token: this.$store.state.token,
-        })
+        .post('/token', { token: this.$store.state.token })
         .then((resp) => {
           if (resp.status === 200) {
             this.user = resp.data;
           } else {
             this.$message({ type: 'error', message: 'token invalid', duration: '2000', showClose: 'true', center: 'true' });
-            this.$router.replace('/');
           }
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(() => {
           this.$message({ type: 'error', message: 'token invalid', duration: '2000', showClose: 'true', center: 'true' });
-          this.$router.replace('/');
         });
     },
   },
@@ -62,5 +57,4 @@ export default {
   border-radius: 10px;
   width: 520px;
 }
-
 </style>
