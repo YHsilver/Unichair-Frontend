@@ -10,7 +10,7 @@
         <PaperInfo v-show="toggle === 'PaperInfo'" :Identity="'Author'" :paperId="choosedPaperId" @getPaperInfo="passPaperInfo" />
 
         <!-- modify paper -->
-        <ModifyForm @modifyCancel="finish()" v-show="toggle === 'ModifyForm'" :paperInfo="paperInfo" />
+        <ModifyForm @modifyCancel="finish()" v-show="toggle === 'ModifyForm'" :paperInfo="paperInfo" :conferenceTopics="conferenceTopics" />
 
         <div style="width:520px;margin:auto">
           <el-button v-show="toggle === 'PaperInfo'" type="primary" @click="toggle === 'PaperInfo' ? (toggle = 'ModifyForm') : (toggle = 'PaperInfo')">Modify</el-button>
@@ -29,7 +29,7 @@ import PaperList from '@/components/PaperList.vue';
 export default {
   name: 'MyPaper',
   components: { ModifyForm, PaperInfo, PaperList },
-  props: { conferenceId: Number },
+  props: { conferenceId: Number, conferenceTopics: Array },
   data() {
     return { toggle: 'PaperInfo', paperInfo: {}, choosedPaperId: undefined };
   },

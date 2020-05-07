@@ -25,15 +25,13 @@ export default {
     };
   },
   created() {
-    this.getAs('Chair');
+    this.getConferenceAs('Chair');
   },
   methods: {
     handleTabClick(tab) {
-      this.getAs(tab.name);
+      this.getConferenceAs(tab.name);
     },
-    getAs(Identity) {
-      console.log(Identity);
-      
+    getConferenceAs(Identity) {
       this.$axios
         .post('/system/getPassedConference', { token: this.$store.state.token, identity: Identity, startIndex: 0, listLength: 10 })
         .then((resp) => {

@@ -6,7 +6,7 @@
       </el-form-item>
 
       <el-form-item label="Authors" prop="authors" v-if="Identity === 'Author'">
-        <el-tag :key="index" v-for="(author, index) in paperInfo.authors">
+        <el-tag :key="index" v-for="(author, index) in paperInfo.authors.name">
           {{ author }}
         </el-tag>
       </el-form-item>

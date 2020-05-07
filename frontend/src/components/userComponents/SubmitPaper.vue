@@ -1,5 +1,5 @@
 <template>
-  <div style="width:520px;margin:auto">
+  <div style="width:900px;margin:auto">
     <h2>{{ conferenceFullName }}</h2>
     <el-divider></el-divider>
 
@@ -8,23 +8,27 @@
         <el-input v-model="paperForm.title" maxlength="50" show-word-limit></el-input>
       </el-form-item>
 
-      <!-- 分别是name,unit,area,email) -->
-
       <el-form-item label="Authors" prop="authors">
-        <el-tag :key="index" v-for="(author, index) in paperForm.authors" closable :disable-transitions="false" @close="handleAuthorClose(author)">
-          {{ author }}
-        </el-tag>
-        <el-input
-          class="input-new-tag"
-          v-if="inputVisible"
-          v-model="inputValue"
-          ref="saveTagInput"
-          size="small"
-          @keyup.enter.native="handleInputConfirm"
-          @blur="handleInputConfirm"
-        >
-        </el-input>
-        <el-button v-else class="button-new-tag" size="small" @click="showInput">+ Author</el-button>
+        <el-form :model="author" v-for="(author, index) in paperForm.authors" :key="index" :rules="authorRules" :inline="true" style="padding: 10px;">
+          <!-- name -->
+          <el-form-item prop="name" label="name">
+            <el-input v-model="author.name"></el-input>
+          </el-form-item>
+          <!-- unit -->
+          <el-form-item prop="unit" label="unit">
+            <el-input v-model="author.unit"></el-input>
+          </el-form-item>
+          <!-- area -->
+          <el-form-item prop="area" label="area">
+            <el-input v-model="author.area"></el-input>
+          </el-form-item>
+          <!-- email -->
+          <el-form-item prop="email" label="email">
+            <el-input v-model="author.email"></el-input>
+          </el-form-item>
+          <el-button icon="el-icon-close" @click.prevent="removeAuthor(author)" circle size="mini"></el-button>
+        </el-form>
+        <el-button @click="addAuthor" style="margin:20px 0;" plain>+ Author</el-button>
       </el-form-item>
 
       <el-form-item label="Topics" style="width: 60%;display:inline-block;">
@@ -42,7 +46,7 @@
       </el-form-item>
 
       <el-form-item label="My Topics" prop="topics" style="width: 38%;display: inline-block;margin-left: 2%;">
-        <el-button :key="index" v-for="(topic, index) in paperForm.topics" type="text" style="height:40px">{{ topic }}</el-button>
+        <el-button :key="index" v-for="(topic, index) in paperForm.topics" v-model="paperForm.topics" type="text">{{ topic }}</el-button>
       </el-form-item>
 
       <el-form-item label="Summary" prop="summary">
@@ -69,7 +73,7 @@
           <!-- Passerby -->
           <el-button slot="reference" type="primary">Send</el-button>
         </el-popover>
-        <el-button @click="resetForm(paperForm)" style="margin-left:10px">Reset</el-button>
+        <el-button @click="paperForm = { title: '', authors: [], summary: '', topics: [' '], file: null }" style="margin-left:10px">Reset</el-button>
         <el-button @click="cancel()" type="text" style="float:right">Cancel</el-button>
       </el-form-item>
     </el-form>
@@ -83,38 +87,47 @@ export default {
   data() {
     const topicsValid = (rule, value, callback) => {
       let topics = this.paperForm.topics;
-      if (topics.length < 1) {
-        return callback(new Error('至少选择一个主题!'));
+      if (topics.length < 2) {
+        return callback(new Error('At least one topic!'));
       }
       return callback();
     };
     const authorsValid = (rule, value, callback) => {
-      let authors = this.paperForm.authors;
-      const authorsSet = new Set(authors);
-      if (authors.length > authorsSet.size) {
-        return callback(new Error("Authors' name cannot be the same!"));
+      const authorsLen = this.paperForm.authors.length;
+      let authorsSet = new Set();
+      for (let i = 0; i < authorsLen; i++) {
+        authorsSet.add(this.paperForm.authors[i].name);
+      }
+      if (authorsLen > authorsSet.size) {
+        return callback(new Error('Name repeated!'));
       }
       return callback();
     };
     return {
       visible: false,
-      paperForm: { title: '', authors: [], summary: '', topics: [''], file: null },
+      paperForm: { title: '', authors: [], summary: '', topics: [' '], file: null },
+      authorRules: {
+        name: [
+          { required: true, message: '', trigger: 'blur' },
+          { validator: authorsValid, message: 'Name repeated!', trigger: 'blur' },
+        ],
+        unit: [{ required: true, message: '', trigger: 'blur' }],
+        area: [{ required: true, message: '', trigger: 'blur' }],
+        email: [{ required: true, message: '', trigger: 'blur' }],
+      },
       paperFormRules: {
         title: [
           { required: true, message: '', trigger: 'blur' },
           { max: 50, message: 'max length is 50 character', trigger: 'blur' },
         ],
-        authors: [
-          { required: true, message: '', trigger: 'blur' },
-          { validator: authorsValid, message: "Author's name cannot be the same!", trigger: 'blur' },
-        ],
+        authors: [{ required: true, message: '', trigger: 'blur' }],
         summary: [
           { required: true, message: '', trigger: 'blur' },
           { max: 800, message: 'max length is 800 character', trigger: 'blur' },
         ],
         topics: [
           { required: true, message: '', trigger: 'blur' },
-          { validator: topicsValid, message: '至少选择一个主题!', trigger: 'blur' },
+          { validator: topicsValid, message: 'At least one topic!', trigger: 'blur' },
         ],
         file: [{ required: true, message: '', trigger: 'blur' }],
       },
@@ -127,9 +140,7 @@ export default {
     };
   },
   methods: {
-    upload() {
-      document.getElementById('uploadInput').click();
-    },
+    // topics
     addTopic(topic) {
       let topicSet = new Set(this.paperForm.topics);
       topicSet.add(topic);
@@ -140,22 +151,19 @@ export default {
       topicSet.delete(topic);
       this.paperForm.topics = [...topicSet];
     },
-    handleAuthorClose(tag) {
-      this.paperForm.authors.splice(this.paperForm.authors.indexOf(tag), 1);
-    },
-    showInput() {
-      this.inputVisible = true;
-      this.$nextTick(() => {
-        this.$refs.saveTagInput.$refs.input.focus();
-      });
-    },
-    handleInputConfirm() {
-      let inputValue = this.inputValue;
-      if (inputValue) {
-        this.paperForm.authors.push(inputValue);
+    // authors
+    removeAuthor(author) {
+      var index = this.paperForm.authors.indexOf(author);
+      if (index !== -1) {
+        this.paperForm.authors.splice(index, 1);
       }
-      this.inputVisible = false;
-      this.inputValue = '';
+    },
+    addAuthor() {
+      this.paperForm.authors.push({});
+    },
+    // file
+    upload() {
+      document.getElementById('uploadInput').click();
     },
     getContributeFile(event) {
       const file = event.currentTarget.files[0]; // 上传的文件
@@ -183,7 +191,7 @@ export default {
     getContributeData: function() {
       // 去除占位符
       let topicSet = new Set(this.paperForm.topics);
-      topicSet.delete('');
+      topicSet.delete(' ');
       this.paperForm.topics = [...topicSet];
       // formData
       let formData = new FormData();
@@ -198,29 +206,36 @@ export default {
     },
     submitPaperForm(formName) {
       this.visible = false;
+      for (let i = 0; i < this.paperForm.authors.length; i++) {
+        let author = this.paperForm.authors[i];
+        if (!author.name || !author.email || !author.unit || !author.area) {
+          this.$message({ type: 'warning', message: 'Please fill in the information', duration: '2000', showClose: 'true', center: 'true' });
+          return;
+        }
+      }
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.$axios
             .post('/system/userSubmitPaper', this.getContributeData())
             .then((resp) => {
               if (resp.status === 200) {
-                this.resetForm(this.paperForm);
+                this.paperForm = { title: '', authors: [], summary: '', topics: [' '], file: null };
                 this.$message({ type: 'success', message: 'contribute successfully', duration: '2000', showClose: 'true', center: 'true' });
                 this.$emit('contributeFinished');
               } else {
+                this.paperForm = { title: '', authors: [], summary: '', topics: [' '], file: null };
                 this.$message({ type: 'error', message: 'contribute failed', duration: '2000', showClose: 'true', center: 'true' });
               }
             })
-            .catch(() => {
+            .catch((err) => {
+              console.log(err);
+              this.paperForm = { title: '', authors: [], summary: '', topics: [' '], file: null };
               this.$message({ type: 'error', message: 'contribute failed', duration: '2000', showClose: 'true', center: 'true' });
             });
         } else {
           this.$message({ type: 'warning', message: 'Please fill in the information', duration: '2000', showClose: 'true', center: 'true' });
         }
       });
-    },
-    resetForm(formName) {
-      this.$refs[formName].resetFields();
     },
     cancel() {
       this.$emit('contributeFinished');
@@ -231,23 +246,18 @@ export default {
 <style>
 /* element tag */
 .el-tag + .el-tag {
-  margin-left: 10px;
+  margin-right: 10px;
 }
 
-.el-tag + .button-new-tag {
-  margin-left: 10px;
+.el-form-item__content label {
+  width: 60px !important;
 }
 
-.button-new-tag {
-  height: 32px;
-  line-height: 30px;
-  padding-top: 0;
-  padding-bottom: 0;
+.el-form--inline .el-input__inner {
+  width: 140px !important;
 }
 
-.input-new-tag {
-  width: 90px;
-  margin-left: 10px;
-  vertical-align: bottom;
+.el-form--inline .el-form-item {
+  width: 200px !important;
 }
 </style>

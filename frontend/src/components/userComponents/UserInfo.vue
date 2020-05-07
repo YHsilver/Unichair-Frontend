@@ -39,10 +39,14 @@ export default {
             this.user = resp.data;
           } else {
             this.$message({ type: 'error', message: 'token invalid', duration: '2000', showClose: 'true', center: 'true' });
+            this.$store.commit('logout');
+            this.$router.push({ path: '/' });
           }
         })
         .catch(() => {
           this.$message({ type: 'error', message: 'token invalid', duration: '2000', showClose: 'true', center: 'true' });
+          this.$store.commit('logout');
+          this.$router.push({ path: '/' });
         });
     },
   },
