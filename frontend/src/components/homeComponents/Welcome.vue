@@ -25,7 +25,7 @@
           <registerForm @registerFinished="registerFormVisible = false" />
         </el-dialog>
         <br />
-        <el-button @click="reactDialogVisible = true" type="text" style="color:white" size="mini">...how we code?</el-button>
+        <el-button @click="reactDialogVisible = true" type="text" style="color:white" size="small" icon="el-icon-loading">...how we code?</el-button>
         <el-dialog :visible.sync="reactDialogVisible" id="reactCode" width="min(100vw,800px)">
           <img alt="react" src="/welcome/react.svg" style="width:min(100vw,800px)" />
         </el-dialog>
