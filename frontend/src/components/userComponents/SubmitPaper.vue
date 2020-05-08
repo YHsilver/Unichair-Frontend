@@ -211,10 +211,17 @@ export default {
       let topicSet = new Set(this.paperForm.topics);
       topicSet.delete(' ');
       this.paperForm.topics = [...topicSet];
+      // authors 转为 String 数组
+      let authorString = JSON.stringify(this.paperForm.authors);
+      authorString = authorString.replace(/{"name":/g, '[');
+      authorString = authorString.replace(/"unit":/g, '');
+      authorString = authorString.replace(/"area":/g, '');
+      authorString = authorString.replace(/"email":/g, '');
+      authorString = authorString.replace('}', ']');
       // formData
       let formData = new FormData();
       formData.append('file', this.paperForm.file);
-      formData.append('authors', this.paperForm.authors);
+      formData.append('authors', authorString);
       formData.append('topics', this.paperForm.topics);
       formData.append('conferenceId', this.conferenceId);
       formData.append('title', this.paperForm.title);
