@@ -33,7 +33,7 @@ export default {
   name: 'Admin',
   components: { Header, Conferencelist },
   created() {
-    this.$notify({ title: '提示', message: '现双击可查看会议详情', offset: 50 });
+    this.$notify({ title: '提示', message: '现双击可查看会议详情', duration: 0, offset: 50 });
   },
   data() {
     return { show: 'Conferencelist', isCollapse: true };
