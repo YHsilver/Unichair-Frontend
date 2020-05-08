@@ -8,7 +8,7 @@
         <el-input v-model="paperForm.title" maxlength="50" show-word-limit></el-input>
       </el-form-item>
 
-      <el-form-item label="Authors" prop="authors">
+      <el-form-item label="Authors" prop="authors" id="authorForm">
         <el-form :model="author" v-for="(author, index) in paperForm.authors" :key="index" :rules="authorRules" :inline="true" style="padding: 10px;">
           <!-- name -->
           <el-form-item prop="name" label="name">
@@ -30,6 +30,7 @@
             <el-button icon="el-icon-close" type="text" @click.prevent="removeAuthor(author)" title="delete"></el-button>
           </el-tooltip>
         </el-form>
+        <el-button @click="addMyself" style="margin:20px 20px 0 0" plain>+ Myself</el-button>
         <el-button @click="addAuthor" style="margin:20px 0;" plain>+ Author</el-button>
       </el-form-item>
 
@@ -63,6 +64,7 @@
           <iframe :src="src" style="width: 90%;height: 90vh;margin-left: 5%;"></iframe>
         </el-drawer>
       </el-form-item>
+
       <!-- Identity -->
       <el-form-item>
         <!-- Passerby -->
@@ -163,6 +165,20 @@ export default {
     addAuthor() {
       this.paperForm.authors.push({});
     },
+    addMyself() {
+      let me;
+      this.$axios
+        .post('/token', { token: this.$store.state.token })
+        .then((resp) => {
+          if (resp.status === 200) {
+            me = resp.data;
+            this.paperForm.authors.push({ name: me.fullName, unit: me.unit, area: me.unit, email: me.email });
+          } else this.$message({ type: 'error', message: 'token invalid', duration: '2000', showClose: 'true', center: 'true' });
+        })
+        .catch(() => {
+          this.$message({ type: 'error', message: 'token invalid', duration: '2000', showClose: 'true', center: 'true' });
+        });
+    },
     // file
     upload() {
       document.getElementById('uploadInput').click();
@@ -222,7 +238,7 @@ export default {
             .then((resp) => {
               if (resp.status === 200) {
                 this.paperForm = { title: '', authors: [], summary: '', topics: [' '], file: null };
-                this.$message({ type: 'success', message: 'contribute successfully', duration: '2000', showClose: 'true', center: 'true' });
+                this.$message({ type: 'success', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
                 this.$emit('contributeFinished');
               } else {
                 this.paperForm = { title: '', authors: [], summary: '', topics: [' '], file: null };
@@ -251,15 +267,15 @@ export default {
   margin-right: 10px;
 }
 
-.el-form-item__content label {
+#authorForm .el-form-item__content label {
   width: 60px !important;
 }
 
-.el-form--inline .el-input__inner {
+#authorForm .el-form--inline .el-input__inner {
   width: 140px !important;
 }
 
-.el-form--inline .el-form-item {
+#authorForm .el-form--inline .el-form-item {
   width: 200px !important;
 }
 </style>
