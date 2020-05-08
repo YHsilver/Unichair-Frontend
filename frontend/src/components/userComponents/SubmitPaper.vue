@@ -213,11 +213,9 @@ export default {
       this.paperForm.topics = [...topicSet];
       // authors 转为 String 数组
       let authorString = JSON.stringify(this.paperForm.authors);
-      authorString = authorString.replace(/{"name":/g, '[');
-      authorString = authorString.replace(/"unit":/g, '');
-      authorString = authorString.replace(/"area":/g, '');
-      authorString = authorString.replace(/"email":/g, '');
-      authorString = authorString.replace('}', ']');
+      authorString = authorString.replace(/{/g, '[');
+      authorString = authorString.replace(/"\w+?":/g, '');
+      authorString = authorString.replace(/}/g, ']');
       // formData
       let formData = new FormData();
       formData.append('file', this.paperForm.file);
@@ -231,12 +229,23 @@ export default {
     },
     submitPaperForm(formName) {
       this.visible = false;
+      // authors infomation all filled
       for (let i = 0; i < this.paperForm.authors.length; i++) {
         let author = this.paperForm.authors[i];
         if (!author.name || !author.email || !author.unit || !author.area) {
           this.$message({ type: 'warning', message: 'Please fill in the information', duration: '2000', showClose: 'true', center: 'true' });
           return;
         }
+      }
+      // no reapeted name
+      const authorsLen = this.paperForm.authors.length;
+      let authorsSet = new Set();
+      for (let i = 0; i < authorsLen; i++) {
+        authorsSet.add(this.paperForm.authors[i].name);
+      }
+      if (authorsLen > authorsSet.size) {
+        this.$message({ type: 'warning', message: "Athors name can't be the same!", duration: '2000', showClose: 'true', center: 'true' });
+        return;
       }
       this.$refs[formName].validate((valid) => {
         if (valid) {

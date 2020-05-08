@@ -189,11 +189,16 @@ export default {
       let topicSet = new Set(this.paperInfo.topics);
       topicSet.delete('');
       this.paperInfo.topics = [...topicSet];
+      // authors 转为 String 数组
+      let authorString = JSON.stringify(this.paperInfo.authors);
+      authorString = authorString.replace(/{/g, '[');
+      authorString = authorString.replace(/"\w+?":/g, '');
+      authorString = authorString.replace(/}/g, ']');
       // formData
       let formData = new FormData();
       formData.append('file', this.paperInfo.file);
       formData.append('paperId', this.paperInfo.paperId);
-      formData.append('authors', this.paperInfo.authors);
+      formData.append('authors', authorString);
       formData.append('topics', this.paperInfo.topics);
       formData.append('conferenceId', this.conferenceId);
       formData.append('title', this.paperInfo.title);
@@ -203,12 +208,19 @@ export default {
     },
     modifyPaper(formName) {
       this.visible = false;
+      // authors infomation all filled
       for (let i = 0; i < this.paperInfo.authors.length; i++) {
         let author = this.paperInfo.authors[i];
         if (!author.name || !author.email || !author.unit || !author.area) {
           this.$message({ type: 'warning', message: 'Please fill in the information', duration: '2000', showClose: 'true', center: 'true' });
           return;
         }
+      }
+      // no reapeted name
+      const authorsLen = this.paperInfo.authors.length;
+      let authorsSet = new Set();
+      for (let i = 0; i < authorsLen; i++) {
+        authorsSet.add(this.paperInfo.authors[i].name);
       }
       this.$refs[formName].validate((valid) => {
         if (valid) {
