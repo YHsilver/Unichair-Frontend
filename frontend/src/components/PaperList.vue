@@ -3,19 +3,17 @@
     <el-table :data="paperTable" tooltip-effect="dark" :laoding="paperListLoading" @row-click="choosePaper">
       <el-table-column label="Title" prop="title"> </el-table-column>
 
-      <el-table-column label="Athor" prop="authorFullName" v-if="Identity === 'Author'">
-        <span>
-          {{ paperTable.authorFullName }}
-        </span>
-      </el-table-column>
+      <el-table-column label="Athor" prop="authorFullName" v-if="Identity === 'Author'"> </el-table-column>
 
       <el-table-column label="Topics" prop="topics">
-        <template>
-          <el-tag :key="index" v-for="(topic, index) in paperTable.topics" effect="dark" style="margin-right: 10px">
+        <template slot-scope="scope">
+          <el-tag :key="index" v-for="(topic, index) in scope.row.topics" effect="light">
             {{ topic }}
           </el-tag>
         </template>
       </el-table-column>
+
+      <el-table-column label="Status" prop="status"> </el-table-column>
     </el-table>
   </div>
 </template>
@@ -29,7 +27,6 @@ export default {
   },
   created() {
     this.getPaper();
-    this.$notify({ title: '提示', message: '点击会议查看详细信息！' });
   },
   methods: {
     getPaper() {
@@ -40,6 +37,7 @@ export default {
           if (resp.status === 200) {
             this.paperTable = resp.data;
             this.paperListLoading = false;
+            this.$notify({ title: '提示', message: '点击查看会议详情', duration: 2000 });
           } else {
             this.$message({ type: 'error', message: 'get paper information error', duration: '2000', showClose: 'true', center: 'true' });
           }

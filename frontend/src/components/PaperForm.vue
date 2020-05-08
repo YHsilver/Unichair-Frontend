@@ -268,7 +268,7 @@ export default {
               if (resp.status === 200) {
                 this.paperForm = { title: '', authors: [], summary: '', topics: [' '], file: null };
                 this.$message({ type: 'success', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
-                this.$emit('contributeFinished');
+                this.$emit('submitPaperFinished');
               } else {
                 this.paperForm = { title: '', authors: [], summary: '', topics: [' '], file: null };
                 this.$message({ type: 'error', message: 'contribute failed', duration: '2000', showClose: 'true', center: 'true' });

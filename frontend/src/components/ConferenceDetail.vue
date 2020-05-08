@@ -44,7 +44,13 @@
     <el-button-group>
       <!-- chair -->
       <!-- invite reviewer -->
-      <el-button type="primary" @click="InviteReviewerVisible = true" v-if="Identity === 'Chair' && conferenceDetail.stage === 'Preparation'"> Invite PC Member </el-button>
+      <el-button
+        type="primary"
+        @click="InviteReviewerVisible = true"
+        v-if="Identity === 'Chair' && (conferenceDetail.stage === 'Preparation' || conferenceDetail.stage === 'Contribution')"
+      >
+        Invite PC Member
+      </el-button>
       <el-dialog :visible.sync="InviteReviewerVisible" append-to-body :fullscreen="true">
         <InviteReviewer @inviteReviewerFinished="InviteReviewerVisible = false" :conferenceId="Number(conferenceDetail.id)" :conferenceFullName="conferenceDetail.fullName" />
       </el-dialog>
@@ -118,7 +124,6 @@ export default {
         .post('/system/userGetConferenceDetails', { conferenceId: this.conferenceId })
         .then((resp) => {
           if (resp.status === 200) {
-            // console.log(resp.data);
             this.conferenceDetail = resp.data;
             for (let key in this.conferenceDetail) {
               if (this.conferenceDetail[key] === '') this.conferenceDetail[key] = '暂无';

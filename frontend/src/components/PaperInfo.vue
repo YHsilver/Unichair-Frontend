@@ -5,10 +5,8 @@
         <span>{{ paperInfo.title }}</span>
       </el-form-item>
 
-      <el-form-item label="Authors" prop="authors" v-if="Identity === 'Author'">
-        <el-tag :key="index" v-for="(author, index) in paperInfo.authors.name">
-          {{ author }}
-        </el-tag>
+      <el-form-item label="Author" prop="authorFullName" v-if="Identity === 'Author'">
+        <span>{{ paperInfo.authorFullName }}</span>
       </el-form-item>
 
       <el-form-item label="Topics" prop="topic">
@@ -21,13 +19,11 @@
         <span>{{ paperInfo.summary }}</span>
       </el-form-item>
 
-      <el-form-item>
-        <span>{{ paperInfo.fileName }}</span>
-        <el-button-group style="float: right">
-          <el-button type="plain" size="small">Download</el-button>
-          <el-button type="primary" size="small">Preview</el-button>
-        </el-button-group>
-      </el-form-item>
+      <span>{{ paperInfo.fileName }}</span>
+      <el-button-group style="float: right">
+        <el-button type="plain" size="small">Download</el-button>
+        <el-button type="primary" size="small">Preview</el-button>
+      </el-button-group>
     </el-form>
     <el-divider></el-divider>
   </div>
@@ -39,6 +35,9 @@ export default {
   props: { paperId: Number, Identity: String },
   data() {
     return { paperInfo: {}, address: '' };
+  },
+  created() {
+    this.getpaperInfo();
   },
   methods: {
     getpaperInfo() {
