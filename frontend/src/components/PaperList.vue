@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-table :data="paperTable" tooltip-effect="dark" :laoding="paperListLoading" @row-click="openPaperDetails">
+    <el-table :data="paperTable" tooltip-effect="dark" :laoding="paperListLoading" @row-click="choosePaper">
       <el-table-column label="Title" prop="title"> </el-table-column>
 
       <el-table-column label="Athors" prop="authors" v-if="Identity === 'Author'">
@@ -45,8 +45,8 @@ export default {
           this.$message({ type: 'error', message: 'get information error', duration: '2000', showClose: 'true', center: 'true' });
         });
     },
-    openPaperDetails(row) {
-      this.$emit('choosedPaper', row.id);
+    choosePaper(row) {
+      this.$emit('chosePaper', row.id);
     },
   },
 };

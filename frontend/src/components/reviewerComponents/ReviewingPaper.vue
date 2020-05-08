@@ -3,11 +3,11 @@
     <el-row :gutter="100">
       <el-col :span="10">
         <!-- paper list -->
-        <PaperList :Identity="'Reviewer'" :conferenceId="conferenceId" @choosedPaper="passPaperId" />
+        <PaperList :Identity="'Reviewer'" :conferenceId="conferenceId" @chosePaper="passPaperId" />
       </el-col>
-      <el-col :span="14">
+      <el-col :span="14" v-if="chosePaper">
         <!-- paper details -->
-        <PaperInfo :conferenceId="conferenceId" :Identity="'Reviewer'" :paperId="choosedPaperId" />
+        <PaperInfo :conferenceId="conferenceId" :Identity="'Reviewer'" :paperId="chosePaperId" />
 
         <!-- rating -->
         <RatingForm :paperId="paperId" />
@@ -26,11 +26,12 @@ export default {
   components: { RatingForm, PaperInfo, PaperList },
   props: { conferenceId: Number },
   data() {
-    return { choosedPaperId: undefined };
+    return { chosePaper: false, chosePaperId: undefined };
   },
   methods: {
     passPaperId(paperId) {
-      this.choosedPaperId = paperId;
+      this.chosePaperId = paperId;
+      this.chosePaper = true;
     },
   },
 };

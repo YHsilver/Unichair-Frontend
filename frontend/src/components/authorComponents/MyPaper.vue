@@ -3,11 +3,11 @@
     <el-row :gutter="100">
       <el-col :span="10">
         <!-- paper list -->
-        <PaperList :Identity="'Author'" :conferenceId="conferenceId" @choosedPaper="passPaperId" />
+        <PaperList :Identity="'Author'" :conferenceId="conferenceId" @chosePaper="passPaperId" />
       </el-col>
-      <el-col :span="14">
+      <el-col :span="14" v-if="chosePaper">
         <!-- paper details -->
-        <PaperInfo v-show="toggle === 'PaperInfo'" :Identity="'Author'" :paperId="choosedPaperId" @getPaperInfo="passPaperInfo" />
+        <PaperInfo v-show="toggle === 'PaperInfo'" :Identity="'Author'" :paperId="chosePaperId" @getPaperInfo="passPaperInfo" />
 
         <!-- modify paper -->
         <PaperForm
@@ -38,7 +38,7 @@ export default {
   components: { PaperForm, PaperInfo, PaperList },
   props: { conferenceId: Number, conferenceTopics: Array },
   data() {
-    return { toggle: 'PaperInfo', paperInfo: {}, choosedPaperId: undefined };
+    return { toggle: 'PaperInfo', chosePaper: false, paperInfo: {}, chosePaperId: undefined };
   },
   methods: {
     finish() {
@@ -46,7 +46,8 @@ export default {
       this.$emit('modifyFinished');
     },
     passPaperId(paperId) {
-      this.choosedPaperId = paperId;
+      this.chosePaperId = paperId;
+      this.chosePaper = true;
     },
     passPaperInfo(paperInfo) {
       this.paperInfo = paperInfo;
