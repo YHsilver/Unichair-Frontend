@@ -38,30 +38,46 @@ const router = new VueRouter({
 
 // 前端登录拦截
 router.beforeEach(function (to, from, next) {
-  if (to.matched.some(record => record.meta.requireAdminAuth)) {
-    if (!store.state.token) {
-      next({
-        path: '/',
-        query: { redirect: to.fullPath } // 登录成功之后重新跳转到该路由
-      })
-    } else if (store.state.userDetails.username !== "admin") {
-      next({
-        path: '/',
-        query: { redirect: to.fullPath }
-      })
-    } else {
-      next();
-    }
+  if (to.matched.some(record => record.meta.requireAdminAuth) && to.matched.some(record => record.meta.requireAuth) && !store.state.token) {
+    next({
+      path: '/',
+      query: { redirect: to.fullPath } // 登录成功之后重新跳转到该路由
+    })
+  }
+  else if (to.matched.some(record => record.meta.requireAdminAuth)) {
+    let axios = require('axios');
+    axios.post('/token', { token: store.state.token }).then((resp) => {
+      if (resp.status === 200) {
+        let username = resp.data.username;
+        if (username !== "admin") {
+          next({
+            path: '/',
+            query: { redirect: to.fullPath }
+          })
+        } else {
+          next()
+        }
+      } else {
+        next()
+      }
+    })
   } else if (to.matched.some(record => record.meta.requireAuth)) {
-    if (!store.state.token) {
-      next({
-        path: '/',
-        query: { redirect: to.fullPath } // 登录成功之后重新跳转到该路由
-      })
-    }
-    else {
-      next();
-    }
+    let axios = require('axios');
+    axios.post('/token', { token: store.state.token }).then((resp) => {
+      if (resp.status === 200) {
+        let username = resp.data.username;
+        if (username === "admin") {
+          next({
+            path: '/',
+            query: { redirect: to.fullPath }
+          })
+        } else {
+          next()
+        }
+      } else {
+        next()
+      }
+    })
   } else {
     next()
   }

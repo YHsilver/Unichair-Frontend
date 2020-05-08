@@ -1,5 +1,5 @@
 <template>
-  <div v-loading="loading">
+  <div v-loading="loading" id="ConferenceDetail">
     <el-form label-position="left" label-width="200px" align="left">
       <!-- admin 专属 -->
       <el-form-item label="ID" v-if="Identity === 'Admin'">
@@ -41,56 +41,55 @@
       </el-form-item>
     </el-form>
 
-    <el-button-group>
-      <!-- chair -->
-      <!-- invite reviewer -->
-      <el-button
-        type="primary"
-        @click="InviteReviewerVisible = true"
-        v-if="Identity === 'Chair' && (conferenceDetail.stage === 'Preparation' || conferenceDetail.stage === 'Contribution')"
-      >
-        Invite PC Member
-      </el-button>
-      <el-dialog :visible.sync="InviteReviewerVisible" append-to-body :fullscreen="true">
-        <InviteReviewer @inviteReviewerFinished="InviteReviewerVisible = false" :conferenceId="Number(conferenceDetail.id)" :conferenceFullName="conferenceDetail.fullName" />
-      </el-dialog>
-      <!-- move to next stage -->
-      <el-popover placement="top" width="160" v-model="popoverVisible" v-if="Identity === 'Chair'" :disabled="conferenceDetail.stage === 'Ending'">
-        <p>Are you sure you wanna move the conference to the next stage?</p>
-        <div style="text-align: right; margin: 0">
-          <el-button size="mini" type="text" @click="popoverVisible = false">Cancel</el-button>
-          <el-button type="primary" size="mini" @click="moveToNextStage()">Yes</el-button>
-        </div>
-        <el-button type="primary" slot="reference">Move to next Stage</el-button>
-      </el-popover>
+    <!-- chair -->
+    <!-- invite reviewer -->
+    <el-button
+      type="primary"
+      @click="InviteReviewerVisible = true"
+      v-if="Identity === 'Chair' && (conferenceDetail.stage === 'Preparation' || conferenceDetail.stage === 'Contribution')"
+    >
+      Invite PC Member
+    </el-button>
+    <el-dialog :visible.sync="InviteReviewerVisible" append-to-body :fullscreen="true">
+      <InviteReviewer @inviteReviewerFinished="InviteReviewerVisible = false" :conferenceId="Number(conferenceDetail.id)" :conferenceFullName="conferenceDetail.fullName" />
+    </el-dialog>
+    <!-- move to next stage -->
+    <el-popover placement="top" width="160" v-model="popoverVisible" v-if="Identity === 'Chair'" :disabled="conferenceDetail.stage === 'Ending'">
+      <p>Are you sure you wanna move the conference to the next stage?</p>
+      <div style="text-align: right; margin: 0">
+        <el-button size="mini" type="text" @click="popoverVisible = false">Cancel</el-button>
+        <el-button type="primary" size="mini" @click="moveToNextStage()">Yes</el-button>
+      </div>
+      <el-button type="primary" slot="reference">Move to next Stage</el-button>
+    </el-popover>
 
-      <!-- author -->
-      <!-- modify Paper -->
-      <el-button type="primary" @click="myPaperVisible = true" v-if="Identity === 'Author'">My paper</el-button>
-      <el-dialog :visible.sync="myPaperVisible" append-to-body :fullscreen="true">
-        <MyPaper @modifyFinished="myPaperVisible = false" :conferenceId="Number(conferenceDetail.id)" :conferenceTopics="conferenceDetail.topics" />
-      </el-dialog>
+    <!-- author -->
+    <!-- modify Paper -->
+    <el-button type="primary" @click="myPaperVisible = true" v-if="Identity === 'Author'">My paper</el-button>
+    <el-dialog :visible.sync="myPaperVisible" v-if="myPaperVisible" append-to-body :fullscreen="true">
+      <MyPaper @modifyFinished="myPaperVisible = false" :conferenceId="Number(conferenceDetail.id)" :conferenceTopics="conferenceDetail.topics" />
+    </el-dialog>
 
-      <!-- reviewer -->
-      <!-- reviewPaper -->
-      <el-button type="primary" @click="reviewPaperVisible = true" v-if="Identity === 'Reviewer' && conferenceDetail.stage === 'Reviewing'">Review paper</el-button>
-      <el-dialog :visible.sync="reviewPaperVisible" append-to-body :fullscreen="true">
-        <ReviewingPaper :Identity="Identity" :conferenceId="Number(conferenceDetail.id)" />
-      </el-dialog>
+    <!-- reviewer -->
+    <!-- reviewPaper -->
+    <el-button type="primary" @click="reviewPaperVisible = true" v-if="Identity === 'Reviewer' && conferenceDetail.stage === 'Reviewing'">Review paper</el-button>
+    <el-dialog :visible.sync="reviewPaperVisible" v-if="reviewPaperVisible" append-to-body :fullscreen="true">
+      <ReviewingPaper :Identity="Identity" :conferenceId="Number(conferenceDetail.id)" />
+    </el-dialog>
 
-      <!-- Passerby -->
-      <!-- submit paper -->
-      <el-button type="primary" @click="contributeFormVisible = true" v-if="Identity === 'Passerby' && conferenceDetail.stage === 'Contribution'">Submit paper</el-button>
-      <el-dialog :visible.sync="contributeFormVisible" append-to-body :fullscreen="true" v-if="contributeFormVisible === true">
-        <PaperForm
-          @submitPaperFinished="contributeFormVisible = false"
-          :conferenceId="Number(conferenceDetail.id)"
-          :conferenceFullName="conferenceDetail.fullName"
-          :conferenceTopics="conferenceDetail.topics"
-          :Identity="Identity"
-        />
-      </el-dialog>
-    </el-button-group>
+    <!-- submit paper -->
+    <el-button type="primary" @click="contributeFormVisible = true" v-if="Identity !== 'Chair' && Identity !== 'Admin' && conferenceDetail.stage === 'Contribution'"
+      >Submit paper</el-button
+    >
+    <el-dialog :visible.sync="contributeFormVisible" append-to-body :fullscreen="true" v-if="contributeFormVisible === true">
+      <PaperForm
+        @submitPaperFinished="contributeFormVisible = false"
+        :conferenceId="Number(conferenceDetail.id)"
+        :conferenceFullName="conferenceDetail.fullName"
+        :conferenceTopics="conferenceDetail.topics"
+        :Identity="Identity"
+      />
+    </el-dialog>
   </div>
 </template>
 
@@ -199,3 +198,10 @@ export default {
   },
 };
 </script>
+
+<style>
+#ConferenceDetail .el-button ~ .el-button,
+#ConferenceDetail .el-button ~ span .el-button {
+  margin-left: 10px;
+}
+</style>

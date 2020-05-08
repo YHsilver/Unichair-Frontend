@@ -13,7 +13,7 @@
           <span slot="title">管理用户</span>
         </el-menu-item>
 
-        <el-menu-item @click="isCollapse = !isCollapse" index="3" style="position: absolute;bottom: 0;width:100%" class="mainMenu">
+        <el-menu-item @click="isCollapse = !isCollapse" index="3" style="position: absolute;bottom: 0;width:100%">
           <i class="el-icon-more"></i>
         </el-menu-item>
       </el-menu>
@@ -33,10 +33,10 @@ export default {
   name: 'Admin',
   components: { Header, Conferencelist },
   created() {
-    this.$notify({ title: '提示', message: '现双击可查看会议详情', duration: 0, offset: 50 });
+    this.$notify({ title: '提示', message: '现双击可查看会议详情', offset: 50 });
   },
   data() {
-    return { show: 'Conferencelist', isCollapse: true };
+    return { show: 'Conferencelist', isCollapse: false };
   },
   methods: {},
 };

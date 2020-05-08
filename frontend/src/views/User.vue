@@ -94,16 +94,16 @@ export default {
   name: 'User',
   components: { Header, UserInfo, ConferenceForm, ConferenceSquare, MyConference, Messages, MyApplication },
   data() {
-    return { show: 'ConferenceSquare', isDot: true, isCollapse: true };
+    return { show: 'ConferenceSquare', isDot: true, isCollapse: false };
   },
   created() {
-    this.$notify({ title: '提示', message: '现双击可查看会议详情', duration: 0, offset: 50 });
+    this.$notify({ title: '提示', message: '现双击可查看会议详情', offset: 50 });
   },
   methods: {
     seeMessage() {
       this.show = 'Messages';
       this.isDot = false;
-      this.$notify({ title: '提示', message: '双击会议名称查看会议详情', duration: 0, offset: 50 });
+      this.$notify({ title: '提示', message: '双击会议名称查看会议详情', offset: 50 });
     },
   },
 };

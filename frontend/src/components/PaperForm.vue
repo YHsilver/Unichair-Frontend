@@ -1,6 +1,6 @@
 <template>
   <div style="width:900px;margin:auto">
-    <div v-if="Identity === 'Passerby'">
+    <div>
       <h2>{{ conferenceFullName }}</h2>
       <el-divider></el-divider>
     </div>
@@ -67,16 +67,13 @@
         </el-drawer>
       </el-form-item>
 
-      <!-- Identity -->
       <el-form-item>
-        <!-- Passerby -->
         <el-popover placement="top" width="160" v-model="popoverVisible">
           <p>确定提交吗？</p>
           <div style="text-align: right; margin: 0">
             <el-button size="mini" type="text" @click="popoverVisible = false">取消</el-button>
             <el-button type="primary" size="mini" @click="sendPaperForm(paperForm)">确定</el-button>
           </div>
-          <!-- Passerby -->
           <el-button slot="reference" type="primary">Send</el-button>
         </el-popover>
         <el-button @click="paperForm = { title: '', authors: [], summary: '', topics: [' '], file: null }" style="margin-left:10px">Reset</el-button>
