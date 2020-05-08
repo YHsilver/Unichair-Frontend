@@ -17,12 +17,17 @@
         <h3>Management of Submission and Review</h3>
         <h3>Exploration of Mysteries of the Universe</h3>
         <br />
-        <el-button @click="registerFormVisible = true" type="success" style="width:180px;height:50px;font-size:0.8rem" round>
+        <el-button @click="registerFormVisible = true" type="success" round>
           Try for free
           <i class="el-icon-right el-icon--right"></i>
         </el-button>
         <el-dialog :visible.sync="registerFormVisible" width="520px">
           <registerForm @registerFinished="registerFormVisible = false" />
+        </el-dialog>
+        <br />
+        <el-button @click="reactDialogVisible = true" type="text" style="color:white" size="mini">...how we code?</el-button>
+        <el-dialog :visible.sync="reactDialogVisible" id="reactCode" width="min(100vw,800px)">
+          <img alt="react" src="/welcome/react.svg" style="width:min(100vw,800px)" />
         </el-dialog>
       </el-col>
     </el-row>
@@ -47,12 +52,12 @@ export default {
   name: 'Welcome',
   components: { registerForm },
   data() {
-    return { registerFormVisible: false };
+    return { registerFormVisible: false, reactDialogVisible: false };
   },
 };
 </script>
 
-<style scoped>
+<style>
 #intro {
   height: auto;
   padding: 80px;
@@ -63,5 +68,18 @@ export default {
 .logo {
   height: 80px;
   padding: 10px;
+}
+
+#reactCode .el-dialog {
+  height: 0;
+  margin: auto;
+}
+
+#reactCode .el-dialog__header {
+  display: none;
+}
+
+#reactCode .el-dialog__body {
+  display: contents;
 }
 </style>
