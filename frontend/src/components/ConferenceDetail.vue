@@ -62,7 +62,7 @@
       <!-- modify Paper -->
       <el-button type="primary" @click="myPaperVisible = true" v-if="Identity === 'Author'">My paper</el-button>
       <el-dialog :visible.sync="myPaperVisible" append-to-body :fullscreen="true">
-        <MyPaper @modifyFinished="myPaperVisible = false" :conferenceTopics="conferenceDetail.topics" />
+        <MyPaper @modifyFinished="myPaperVisible = false" :conferenceId="Number(conferenceDetail.id)" :conferenceTopics="conferenceDetail.topics" />
       </el-dialog>
 
       <!-- reviewer -->
