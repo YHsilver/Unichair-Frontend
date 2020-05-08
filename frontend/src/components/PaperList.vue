@@ -3,16 +3,20 @@
     <el-table :data="paperTable" tooltip-effect="dark" :laoding="paperListLoading" @row-click="choosePaper">
       <el-table-column label="Title" prop="title"> </el-table-column>
 
-      <el-table-column label="Athors" prop="authors" v-if="Identity === 'Author'">
-        <el-tag :key="index" v-for="(author, index) in paperTable.authors" style="margin-right: 10px">
-          {{ author }}
-        </el-tag>
+      <el-table-column label="Athor" prop="authorFullName" v-if="Identity === 'Author'">
+        <template>
+          <el-tag>
+            {{ paperTable.authorFullName }}
+          </el-tag>
+        </template>
       </el-table-column>
 
       <el-table-column label="Topics" prop="topics">
-        <el-tag :key="index" v-for="(topic, index) in paperTable.topics" effect="dark" style="margin-right: 10px">
-          {{ topic }}
-        </el-tag>
+        <template>
+          <el-tag :key="index" v-for="(topic, index) in paperTable.topics" effect="dark" style="margin-right: 10px">
+            {{ topic }}
+          </el-tag>
+        </template>
       </el-table-column>
     </el-table>
   </div>
@@ -34,7 +38,7 @@ export default {
       this.$axios
         .post(this.address, { token: this.$store.state.token, conferenceId: this.conferenceId })
         .then((resp) => {
-          if (resp.state === 200) {
+          if (resp.status === 200) {
             this.paperTable = resp.data;
             this.paperListLoading = false;
           } else {
@@ -46,7 +50,7 @@ export default {
         });
     },
     choosePaper(row) {
-      this.$emit('chosePaper', row.id);
+      this.$emit('chosePaper', row.paperId);
     },
   },
 };
