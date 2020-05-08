@@ -10,7 +10,14 @@
         <PaperInfo v-show="toggle === 'PaperInfo'" :Identity="'Author'" :paperId="choosedPaperId" @getPaperInfo="passPaperInfo" />
 
         <!-- modify paper -->
-        <ModifyForm @modifyCancel="finish()" v-show="toggle === 'ModifyForm'" :paperInfo="paperInfo" :conferenceTopics="conferenceTopics" />
+        <PaperForm
+          @submitPaperFinished="finish()"
+          v-show="toggle === 'ModifyForm'"
+          :conferenceId="conferenceId"
+          :conferenceTopics="conferenceTopics"
+          :paperInfo="paperInfo"
+          :Identity="'Author'"
+        />
 
         <div style="width:520px;margin:auto">
           <el-button v-show="toggle === 'PaperInfo'" type="primary" @click="toggle === 'PaperInfo' ? (toggle = 'ModifyForm') : (toggle = 'PaperInfo')">Modify</el-button>
@@ -22,13 +29,13 @@
 </template>
 
 <script>
-import ModifyForm from '@/components/authorComponents/ModifyForm.vue';
+import PaperForm from '@/components/PaperForm.vue';
 import PaperInfo from '@/components/PaperInfo.vue';
 import PaperList from '@/components/PaperList.vue';
 
 export default {
   name: 'MyPaper',
-  components: { ModifyForm, PaperInfo, PaperList },
+  components: { PaperForm, PaperInfo, PaperList },
   props: { conferenceId: Number, conferenceTopics: Array },
   data() {
     return { toggle: 'PaperInfo', paperInfo: {}, choosedPaperId: undefined };

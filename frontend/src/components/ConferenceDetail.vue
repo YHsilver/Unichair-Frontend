@@ -76,8 +76,8 @@
       <!-- submit paper -->
       <el-button type="primary" @click="contributeFormVisible = true" v-if="Identity === 'Passerby' && conferenceDetail.stage === 'Contribution'">Submit paper</el-button>
       <el-dialog :visible.sync="contributeFormVisible" append-to-body :fullscreen="true">
-        <SubmitPaper
-          @contributeFinished="contributeFormVisible = false"
+        <PaperForm
+          @submitPaperFinished="contributeFormVisible = false"
           :conferenceId="Number(conferenceDetail.id)"
           :conferenceFullName="conferenceDetail.fullName"
           :conferenceTopics="conferenceDetail.topics"
@@ -92,12 +92,12 @@
 import InviteReviewer from '@/components/chairComponents/InviteReviewer.vue';
 import MyPaper from '@/components/authorComponents/MyPaper.vue';
 import ReviewingPaper from '@/components/reviewerComponents/ReviewingPaper.vue';
-import SubmitPaper from '@/components/userComponents/SubmitPaper.vue';
+import PaperForm from '@/components/PaperForm.vue';
 
 export default {
   name: 'ConferenceDetail',
   props: { conferenceId: Number, Identity: String },
-  components: { InviteReviewer, MyPaper, ReviewingPaper, SubmitPaper },
+  components: { InviteReviewer, MyPaper, ReviewingPaper, PaperForm },
   data() {
     return {
       conferenceDetail: {},

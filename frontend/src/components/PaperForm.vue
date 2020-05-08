@@ -1,7 +1,9 @@
 <template>
   <div style="width:900px;margin:auto">
-    <h2>{{ conferenceFullName }}</h2>
-    <el-divider></el-divider>
+    <div v-if="Identity === 'Passerby'">
+      <h2>{{ conferenceFullName }}</h2>
+      <el-divider></el-divider>
+    </div>
 
     <el-form :model="paperForm" :rules="paperFormRules" :ref="paperForm" label-width="200px" enctype="multipart/form-data" label-position="top">
       <el-form-item label="Title" prop="title">
@@ -57,7 +59,7 @@
       </el-form-item>
 
       <el-form-item label="PDF File" prop="file">
-        <input type="file" required @change="getContributeFile($event)" accept=".pdf" style="display:none" id="uploadInput" />
+        <input type="file" required @change="getFile($event)" accept=".pdf" style="display:none" id="uploadInput" />
         <el-button type="primary" size="small" @click="upload">choose file</el-button> <span>{{ fileName }}</span>
         <el-button type="primary" @click="pdfVisible = true" size="small" v-show="previewVisible" style="float: right;">Preview</el-button>
         <el-drawer :visible.sync="pdfVisible" :size="'720px'" :title="fileName" append-to-body>
@@ -68,11 +70,11 @@
       <!-- Identity -->
       <el-form-item>
         <!-- Passerby -->
-        <el-popover placement="top" width="160" v-model="visible">
+        <el-popover placement="top" width="160" v-model="popoverVisible">
           <p>确定提交吗？</p>
           <div style="text-align: right; margin: 0">
-            <el-button size="mini" type="text" @click="visible = false">取消</el-button>
-            <el-button type="primary" size="mini" @click="submitPaperForm(paperForm)">确定</el-button>
+            <el-button size="mini" type="text" @click="popoverVisible = false">取消</el-button>
+            <el-button type="primary" size="mini" @click="sendPaperForm(paperForm)">确定</el-button>
           </div>
           <!-- Passerby -->
           <el-button slot="reference" type="primary">Send</el-button>
@@ -87,7 +89,17 @@
 <script>
 export default {
   name: 'PaperForm',
-  props: { conferenceId: Number, conferenceFullName: String, conferenceTopics: Array, Identity: String },
+  props: { paperInfo: Object, conferenceId: Number, conferenceFullName: String, conferenceTopics: Array, Identity: String },
+  mounted() {
+    this.$nextTick(function() {
+      if (this.Identity === 'Author') {
+        this.paperForm = this.paperInfo;
+        this.address = '/system/authorModifyPaper';
+      } else {
+        this.address = '/system/userSubmitPaper';
+      }
+    });
+  },
   data() {
     const topicsValid = (rule, value, callback) => {
       let topics = this.paperForm.topics;
@@ -108,7 +120,8 @@ export default {
       return callback();
     };
     return {
-      visible: false,
+      popoverVisible: false,
+      address: undefined,
       paperForm: { title: '', authors: [], summary: '', topics: [' '], file: null },
       authorRules: {
         name: [
@@ -156,12 +169,6 @@ export default {
       this.paperForm.topics = [...topicSet];
     },
     // authors
-    removeAuthor(author) {
-      var index = this.paperForm.authors.indexOf(author);
-      if (index !== -1) {
-        this.paperForm.authors.splice(index, 1);
-      }
-    },
     addAuthor() {
       this.paperForm.authors.push({});
     },
@@ -179,15 +186,21 @@ export default {
           this.$message({ type: 'error', message: 'token invalid', duration: '2000', showClose: 'true', center: 'true' });
         });
     },
+    removeAuthor(author) {
+      var index = this.paperForm.authors.indexOf(author);
+      if (index !== -1) {
+        this.paperForm.authors.splice(index, 1);
+      }
+    },
     // file
     upload() {
       document.getElementById('uploadInput').click();
     },
-    getContributeFile(event) {
+    getFile(event) {
       const file = event.currentTarget.files[0]; // 上传的文件
       this.paperForm.file = file;
       this.fileName = file.name; // 文件名
-      this.src = this.getObjectURL(file); // 文件地址
+      this.src = this.getFileURL(file); // 文件地址
       this.previewVisible = true; // 预览的按钮
       let index = this.fileName.lastIndexOf('.'); //获取最后一个.的位置
       let type = this.fileName.substr(index + 1); //获取后缀
@@ -195,7 +208,7 @@ export default {
         this.$message({ type: 'error', message: 'only PDF file allowed!', duration: '2000', showClose: 'true', center: 'true' });
       }
     },
-    getObjectURL(file) {
+    getFileURL(file) {
       let url = null;
       if (window.createObjectURL != undefined) {
         url = window.createObjectURL(file); // basic
@@ -206,7 +219,7 @@ export default {
       }
       return url;
     },
-    getContributeData: function() {
+    getPaperData: function() {
       // 去除占位符
       let topicSet = new Set(this.paperForm.topics);
       topicSet.delete(' ');
@@ -219,6 +232,7 @@ export default {
       // formData
       let formData = new FormData();
       formData.append('file', this.paperForm.file);
+      if (this.Identity === 'Author') formData.append('paperId', this.paperInfo.paperId);
       formData.append('authors', authorString);
       formData.append('topics', this.paperForm.topics);
       formData.append('conferenceId', this.conferenceId);
@@ -227,8 +241,8 @@ export default {
       formData.append('summary', this.paperForm.summary);
       return formData;
     },
-    submitPaperForm(formName) {
-      this.visible = false;
+    sendPaperForm(formName) {
+      this.popoverVisible = false;
       // authors infomation all filled
       for (let i = 0; i < this.paperForm.authors.length; i++) {
         let author = this.paperForm.authors[i];
@@ -250,7 +264,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.$axios
-            .post('/system/userSubmitPaper', this.getContributeData())
+            .post(this.address, this.getPaperData())
             .then((resp) => {
               if (resp.status === 200) {
                 this.paperForm = { title: '', authors: [], summary: '', topics: [' '], file: null };
@@ -261,8 +275,7 @@ export default {
                 this.$message({ type: 'error', message: 'contribute failed', duration: '2000', showClose: 'true', center: 'true' });
               }
             })
-            .catch((err) => {
-              console.log(err);
+            .catch(() => {
               this.paperForm = { title: '', authors: [], summary: '', topics: [' '], file: null };
               this.$message({ type: 'error', message: 'contribute failed', duration: '2000', showClose: 'true', center: 'true' });
             });
@@ -272,7 +285,7 @@ export default {
       });
     },
     cancel() {
-      this.$emit('contributeFinished');
+      this.$emit('submitPaperFinished');
     },
   },
 };
