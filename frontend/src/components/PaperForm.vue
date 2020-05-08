@@ -226,9 +226,8 @@ export default {
       this.paperForm.topics = [...topicSet];
       // authors 转为 String 数组
       let authorString = JSON.stringify(this.paperForm.authors);
-      authorString = authorString.replace(/{/g, '[');
       authorString = authorString.replace(/"\w+?":/g, '');
-      authorString = authorString.replace(/}/g, ']');
+      authorString = authorString.replace(/{|\[|\]|}|"/g, '');
       // formData
       let formData = new FormData();
       formData.append('file', this.paperForm.file);
