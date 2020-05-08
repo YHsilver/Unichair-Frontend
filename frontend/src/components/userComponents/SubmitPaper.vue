@@ -26,7 +26,9 @@
           <el-form-item prop="email" label="email">
             <el-input v-model="author.email"></el-input>
           </el-form-item>
-          <el-button icon="el-icon-close" @click.prevent="removeAuthor(author)" circle plain size="mini"></el-button>
+          <el-tooltip content="delete" placement="right">
+            <el-button icon="el-icon-close" type="text" @click.prevent="removeAuthor(author)" title="delete"></el-button>
+          </el-tooltip>
         </el-form>
         <el-button @click="addAuthor" style="margin:20px 0;" plain>+ Author</el-button>
       </el-form-item>
