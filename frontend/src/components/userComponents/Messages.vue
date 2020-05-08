@@ -19,7 +19,7 @@
 
       <el-table-column label="Topics" prop="topics" :min-width="'200%'">
         <template slot-scope="scope">
-          <el-tag :key="index" v-for="(topic,index) in scope.row.topics" effect="light" @click="add($event, scope.row)" closable @close="handleClose($event, scope.row)">
+          <el-tag :key="index" v-for="(topic, index) in scope.row.topics" effect="light" @click="add($event, scope.row)" closable @close="handleClose($event, scope.row)">
             {{ topic }}
           </el-tag>
         </template>
@@ -29,7 +29,7 @@
         <template slot-scope="scope">
           <el-popover placement="top" width="160" v-model="passVisible" trigger="manual">
             <p>
-              您确定您负责的 topics 是 <strong v-for="(topic, index) in scope.row.chosedTopics" :key="index">{{ topic }}</strong> 吗？
+              您确定您负责的 topics 是 <strong v-for="(topic, index) in scope.row.chosedTopics" :key="index">{{ topic }} </strong> 吗？
             </p>
             <div style="text-align: right; margin: 0">
               <el-button size="mini" type="text" @click="passVisible = false">取消</el-button>
