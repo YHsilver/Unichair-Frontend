@@ -28,6 +28,7 @@ export default {
           this.$store.commit('logout');
           this.$message({ type: 'success', message: 'log out successfully!', duration: '2000', showClose: 'true', center: 'true' });
           this.$router.push({ path: '/' });
+          location.reload();
         })
         .catch(() => {
           this.$message({ type: 'info', message: 'canceled', duration: '2000', showClose: 'true', center: 'true' });

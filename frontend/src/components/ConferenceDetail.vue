@@ -75,7 +75,7 @@
       <!-- Passerby -->
       <!-- submit paper -->
       <el-button type="primary" @click="contributeFormVisible = true" v-if="Identity === 'Passerby' && conferenceDetail.stage === 'Contribution'">Submit paper</el-button>
-      <el-dialog :visible.sync="contributeFormVisible" append-to-body :fullscreen="true">
+      <el-dialog :visible.sync="contributeFormVisible" append-to-body :fullscreen="true" v-if="contributeFormVisible === true">
         <PaperForm
           @submitPaperFinished="contributeFormVisible = false"
           :conferenceId="Number(conferenceDetail.id)"

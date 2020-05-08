@@ -4,11 +4,9 @@
       <el-table-column label="Title" prop="title"> </el-table-column>
 
       <el-table-column label="Athor" prop="authorFullName" v-if="Identity === 'Author'">
-        <template>
-          <el-tag>
-            {{ paperTable.authorFullName }}
-          </el-tag>
-        </template>
+        <span>
+          {{ paperTable.authorFullName }}
+        </span>
       </el-table-column>
 
       <el-table-column label="Topics" prop="topics">
@@ -31,6 +29,7 @@ export default {
   },
   created() {
     this.getPaper();
+    this.$notify({ title: '提示', message: '点击会议查看详细信息！' });
   },
   methods: {
     getPaper() {
@@ -50,7 +49,7 @@ export default {
         });
     },
     choosePaper(row) {
-      this.$emit('chosePaper', row.paperId);
+      this.$emit('chosePaper', Number(row.paperId));
     },
   },
 };

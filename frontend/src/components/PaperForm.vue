@@ -272,14 +272,17 @@ export default {
               } else {
                 this.paperForm = { title: '', authors: [], summary: '', topics: [' '], file: null };
                 this.$message({ type: 'error', message: 'contribute failed', duration: '2000', showClose: 'true', center: 'true' });
+                this.$emit('submitPaperFinished');
               }
             })
             .catch(() => {
               this.paperForm = { title: '', authors: [], summary: '', topics: [' '], file: null };
               this.$message({ type: 'error', message: 'contribute failed', duration: '2000', showClose: 'true', center: 'true' });
+              this.$emit('submitPaperFinished');
             });
         } else {
           this.$message({ type: 'warning', message: 'Please fill in the information', duration: '2000', showClose: 'true', center: 'true' });
+          this.$emit('submitPaperFinished');
         }
       });
     },
