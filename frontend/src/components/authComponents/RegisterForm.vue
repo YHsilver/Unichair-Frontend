@@ -47,7 +47,7 @@
 
       <!-- email -->
       <el-form-item prop="email" class="inputBox">
-        <el-input type="email" class="form-input" v-model="registerForm.email" placeholder="email" clearable>
+        <el-input type="email" class="form-input" v-model="registerForm.email" placeholder="email" clearable v-on:keyup.enter.native="resetForm(registerForm)">
           <i slot="prefix" class="el-icon-message"></i>
         </el-input>
       </el-form-item>
