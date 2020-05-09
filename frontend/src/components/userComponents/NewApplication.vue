@@ -62,7 +62,7 @@
 
 <script>
 export default {
-  name: 'ConferenceForm',
+  name: 'NewApplication',
   data() {
     const contributeStartTimeValid = (rule, value, callback) => {
       let contributeStartTime = this.meetingForm.contributeStartTime;

@@ -4,7 +4,7 @@
 
     <el-button v-if="loginSwitch" @click="logout" plain style="float:right;margin: 10px;">Log out</el-button>
 
-    <el-button v-if="!loginSwitch" @click="loginFormVisible = true" plain style="float:right;margin: 10px;">Login</el-button>
+    <el-button v-if="!loginSwitch" @click="loginFormVisible = true" plain style="float:right;margin: 10px;" id="login">Login</el-button>
     <el-dialog :visible.sync="loginFormVisible" width="360px">
       <LoginForm :v-bind="loginFormVisible" />
     </el-dialog>
