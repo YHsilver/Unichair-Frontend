@@ -74,32 +74,23 @@ export default {
         .then((resp) => {
           if (resp.status === 200) {
             // 获取 topics
-            let messages = resp.data;
-            let g = 0;
-            for (let i = 0; i < messages.length; i++) {
-              this.$axios
-                .post('/system/getConferenceTopics', { conferenceId: Number(messages[i].conferenceId) })
-                .then((resp) => {
-                  if (resp.status === 200){
-                    messages[i].topics = resp.data;
-                    g++;
-                    if(g === messages.length){
-                      this.messageTable = messages;
-                    }
-                  }
-                  else this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
-                })
-                .catch(() => {
-                  this.$message({ type: 'error', message: 'get information error', duration: '2000', showClose: 'true', center: 'true' });
+            let p = new Promise((resolve, reject) => {
+              for (const message of resp.data) {
+                this.$axios.post('/system/getConferenceTopics', { conferenceId: Number(message.conferenceId) }).then((resp) => {
+                  if (resp.status === 200) {
+                    message.topics = resp.data;
+                    message.chosedTopics = [];
+                    resolve();
+                  } else reject();
                 });
-              messages[i].chosedTopics = [];
-            }
-            // while(g !== messages.length){
-            //   console.log("waiting...");
-            // }
-            //this.messageTable = messages;
-            //console.log(messages);
-            this.loading = false;
+              }
+            });
+            p.then(() => {
+              this.messageTable = resp.data;
+              this.loading = false;
+            }).catch(() => {
+              this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
+            });
           } else {
             this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
           }
