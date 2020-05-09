@@ -84,13 +84,17 @@
 </template>
 
 <script>
+import Bus from '@/api/Bus';
+
 export default {
   name: 'PaperForm',
-  props: { paperInfo: Object, conferenceId: Number, conferenceFullName: String, conferenceTopics: Array, Identity: String },
-  mounted() {
-    this.$nextTick(function() {
+  props: { conferenceId: Number, conferenceFullName: String, conferenceTopics: Array, Identity: String },
+  created() {
+    this.$nextTick(() => {
       if (this.Identity === 'Author') {
-        this.paperForm = this.paperInfo;
+        Bus.$on('getPaperInfo', (paperInfo) => {
+          this.paperForm = paperInfo;
+        });
         this.address = '/system/authorModifyPaper';
       } else {
         this.address = '/system/userSubmitPaper';

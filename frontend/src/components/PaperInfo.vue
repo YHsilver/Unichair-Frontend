@@ -1,5 +1,5 @@
 <template>
-  <div style="width:520px;margin:auto">
+  <div style="width:720px;margin:auto">
     <el-form :model="paperInfo" label-width="200px" label-position="left">
       <el-form-item label="Title" prop="title">
         <span>{{ paperInfo.title }}</span>
@@ -19,6 +19,10 @@
         <span>{{ paperInfo.summary }}</span>
       </el-form-item>
 
+      <el-form-item label="Finish Reviewed" prop="isAllReviewed">
+        <span>{{ paperInfo.isAllReviewed }}</span>
+      </el-form-item>
+
       <span>{{ paperInfo.fileName }}</span>
       <el-button-group style="float: right">
         <el-button type="plain" size="small" @click="downloadFile">Download</el-button>
@@ -33,6 +37,8 @@
 </template>
 
 <script>
+import Bus from '@/api/Bus';
+
 export default {
   name: 'PaperInfo',
   props: { paperId: Number, Identity: String },
@@ -50,7 +56,7 @@ export default {
         .then((resp) => {
           if (resp.status === 200) {
             this.paperInfo = resp.data;
-            this.$emit('getPaperInfo', this.paperInfo);
+            Bus.$emit('getPaperInfo', this.paperInfo);
           } else {
             this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
           }

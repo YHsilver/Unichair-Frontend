@@ -1,25 +1,18 @@
 <template>
   <div>
     <el-row :gutter="100">
-      <el-col :span="10">
+      <el-col :lg="10" :sm="24" :xs="24" style="margin:auto">
         <!-- paper list -->
         <PaperList :Identity="'Author'" :conferenceId="conferenceId" @chosePaper="passPaperId" />
       </el-col>
-      <el-col :span="14" v-if="chosePaper">
+      <el-col :lg="14" :sm="24" :xs="24" v-if="chosePaper">
         <!-- paper details -->
-        <PaperInfo v-show="toggle === 'PaperInfo'" :Identity="'Author'" :paperId="chosePaperId" @getPaperInfo="passPaperInfo" />
+        <PaperInfo v-show="toggle === 'PaperInfo'" :Identity="'Author'" :paperId="chosePaperId" />
 
         <!-- modify paper -->
-        <PaperForm
-          @submitPaperFinished="finish()"
-          v-show="toggle === 'ModifyForm'"
-          :conferenceId="conferenceId"
-          :conferenceTopics="conferenceTopics"
-          :paperInfo="paperInfo"
-          :Identity="'Author'"
-        />
+        <PaperForm @submitPaperFinished="finish()" v-show="toggle === 'ModifyForm'" :conferenceId="conferenceId" :conferenceTopics="conferenceTopics" :Identity="'Author'" />
 
-        <div style="width:520px;margin:auto">
+        <div style="width:720px;margin:auto">
           <el-button v-show="toggle === 'PaperInfo'" type="primary" @click="toggle === 'PaperInfo' ? (toggle = 'ModifyForm') : (toggle = 'PaperInfo')">Modify</el-button>
           <el-button v-show="toggle === 'PaperInfo'" @click="finish()" type="text" style="float:right">Cancel</el-button>
         </div>
@@ -38,7 +31,7 @@ export default {
   components: { PaperForm, PaperInfo, PaperList },
   props: { conferenceId: Number, conferenceTopics: Array },
   data() {
-    return { toggle: 'PaperInfo', chosePaper: false, paperInfo: {}, chosePaperId: undefined };
+    return { toggle: 'PaperInfo', chosePaper: false, chosePaperId: undefined };
   },
   methods: {
     finish() {
@@ -48,9 +41,6 @@ export default {
     passPaperId(paperId) {
       this.chosePaperId = paperId;
       this.chosePaper = true;
-    },
-    passPaperInfo(paperInfo) {
-      this.paperInfo = paperInfo;
     },
   },
 };

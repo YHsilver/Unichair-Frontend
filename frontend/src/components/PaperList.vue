@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="width:720px;margin:auto">
     <el-table :data="paperTable" tooltip-effect="dark" :laoding="paperListLoading" @row-click="choosePaper">
       <el-table-column label="Title" prop="title"> </el-table-column>
 
@@ -14,6 +14,8 @@
       </el-table-column>
 
       <el-table-column label="Status" prop="status"> </el-table-column>
+
+      <el-table-column label="Reviewed" prop="isCurrPCMemberReviewed"> </el-table-column>
     </el-table>
   </div>
 </template>
@@ -37,7 +39,7 @@ export default {
           if (resp.status === 200) {
             this.paperTable = resp.data;
             this.paperListLoading = false;
-            this.$notify({ title: 'Tip', message: 'Click to view conference details', duration: 2000 });
+            this.$notify({ title: 'Tip', message: 'Click to view Paper details', duration: 2000 });
           } else {
             this.$message({ type: 'error', message: 'get paper information error', duration: '2000', showClose: 'true', center: 'true' });
           }
