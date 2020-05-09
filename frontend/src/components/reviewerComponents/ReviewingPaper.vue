@@ -10,7 +10,7 @@
         <PaperInfo :conferenceId="conferenceId" :Identity="'Reviewer'" :paperId="chosePaperId" />
 
         <!-- rating -->
-        <RatingForm :paperId="chosePaperId" />
+        <RatingForm :paperId="chosePaperId" @finishRatingAPaper="finishARating" />
       </el-col>
     </el-row>
   </div>
@@ -32,6 +32,9 @@ export default {
     passPaperId(paperId) {
       this.chosePaperId = paperId;
       this.chosePaper = true;
+    },
+    finishARating() {
+      this.chosePaperId = undefined;
     },
   },
 };

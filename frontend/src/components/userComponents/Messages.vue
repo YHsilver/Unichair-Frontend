@@ -79,7 +79,7 @@ export default {
               this.$axios
                 .post('/system/getConferenceTopics', { conferenceId: Number(messages[i].conferenceId) })
                 .then((resp) => {
-                  if (resp.status === 200) message[i].topics = resp.data;
+                  if (resp.status === 200) messages[i].topics = resp.data;
                   else this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
                 })
                 .catch(() => {
