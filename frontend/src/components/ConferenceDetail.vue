@@ -9,35 +9,48 @@
       <el-form-item label="Full Name / Abbreviation">
         <strong>{{ conferenceDetail.fullName }} / {{ conferenceDetail.abbreviation }}</strong>
       </el-form-item>
+
       <el-form-item label="Conference Location">
         <span>{{ conferenceDetail.heldPlace }}</span>
       </el-form-item>
+
       <el-form-item label="Contribute Start Time / Contribute End Time">
         <span>{{ conferenceDetail.submissionDate }} / {{ conferenceDetail.submissionDeadline }}</span>
       </el-form-item>
+
       <el-form-item label="Result Release Time / Conference Time">
         <span>{{ conferenceDetail.releaseDate }} / {{ conferenceDetail.heldDate }}</span>
       </el-form-item>
+
       <el-form-item label="Conference Stage">
         <el-button type="text">{{ conferenceDetail.stage }}</el-button>
       </el-form-item>
+
       <el-form-item label="Conference Introduction">
         <span>{{ conferenceDetail.introduction }}</span>
       </el-form-item>
+
       <el-form-item label="Conference Topics" class="tag-group">
         <el-tag :key="index" v-for="(topic, index) in conferenceDetail.topics" :disable-transitions="false" effect="dark" style="margin-right: 10px;">
           {{ topic }}
         </el-tag>
       </el-form-item>
+
       <el-divider></el-divider>
+
       <el-form-item label="Chairman">
         <el-tag type="warning" effect="plain">{{ conferenceDetail.chair }}</el-tag>
       </el-form-item>
+
       <el-form-item label="Reviewers">
-        <span>{{ conferenceDetail.PCMember }}</span>
+        <el-tag :key="index" v-for="(topic, index) in conferenceDetail.topics" :disable-transitions="false" effect="dark" style="margin-right: 10px;">
+          {{ topic }}
+        </el-tag>
+        <span v-for="(pc, index) in conferenceDetail.PCMember" :key="index">{{ pc }} </span>
       </el-form-item>
+
       <el-form-item label="Authors">
-        <span>{{ conferenceDetail.Author }}</span>
+        <span v-for="(aAuthor, index) in conferenceDetail.PCMember" :key="index">{{ aAuthor }} </span>
       </el-form-item>
     </el-form>
 
