@@ -2,7 +2,7 @@
   <div style="display:flex;flex-direction:column">
     <Header v-bind:loginSwitch="true" />
     <div style="display: flex;min-height: calc(100vh - 60px);">
-      <el-menu v-bind:class="{ Bar: !isCollapse }" :default-active="$route.path.replace('/user/', '')" :collapse="isCollapse" router :collapse-transition="false">
+      <el-menu v-bind:class="{ Bar: !isCollapse }" :default-active="$route.path.replace('/admin/', '')" :collapse="isCollapse" router :collapse-transition="false">
         <el-menu-item index="Conferencelist" class="mainMenu">
           <i class="el-icon-chat-line-square"></i>
           <span slot="title">会议审核</span>
@@ -35,7 +35,7 @@ export default {
     this.$notify({ title: '提示', message: '现双击可查看会议详情', offset: 50 });
   },
   data() {
-    return { show: 'Conferencelist', isCollapse: false };
+    return { show: 'Conferencelist', isCollapse: true };
   },
   methods: {},
 };

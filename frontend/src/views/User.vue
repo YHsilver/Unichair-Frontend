@@ -77,7 +77,7 @@ export default {
   name: 'User',
   components: { Header },
   data() {
-    return { isDot: true, isCollapse: false };
+    return { isDot: true, isCollapse: true };
   },
   created() {
     this.$notify({ title: '提示', message: '现双击可查看会议详情', offset: 50 });
