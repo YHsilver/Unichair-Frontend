@@ -59,9 +59,9 @@ export default {
             Bus.$emit('getPaperInfo', this.paperInfo);
             if (this.paperInfo.isCurrPCMemberReviewed) {
               let Result = {};
-              Result.grade = this.paperInfo.grade;
-              Result.confidence = this.paperInfo.confidence;
-              Result.comment = this.paperInfo.comment;
+              Result.grade = this.paperInfo.myGrade;
+              Result.confidence = this.paperInfo.myConfidence;
+              Result.comment = this.paperInfo.myComment;
               Bus.$emit('isPaperRated', this.paperInfo.isCurrPCMemberReviewed, Result);
             }
           } else {
