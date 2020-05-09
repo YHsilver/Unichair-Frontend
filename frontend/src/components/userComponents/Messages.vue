@@ -75,11 +75,18 @@ export default {
           if (resp.status === 200) {
             // 获取 topics
             let messages = resp.data;
-            for (let i; i < messages.length; i++) {
+            let g = 0;
+            for (let i = 0; i < messages.length; i++) {
               this.$axios
                 .post('/system/getConferenceTopics', { conferenceId: Number(messages[i].conferenceId) })
                 .then((resp) => {
-                  if (resp.status === 200) messages[i].topics = resp.data;
+                  if (resp.status === 200){
+                    messages[i].topics = resp.data;
+                    g++;
+                    if(g === messages.length){
+                      this.messageTable = messages;
+                    }
+                  }
                   else this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
                 })
                 .catch(() => {
@@ -87,7 +94,11 @@ export default {
                 });
               messages[i].chosedTopics = [];
             }
-            this.messageTable = messages;
+            // while(g !== messages.length){
+            //   console.log("waiting...");
+            // }
+            //this.messageTable = messages;
+            //console.log(messages);
             this.loading = false;
           } else {
             this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });

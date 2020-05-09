@@ -80,6 +80,7 @@ export default {
           if (resp.status === 200) {
             this.$message({ type: 'success', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
           } else {
+            console.log("hello");
             this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
           }
         })
