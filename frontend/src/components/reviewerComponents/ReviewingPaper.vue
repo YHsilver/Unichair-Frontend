@@ -10,7 +10,7 @@
         <PaperInfo :conferenceId="conferenceId" :Identity="'Reviewer'" :paperId="chosePaperId" />
 
         <!-- rating -->
-        <RatingForm :paperId="paperId" />
+        <RatingForm :paperId="chosePaperId" />
       </el-col>
     </el-row>
   </div>
