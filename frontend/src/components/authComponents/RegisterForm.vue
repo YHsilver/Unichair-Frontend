@@ -75,7 +75,7 @@ export default {
     const usernameValid = (rule, value, callback) => {
       let username = this.registerForm.username;
       this.$axios
-        .post('/system/checkUsername', { username: username })
+        .post('/checkUsername', { username: username })
         .then((resp) => {
           if (resp.status === 200) {
             return callback();
@@ -94,7 +94,7 @@ export default {
       let password = this.registerForm.password;
       // 如果userName为''，则indexOf返回0
       if (userName != '' && password.indexOf(userName) != -1) {
-        return callback(new Error('不能包含账号'));
+        return callback(new Error('Username cannot be included'));
       }
       return callback();
     };
@@ -112,16 +112,24 @@ export default {
         // blur 失去鼠标焦点时触发验证
         username: [
           { required: true, message: '', trigger: 'blur' },
-          { min: 5, max: 32, message: '长度为5-32个字符', trigger: 'blur' },
+          { min: 5, max: 32, message: '5-32 characters in length', trigger: 'blur' },
           // 开头匹配字母和-使用^[A-Za-z-]+?而不能是^[A-z|-]+?，这样还可以匹配到_
-          { pattern: /^[A-Za-z-]+?[A-Za-z0-9_-]{4,31}$/, message: '只能包含字母，数字或两种特殊字符（-_）且只能以字母或-开头', trigger: 'blur' },
+          {
+            pattern: /^[A-Za-z-]+?[A-Za-z0-9_-]{4,31}$/,
+            message: 'Can only contain letters, numbers or two special characters (-), and can only start with a letter or -',
+            trigger: 'blur',
+          },
           { validator: usernameValid, message: 'username has been regisred.', trigger: 'blur' },
         ],
         password: [
           { required: true, message: '', trigger: 'blur' },
-          { min: 6, max: 32, message: '长度为6-32个字符', trigger: 'blur' },
-          { pattern: /^(?![0-9]+$)(?![A-Z]+$)(?![a-z]+$)(?!([-_])+$)[A-Za-z0-9_-].{5,32}$/, message: '字母，数字或者特殊字符（-_）至少包含两种', trigger: 'blur' },
-          { validator: passwordValid, message: '不能包含账号', trigger: 'blur' },
+          { min: 6, max: 32, message: '6-32 characters in length', trigger: 'blur' },
+          {
+            pattern: /^(?![0-9]+$)(?![A-Z]+$)(?![a-z]+$)(?!([-_])+$)[A-Za-z0-9_-].{5,32}$/,
+            message: 'It should be at least two types of letters, numbers or special characters (-_)',
+            trigger: 'blur',
+          },
+          { validator: passwordValid, message: 'Username cannot be included', trigger: 'blur' },
         ],
         confirmPassword: [
           { required: true, message: 'confirm password is required.', trigger: 'blur' },
@@ -132,7 +140,7 @@ export default {
           { required: true, message: '', trigger: 'blur' },
           {
             pattern: /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,
-            message: '使用雷·汤姆林森创立的标准E-mail格式，即用户标识符+ @ + 域名',
+            message: 'Use the standard e-mail format created by Ray Tomlinson, i.e. user identifier + @ + domain name',
             trigger: 'blur',
           },
         ],

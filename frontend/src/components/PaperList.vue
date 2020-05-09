@@ -37,7 +37,7 @@ export default {
           if (resp.status === 200) {
             this.paperTable = resp.data;
             this.paperListLoading = false;
-            this.$notify({ title: '提示', message: '点击查看会议详情', duration: 2000 });
+            this.$notify({ title: 'Tip', message: 'Click to view conference details', duration: 2000 });
           } else {
             this.$message({ type: 'error', message: 'get paper information error', duration: '2000', showClose: 'true', center: 'true' });
           }

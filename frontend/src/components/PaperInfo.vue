@@ -21,8 +21,11 @@
 
       <span>{{ paperInfo.fileName }}</span>
       <el-button-group style="float: right">
-        <el-button type="plain" size="small" @click="getFile">Download</el-button>
-        <el-button type="primary" size="small">Preview</el-button>
+        <el-button type="plain" size="small" @click="downloadFile">Download</el-button>
+        <el-button type="primary" size="small" @click="previewFile">Preview</el-button>
+        <el-drawer :visible.sync="pdfVisible" :size="'720px'" :title="paperInfo.fileName" append-to-body>
+          <iframe :src="pdfSrc" style="width: 90%;height: 90vh;margin-left: 5%;"></iframe>
+        </el-drawer>
       </el-button-group>
     </el-form>
     <el-divider></el-divider>
@@ -34,7 +37,7 @@ export default {
   name: 'PaperInfo',
   props: { paperId: Number, Identity: String },
   data() {
-    return { paperInfo: {}, address: '', file: undefined };
+    return { paperInfo: {}, address: '', file: undefined, pdfSrc: undefined, pdfVisible: false };
   },
   created() {
     this.getpaperInfo();
@@ -56,13 +59,19 @@ export default {
           this.$message({ type: 'error', message: 'get paper information error', duration: '2000', showClose: 'true', center: 'true' });
         });
     },
-    getFile() {
+    getFileURL() {
       this.$axios
-        .post('/system/userGetPaperPdfFile', { paperId: this.paperId })
+        .post('/system/userGetPaperPdfFile', { paperId: this.paperId }, { responseType: 'blob' })
         .then((resp) => {
           if (resp.status === 200) {
-            console.log(resp.data);
-            this.file = resp.data;
+            const blob = resp.data;
+            if (window.createObjectURL != undefined) {
+              this.pdfSrc = window.createObjectURL(blob); // basic
+            } else if (window.webkitURL != undefined) {
+              this.pdfSrc = window.webkitURL.createObjectURL(blob); // webkit or chrome
+            } else if (window.URL != undefined) {
+              this.pdfSrc = window.URL.createObjectURL(blob); // mozilla(firefox)
+            }
           } else {
             this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
           }
@@ -70,6 +79,19 @@ export default {
         .catch(() => {
           this.$message({ type: 'error', message: 'get file error', duration: '2000', showClose: 'true', center: 'true' });
         });
+    },
+    downloadFile() {
+      if (this.pdfSrc === undefined) this.getFileURL();
+      var a = document.createElement('a');
+      a.download = this.paperInfo.fileName;
+      a.href = this.pdfSrc;
+      document.body.append(a); // 修复firefox中无法触发click
+      a.click();
+      a.remove();
+    },
+    previewFile() {
+      if (this.pdfSrc === undefined) this.getFileURL();
+      this.pdfVisible = true;
     },
   },
 };

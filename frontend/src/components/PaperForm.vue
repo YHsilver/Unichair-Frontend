@@ -69,10 +69,10 @@
 
       <el-form-item>
         <el-popover placement="top" width="160" v-model="popoverVisible">
-          <p>确定提交吗？</p>
+          <p>Are you sure to submit?</p>
           <div style="text-align: right; margin: 0">
-            <el-button size="mini" type="text" @click="popoverVisible = false">取消</el-button>
-            <el-button type="primary" size="mini" @click="sendPaperForm(paperForm)">确定</el-button>
+            <el-button size="mini" type="text" @click="popoverVisible = false">Cancel</el-button>
+            <el-button type="primary" size="mini" @click="sendPaperForm(paperForm)">Yes</el-button>
           </div>
           <el-button slot="reference" type="primary">Send</el-button>
         </el-popover>

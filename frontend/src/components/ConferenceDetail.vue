@@ -1,11 +1,11 @@
 <template>
   <div v-loading="loading" id="ConferenceDetail">
     <el-form label-position="left" label-width="200px" align="left">
-      <!-- admin 专属 -->
+      <!-- admin -->
       <el-form-item label="ID" v-if="Identity === 'Admin'">
         <span>{{ conferenceDetail.id }}</span>
       </el-form-item>
-      <!-- 通用 -->
+      <!-- user -->
       <el-form-item label="Full Name / Abbreviation">
         <strong>{{ conferenceDetail.fullName }} / {{ conferenceDetail.abbreviation }}</strong>
       </el-form-item>
@@ -78,9 +78,7 @@
     </el-dialog>
 
     <!-- submit paper -->
-    <el-button type="primary" @click="contributeFormVisible = true" v-if="Identity !== 'Chair' && Identity !== 'Admin' && conferenceDetail.stage === 'Contribution'"
-      >Submit paper</el-button
-    >
+    <el-button type="primary" @click="contributeFormVisible = true" v-if="Identity == 'Passerby' && conferenceDetail.stage === 'Contribution'">Submit paper</el-button>
     <el-dialog :visible.sync="contributeFormVisible" append-to-body :fullscreen="true" v-if="contributeFormVisible === true">
       <PaperForm
         @submitPaperFinished="contributeFormVisible = false"
@@ -125,7 +123,7 @@ export default {
           if (resp.status === 200) {
             this.conferenceDetail = resp.data;
             for (let key in this.conferenceDetail) {
-              if (this.conferenceDetail[key] === '') this.conferenceDetail[key] = '暂无';
+              if (this.conferenceDetail[key] === '') this.conferenceDetail[key] = 'not available';
             }
             // this.conferenceDetail.topics = ['a', 'b', 'c'];
             // 转化为第一个字母大写
@@ -154,7 +152,7 @@ export default {
     moveToNextStage() {
       // from Contribution to Reviewing
       if (this.conferenceDetail.stage === 'Contribution') {
-        this.$confirm('', '请选择稿件分配策略', { confirmButtonText: 'TOPIC_RELATED', cancelButtonText: 'RANDOM' })
+        this.$confirm('', 'Please choose a paper allocation policy', { confirmButtonText: 'TOPIC_RELATED', cancelButtonText: 'RANDOM' })
           .then(() => {
             this.moveToReviewing('TOPIC_RELATED');
           })

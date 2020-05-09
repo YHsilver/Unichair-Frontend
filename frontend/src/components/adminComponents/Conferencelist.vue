@@ -1,6 +1,6 @@
 <template>
   <div style="width:90%">
-    <h5 style="margin:0"><i class="el-icon-s-custom" /> 会议审核</h5>
+    <h5 style="margin:0"><i class="el-icon-s-custom" /> Audit Conference</h5>
 
     <el-tabs v-model="activeTab" @tab-click="handleTabClick">
       <el-tab-pane v-for="(table, name, index) in tables" :label="name" :name="name" :key="index">

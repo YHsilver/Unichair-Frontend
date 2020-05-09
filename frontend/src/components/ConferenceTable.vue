@@ -56,12 +56,7 @@ import ConferenceDetail from '@/components/ConferenceDetail.vue';
 export default {
   name: 'ConferenceTable',
   components: { ConferenceDetail },
-  props: {
-    data: Array,
-    showList: Array,
-    AdminOperation: String,
-    Identity: String,
-  },
+  props: { data: Array, showList: Array, AdminOperation: String, Identity: String },
   data() {
     return {
       ConferenceDetailVisible: false,

@@ -1,6 +1,6 @@
 <template>
   <div class="tableFrame">
-    <h5 style="margin:0 0 20px"><i class="el-icon-message" /> 消息中心</h5>
+    <h5 style="margin:0 0 20px"><i class="el-icon-message" /> Messages</h5>
 
     <el-table :data="messageTable" class="tableContent" v-loading="loading" @cell-dblclick="openDetails">
       <el-table-column label="Sender" prop="sender"> </el-table-column>
@@ -29,11 +29,11 @@
         <template slot-scope="scope">
           <el-popover placement="top" width="160" v-model="passVisible" trigger="manual">
             <p>
-              您确定您负责的 topics 是 <strong v-for="(topic, index) in scope.row.chosedTopics" :key="index">{{ topic }} </strong> 吗？
+              Are sure that you wanna be responsible for <strong v-for="(topic, index) in scope.row.chosedTopics" :key="index">{{ topic }} </strong> ?
             </p>
             <div style="text-align: right; margin: 0">
-              <el-button size="mini" type="text" @click="passVisible = false">取消</el-button>
-              <el-button type="primary" size="mini" @click="handleInvitation(scope.row, 'PASS')">确定</el-button>
+              <el-button size="mini" type="text" @click="passVisible = false">Cancel</el-button>
+              <el-button type="primary" size="mini" @click="handleInvitation(scope.row, 'PASS')">Yes</el-button>
             </div>
             <el-button slot="reference" type="success" plain size="small" @click="checkChosedTopics(scope.row)">PASS</el-button>
           </el-popover>
@@ -74,23 +74,27 @@ export default {
         .then((resp) => {
           if (resp.status === 200) {
             // 获取 topics
-            let p = new Promise((resolve, reject) => {
-              for (const message of resp.data) {
-                this.$axios.post('/system/getConferenceTopics', { conferenceId: Number(message.conferenceId) }).then((resp) => {
-                  if (resp.status === 200) {
-                    message.topics = resp.data;
-                    message.chosedTopics = [];
-                    resolve();
-                  } else reject();
-                });
-              }
-            });
-            p.then(() => {
-              this.messageTable = resp.data;
+            if (resp.data.length === 0) {
               this.loading = false;
-            }).catch(() => {
-              this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
-            });
+            } else {
+              let p = new Promise((resolve, reject) => {
+                for (const message of resp.data) {
+                  this.$axios.post('/system/getConferenceTopics', { conferenceId: Number(message.conferenceId) }).then((resp) => {
+                    if (resp.status === 200) {
+                      message.topics = resp.data;
+                      message.chosedTopics = [];
+                      resolve();
+                    } else reject();
+                  });
+                }
+              });
+              p.then(() => {
+                this.messageTable = resp.data;
+                this.loading = false;
+              }).catch(() => {
+                this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
+              });
+            }
           } else {
             this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
           }

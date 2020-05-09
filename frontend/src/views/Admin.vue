@@ -5,12 +5,12 @@
       <el-menu v-bind:class="{ Bar: !isCollapse }" :default-active="$route.path.replace('/admin/', '')" :collapse="isCollapse" router :collapse-transition="false">
         <el-menu-item index="Conferencelist" class="mainMenu">
           <i class="el-icon-chat-line-square"></i>
-          <span slot="title">会议审核</span>
+          <span slot="title">Audit Conference</span>
         </el-menu-item>
 
         <el-menu-item index="ManageUser" class="mainMenu" disabled>
           <i class="el-icon-s-operation"></i>
-          <span slot="title">管理用户</span>
+          <span slot="title">Manage Users</span>
         </el-menu-item>
 
         <el-menu-item @click="isCollapse = !isCollapse" style="position: absolute;bottom: 0;width:100%" class="mainMenu">
@@ -32,7 +32,7 @@ export default {
   name: 'Admin',
   components: { Header },
   created() {
-    this.$notify({ title: '提示', message: '现双击可查看会议详情', offset: 50 });
+    this.$notify({ title: 'Tip', message: 'Double click to view meeting details', offset: 50 });
   },
   data() {
     return { show: 'Conferencelist', isCollapse: true };

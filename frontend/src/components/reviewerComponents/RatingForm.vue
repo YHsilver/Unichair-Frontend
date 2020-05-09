@@ -12,10 +12,10 @@
       </el-form-item>
       <el-form-item>
         <el-popover placement="top" width="160" v-model="visible">
-          <p>确定提交吗？</p>
+          <p>Are you sure to submit?</p>
           <div style="text-align: right; margin: 0">
-            <el-button size="mini" type="text" @click="visible = false">取消</el-button>
-            <el-button type="primary" size="mini" @click="submitRatingResult()">确定</el-button>
+            <el-button size="mini" type="text" @click="visible = false">Cancel</el-button>
+            <el-button type="primary" size="mini" @click="submitRatingResult()">Yes</el-button>
           </div>
           <el-button type="primary" slot="reference">Rating</el-button>
         </el-popover>
