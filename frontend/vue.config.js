@@ -7,7 +7,7 @@ module.exports = {
     port: 80,
     proxy: {
       '/api': {
-        // 只用在这里修改就可以本地/服务器
+        // 后端跑在本地/服务器
         target: 'http://114.115.246.37:8080',
         // target: 'http://localhost:8080',
         changeOrigin: true,
