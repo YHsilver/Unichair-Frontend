@@ -8,7 +8,7 @@
         <h3>Invite Reviewer</h3>
         <el-form :inline="true">
           <el-form-item>
-            <el-input v-model="searchName" placeholder="Find by real name" style="width: 60%;"> </el-input>
+            <el-input v-model="searchName" placeholder="Find by real name" style="width: 60%;" v-on:keyup.enter.native="searchUser"> </el-input>
             <el-button icon="el-icon-search" style="margin-left:2%" type="primary" @click="searchUser"></el-button>
           </el-form-item>
         </el-form>

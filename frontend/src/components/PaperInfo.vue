@@ -57,6 +57,13 @@ export default {
           if (resp.status === 200) {
             this.paperInfo = resp.data;
             Bus.$emit('getPaperInfo', this.paperInfo);
+            if (this.paperInfo.isCurrPCMemberReviewed) {
+              let Result = {};
+              Result.grade = this.paperInfo.grade;
+              Result.confidence = this.paperInfo.confidence;
+              Result.comment = this.paperInfo.comment;
+              Bus.$emit('isPaperRated', this.paperInfo.isCurrPCMemberReviewed, Result);
+            }
           } else {
             this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
           }

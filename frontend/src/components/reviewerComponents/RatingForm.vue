@@ -1,6 +1,6 @@
 <template>
   <div style="width:520px;margin:auto">
-    <el-form :model="RatingForm" :rules="RatingFormRules" :ref="RatingForm" label-width="200px" label-position="top">
+    <el-form :model="RatingForm" :rules="RatingFormRules" :ref="RatingForm" label-width="200px" label-position="top" :disabled="disabled">
       <el-form-item label="Rating" prop="grade">
         <el-rate v-model="RatingForm.grade" :show-text="true" :texts="ratingTexts" :colors="colors" :max="4"> </el-rate>
       </el-form-item>
@@ -10,7 +10,7 @@
       <el-form-item label="Confidence" prop="confidenceVal">
         <el-rate v-model="RatingForm.confidenceVal" :show-text="true" :texts="confidenceTexts" :colors="colors" :max="4"> </el-rate>
       </el-form-item>
-      <el-form-item>
+      <el-form-item v-show="!disabled">
         <el-popover placement="top" width="160" v-model="visible">
           <p>Are you sure to submit?</p>
           <div style="text-align: right; margin: 0">
@@ -26,12 +26,21 @@
 </template>
 
 <script>
+import Bus from '@/api/Bus';
+
 export default {
   name: 'RatingForm',
   props: { paperId: Number },
+  created() {
+    Bus.$on('isPaperRated', (disabled, Result) => {
+      this.disabled = disabled;
+      this.RatingForm = Result;
+    });
+  },
   data() {
     return {
       visible: false,
+      disabled: false,
       // reviewer
       RatingForm: { grade: undefined, comment: '', confidenceVal: undefined },
       ratingTexts: ['-2 => reject', '-1 => weak reject', '1 => weak accept', '2 => accept'],

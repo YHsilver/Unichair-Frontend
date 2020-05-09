@@ -1,11 +1,11 @@
 <template>
   <div>
     <el-row :gutter="100">
-      <el-col :span="10">
+      <el-col :lg="10" :sm="24" :xs="24" style="margin:auto">
         <!-- paper list -->
         <PaperList :Identity="'Reviewer'" :conferenceId="conferenceId" @chosePaper="passPaperId" />
       </el-col>
-      <el-col :span="14" v-if="chosePaper">
+      <el-col :lg="14" :sm="24" :xs="24" v-if="chosePaper">
         <!-- paper details -->
         <PaperInfo :conferenceId="conferenceId" :Identity="'Reviewer'" :paperId="chosePaperId" />
 
