@@ -74,19 +74,20 @@ export default {
         .then((resp) => {
           if (resp.status === 200) {
             // 获取 topics
-            for (const message of resp.data) {
+            let messages = resp.data;
+            for (let i; i < messages.length; i++) {
               this.$axios
-                .post('/system/getConferenceTopics', { conferenceId: Number(message.conferenceId) })
+                .post('/system/getConferenceTopics', { conferenceId: Number(messages[i].conferenceId) })
                 .then((resp) => {
-                  if (resp.status === 200) message.topics = resp.data;
+                  if (resp.status === 200) message[i].topics = resp.data;
                   else this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
                 })
                 .catch(() => {
                   this.$message({ type: 'error', message: 'get information error', duration: '2000', showClose: 'true', center: 'true' });
                 });
-              message.chosedTopics = [];
+              messages[i].chosedTopics = [];
             }
-            this.messageTable = resp.data;
+            this.messageTable = messages;
             this.loading = false;
           } else {
             this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
