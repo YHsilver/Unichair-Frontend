@@ -198,7 +198,7 @@ export default {
       });
     },
     handleInputConfirm() {
-      let inputValue = this.inputValue;
+      let inputValue = this.inputValue.trim();
       if (inputValue) {
         this.meetingForm.topics.push(inputValue);
       }
