@@ -5,7 +5,7 @@
         <el-rate v-model="RatingForm.grade" :show-text="true" :texts="ratingTexts" :colors="colors" :max="4"> </el-rate>
       </el-form-item>
       <el-form-item label="Comment" prop="comment">
-        <el-input v-model="RatingForm.comment" type="textarea" autosize maxlength="800" show-word-limit> </el-input>
+        <el-input v-model="RatingForm.comment" type="textarea" :autosize="{ minRows: 4 }" maxlength="800" show-word-limit> </el-input>
       </el-form-item>
       <el-form-item label="Confidence" prop="confidenceVal">
         <el-rate v-model="RatingForm.confidenceVal" :show-text="true" :texts="confidenceTexts" :colors="colors" :max="4"> </el-rate>

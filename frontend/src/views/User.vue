@@ -79,9 +79,6 @@ export default {
   data() {
     return { isDot: true, isCollapse: true };
   },
-  created() {
-    this.$notify({ title: 'Tip', message: 'Double click to view meeting details', offset: 50 });
-  },
   methods: {
     seeMessage() {
       this.isDot = false;

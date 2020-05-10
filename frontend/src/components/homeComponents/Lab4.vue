@@ -1,7 +1,7 @@
 <template>
   <div id="lab">
     <h1>
-      Lab3 会议组织与投稿 小组实验报告
+      Lab4 会议组织与投稿 小组实验报告
     </h1>
     <p><strong>小组成员</strong>： 潘星宇 胡彧锋 颜华</p>
     <p><strong>管理员账号</strong>：账号名：admin 密码：adminPass</p>

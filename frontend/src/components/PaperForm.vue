@@ -55,7 +55,7 @@
       </el-form-item>
 
       <el-form-item label="Summary" prop="summary">
-        <el-input v-model="paperForm.summary" type="textarea" autosize maxlength="800" show-word-limit> </el-input>
+        <el-input v-model="paperForm.summary" type="textarea" :autosize="{ minRows: 4 }" maxlength="800" show-word-limit> </el-input>
       </el-form-item>
 
       <el-form-item label="PDF File" prop="file">
@@ -258,7 +258,7 @@ export default {
       for (let i = 0; i < this.paperForm.authors.length; i++) {
         let author = this.paperForm.authors[i];
         if (!author.name || !author.email || !author.unit || !author.area) {
-          this.$message({ type: 'warning', message: 'Please fill in the information', duration: '2000', showClose: 'true', center: 'true' });
+          this.$message({ type: 'warning', message: 'Please check the form', duration: '2000', showClose: 'true', center: 'true' });
           return;
         }
       }
@@ -301,7 +301,7 @@ export default {
               if (this.Identity !== 'Author') this.$emit('submitPaperFinished');
             });
         } else {
-          this.$message({ type: 'warning', message: 'Please fill in the information', duration: '2000', showClose: 'true', center: 'true' });
+          this.$message({ type: 'warning', message: 'Please check the form', duration: '2000', showClose: 'true', center: 'true' });
         }
       });
     },
