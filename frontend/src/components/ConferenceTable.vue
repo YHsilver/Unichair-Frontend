@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-table :data="data" height="calc(100vh - 200px)" :row-style="{ cursor: 'pointer' }" @row-dblclick="openConferenceDetails">
+    <el-table :data="data" height="calc(100vh - 200px)" :row-style="{ cursor: 'pointer' }" @row-dblclick="openConferenceDetails" v-loading="loading">
       <el-table-column type="expand">
         <template slot-scope="props">
           <el-form label-position="left" inline>
@@ -61,6 +61,7 @@ export default {
     return {
       ConferenceDetailVisible: false,
       conferenceId: -1,
+      loading: true,
     };
   },
   methods: {
@@ -72,6 +73,11 @@ export default {
     openConferenceDetails(row) {
       this.ConferenceDetailVisible = true;
       this.conferenceId = Number(row.id);
+    },
+  },
+  watch: {
+    data: function() {
+      this.loading = false;
     },
   },
 };

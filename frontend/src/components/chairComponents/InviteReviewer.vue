@@ -8,12 +8,12 @@
         <h3>Invite Reviewer</h3>
         <el-form :inline="true">
           <el-form-item>
-            <el-input v-model="searchName" placeholder="Find by real name" style="width: 60%;" v-on:keyup.enter.native="searchUser"> </el-input>
+            <el-input v-model="searchName" placeholder="Find by real name" style="width: 60%;"> </el-input>
             <el-button icon="el-icon-search" style="margin-left:2%" type="primary" @click="searchUser"></el-button>
           </el-form-item>
         </el-form>
 
-        <el-table ref="multipleTable" :data="userTable" tooltip-effect="dark" @selection-change="handleSelectionChange" height="60vh" :laoding="searchLoading">
+        <el-table ref="multipleTable" :data="userTable" tooltip-effect="dark" @selection-change="handleSelectionChange" height="60vh" v-loading="searchLoading">
           <el-table-column type="selection"> </el-table-column>
           <el-table-column label="Username" prop="username"> </el-table-column>
           <el-table-column prop="fullName" label="Real Name">
@@ -34,7 +34,7 @@
       <!-- 邀请函 -->
       <el-col :span="10">
         <h3 style="padding-bottom: 62px;">My Send Invitations</h3>
-        <el-table :data="invitationsTable" height="60vh" :loading="sendLoading">
+        <el-table :data="invitationsTable" height="60vh" v-loading="sendLoading">
           <el-table-column prop="reviewerUsername" label="Username"> </el-table-column>
           <el-table-column prop="reviewerFullName" label="Real Name">
             <template slot-scope="scope">

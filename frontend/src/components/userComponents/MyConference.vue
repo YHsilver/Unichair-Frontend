@@ -4,7 +4,7 @@
 
     <el-tabs v-model="activeTab" @tab-click="handleTabClick">
       <el-tab-pane v-for="(table, name, index) in tables" :label="name" :name="name" :key="index">
-        <ConferenceTable :showList="showList" :data="table" :loading="loading" :Identity="name" />
+        <ConferenceTable :showList="showList" :data="table" :Identity="name" />
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -18,7 +18,6 @@ export default {
   components: { ConferenceTable },
   data() {
     return {
-      loading: true,
       activeTab: 'Chair',
       tables: { Chair: [], Reviewer: [], Author: [] },
       showList: ['Abbr', 'Name', 'Stage'],
@@ -37,7 +36,6 @@ export default {
         .then((resp) => {
           if (resp.status === 200) {
             this.tables[Identity] = resp.data;
-            this.loading = false;
           } else {
             this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
           }

@@ -45,6 +45,7 @@ export default {
       this.$emit('modifyFinished');
     },
     passPaperId(paperId, status) {
+      this.toggle = 'PaperInfo';
       this.chosePaperId = paperId;
       this.status = status;
       this.chosePaper = true;

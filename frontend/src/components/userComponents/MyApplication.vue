@@ -4,7 +4,7 @@
 
     <el-tabs v-model="activeTab" @tab-click="handleTabClick">
       <el-tab-pane v-bind:label="name" v-bind:name="name" v-for="(table, name, index) in tables" :key="index">
-        <ConferenceTable v-bind:showList="showList" v-bind:data="table" v-bind:loading="loading" :Identity="name === 'pass' ? 'Chair' : 'Other'" />
+        <ConferenceTable v-bind:showList="showList" v-bind:data="table" :Identity="name === 'pass' ? 'Chair' : 'Other'" />
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -18,7 +18,6 @@ export default {
   components: { ConferenceTable },
   data() {
     return {
-      loading: true,
       activeTab: 'pending',
       tables: { pending: [], pass: [], reject: [] },
       showList: ['Abbr', 'Name', 'Status'],
@@ -37,7 +36,6 @@ export default {
         .then((resp) => {
           if (resp.status === 200) {
             this.tables[Status] = resp.data;
-            this.loading = false;
           } else {
             this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
           }

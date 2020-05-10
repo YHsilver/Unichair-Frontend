@@ -241,6 +241,7 @@ export default {
     },
     sendPaperForm(formName) {
       this.popoverVisible = false;
+
       // authors infomation all filled
       for (let i = 0; i < this.paperForm.authors.length; i++) {
         let author = this.paperForm.authors[i];
@@ -267,6 +268,7 @@ export default {
       }
       this.$refs[formName].validate((valid) => {
         if (valid) {
+          const loading = this.$loading({ lock: true, spinner: 'el-icon-loading', background: 'rgba(0, 0, 0, 0.6)' });
           this.$axios
             .post(address, this.getPaperData())
             .then((resp) => {
@@ -274,6 +276,7 @@ export default {
                 this.paperForm = { title: '', authors: [], summary: '', topics: [], file: null };
                 this.$message({ type: 'success', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
                 this.$emit('submitPaperFinished');
+                loading.close();
               } else {
                 this.paperForm = { title: '', authors: [], summary: '', topics: [], file: null };
                 this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });

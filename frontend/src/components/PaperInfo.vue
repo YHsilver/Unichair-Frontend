@@ -1,12 +1,12 @@
 <template>
-  <div style="width:720px;margin:auto">
+  <div style="width:720px;margin:auto" v-loading="loading">
     <el-form :model="paperInfo" label-width="200px" label-position="left">
       <el-form-item label="Title" prop="title">
         <span>{{ paperInfo.title }}</span>
       </el-form-item>
 
       <div v-if="Identity === 'Author'">
-        <el-form-item :key="index" v-for="(author, index) in paperInfo.authors" :label="'Authors' + index + 1">
+        <el-form-item :key="index" v-for="(author, index) in paperInfo.authors" :label="'Authors ' + (index + 1)">
           <strong> name: </strong><span> {{ author.name }} </span> <strong> area: </strong> <span> {{ author.area }} </span> <strong> unit: </strong>
           <span> {{ author.unit }} </span> <strong> email: </strong><span> {{ author.email }} </span>
         </el-form-item>
@@ -53,7 +53,9 @@
         <el-button type="plain" size="small" @click="downloadFile">Download</el-button>
         <el-button type="primary" size="small" @click="previewFile">Preview</el-button>
         <el-drawer :visible.sync="pdfVisible" :size="'720px'" :title="paperInfo.fileName" append-to-body>
-          <iframe :src="pdfSrc" style="width: 90%;height: 90vh;margin-left: 5%;"></iframe>
+          <div v-loading="pdfLoading">
+            <iframe :src="pdfSrc" style="width: 90%;height: 90vh;margin-left: 5%;"></iframe>
+          </div>
         </el-drawer>
       </el-button-group>
     </el-form>
@@ -68,13 +70,13 @@ export default {
   name: 'PaperInfo',
   props: { paperId: Number, Identity: String },
   data() {
-    return { paperInfo: {}, address: '', file: undefined, pdfSrc: undefined, pdfVisible: false };
+    return { loading: true, paperInfo: {}, address: '', file: undefined, pdfSrc: undefined, pdfVisible: false, pdfLoading: true };
   },
-  created() {
-    this.getpaperInfo();
+  mounted() {
+    this.getPaperInfo();
   },
   methods: {
-    getpaperInfo() {
+    getPaperInfo() {
       this.Identity === 'Author' ? (this.address = '/system/authorGetMyPaperDetails') : (this.address = '/system/reviewerGetPaperDetails');
       this.$axios
         .post(this.address, { token: this.$store.state.token, paperId: this.paperId })
@@ -101,6 +103,7 @@ export default {
               }
               Result.comment = this.paperInfo.myComment;
               Bus.$emit('isPaperRated', this.paperInfo.isCurrPCMemberReviewed, Result);
+              this.loading = false;
             }
           } else {
             this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
@@ -111,38 +114,62 @@ export default {
         });
     },
     getFileURL() {
-      this.$axios
-        .post('/system/userGetPaperPdfFile', { paperId: this.paperId }, { responseType: 'blob' })
-        .then((resp) => {
-          if (resp.status === 200) {
-            const blob = resp.data;
-            if (window.createObjectURL != undefined) {
-              this.pdfSrc = window.createObjectURL(blob); // basic
-            } else if (window.webkitURL != undefined) {
-              this.pdfSrc = window.webkitURL.createObjectURL(blob); // webkit or chrome
-            } else if (window.URL != undefined) {
-              this.pdfSrc = window.URL.createObjectURL(blob); // mozilla(firefox)
+      return new Promise((resolve, reject) => {
+        this.$axios
+          .post('/system/userGetPaperPdfFile', { paperId: this.paperId }, { responseType: 'blob' })
+          .then((resp) => {
+            if (resp.status === 200) {
+              const blob = resp.data;
+              if (window.createObjectURL != undefined) {
+                this.pdfSrc = window.createObjectURL(blob); // basic
+              } else if (window.webkitURL != undefined) {
+                this.pdfSrc = window.webkitURL.createObjectURL(blob); // webkit or chrome
+              } else if (window.URL != undefined) {
+                this.pdfSrc = window.URL.createObjectURL(blob); // mozilla(firefox)
+              }
+              resolve();
+            } else {
+              this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
+              reject();
             }
-          } else {
-            this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
-          }
-        })
-        .catch((err) => {
-          this.$message({ type: 'error', message: err.data.message, duration: '2000', showClose: 'true', center: 'true' });
-        });
+          })
+          .catch((err) => {
+            this.$message({ type: 'error', message: err.data.message, duration: '2000', showClose: 'true', center: 'true' });
+          });
+      });
     },
     downloadFile() {
-      if (this.pdfSrc === undefined) this.getFileURL();
-      var a = document.createElement('a');
-      a.download = this.paperInfo.fileName;
-      a.href = this.pdfSrc;
-      document.body.append(a); // 修复firefox中无法触发click
-      a.click();
-      a.remove();
+      const loading = this.$loading({ lock: true, spinner: 'el-icon-loading', background: 'rgba(0, 0, 0, 0.6)' });
+
+      async function download(it) {
+        await it.getFileURL();
+        loading.close();
+        var a = document.createElement('a');
+        a.download = it.paperInfo.fileName;
+        a.href = it.pdfSrc;
+        document.body.append(a); // 修复firefox中无法触发click
+        a.click();
+        a.remove();
+      }
+
+      download(this);
     },
     previewFile() {
-      if (this.pdfSrc === undefined) this.getFileURL();
+      this.getFileURL();
       this.pdfVisible = true;
+      this.pdfLoading = true;
+    },
+  },
+  watch: {
+    pdfSrc: function() {
+      this.pdfLoading = false;
+    },
+    paperInfo: function() {
+      this.loading = false;
+    },
+    paperId: function() {
+      this.loading = true;
+      this.getPaperInfo();
     },
   },
 };
