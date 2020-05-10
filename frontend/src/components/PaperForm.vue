@@ -98,7 +98,7 @@ export default {
           this.paperForm.topics = paperInfo.topics;
           this.paperForm.topics.push(' ');
           this.paperForm.title = paperInfo.title;
-          this.paperForm.authors = [];
+          this.paperForm.authors = paperInfo.authors;
           this.paperForm.file = null;
         });
       }
