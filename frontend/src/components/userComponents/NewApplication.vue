@@ -32,7 +32,7 @@
       </el-form-item>
 
       <el-form-item prop="introduction">
-        <el-input type="textarea" v-model="meetingForm.introduction" placeholder="Introduction" clearable></el-input>
+        <el-input type="textarea" autosize v-model="meetingForm.introduction" placeholder="Introduction" clearable></el-input>
       </el-form-item>
 
       <el-form-item prop="topics" style="text-align:left;">

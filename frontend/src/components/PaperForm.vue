@@ -55,7 +55,7 @@
       </el-form-item>
 
       <el-form-item label="Summary" prop="summary">
-        <el-input v-model="paperForm.summary" type="textarea" maxlength="800" show-word-limit rows="5"> </el-input>
+        <el-input v-model="paperForm.summary" type="textarea" autosize maxlength="800" show-word-limit> </el-input>
       </el-form-item>
 
       <el-form-item label="PDF File" prop="file">
