@@ -13,7 +13,13 @@
         <PaperForm @submitPaperFinished="finish()" v-show="toggle === 'ModifyForm'" :conferenceId="conferenceId" :conferenceTopics="conferenceTopics" :Identity="'Author'" />
 
         <div style="width:720px;margin:auto">
-          <el-button v-show="toggle === 'PaperInfo'" type="primary" @click="toggle === 'PaperInfo' ? (toggle = 'ModifyForm') : (toggle = 'PaperInfo')">Modify</el-button>
+          <el-button
+            v-show="toggle === 'PaperInfo'"
+            type="primary"
+            @click="toggle === 'PaperInfo' ? (toggle = 'ModifyForm') : (toggle = 'PaperInfo')"
+            :disabled="status === 'REVIEWED'"
+            >Modify</el-button
+          >
           <el-button v-show="toggle === 'PaperInfo'" @click="finish()" type="text" style="float:right">Cancel</el-button>
         </div>
       </el-col>
@@ -31,15 +37,16 @@ export default {
   components: { PaperForm, PaperInfo, PaperList },
   props: { conferenceId: Number, conferenceTopics: Array },
   data() {
-    return { toggle: 'PaperInfo', chosePaper: false, chosePaperId: undefined };
+    return { toggle: 'PaperInfo', chosePaper: false, chosePaperId: undefined, status: undefined };
   },
   methods: {
     finish() {
       this.toggle = 'PaperInfo';
       this.$emit('modifyFinished');
     },
-    passPaperId(paperId) {
+    passPaperId(paperId, status) {
       this.chosePaperId = paperId;
+      this.status = status;
       this.chosePaper = true;
     },
   },

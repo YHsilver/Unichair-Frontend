@@ -15,7 +15,7 @@
 
       <el-table-column label="Status" prop="status"> </el-table-column>
 
-      <el-table-column label="Reviewed" prop="isCurrPCMemberReviewed"> </el-table-column>
+      <el-table-column label="Reviewed" prop="isCurrPCMemberReviewed" v-if="Identity === 'Reviewer'"> </el-table-column>
     </el-table>
   </div>
 </template>
@@ -56,7 +56,7 @@ export default {
         });
     },
     choosePaper(row) {
-      this.$emit('chosePaper', Number(row.paperId));
+      this.$emit('chosePaper', Number(row.paperId), row.status);
     },
   },
 };
