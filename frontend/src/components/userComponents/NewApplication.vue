@@ -36,7 +36,7 @@
       </el-form-item>
 
       <el-form-item prop="topics" style="text-align:left;">
-        <el-tag :key="index" v-for="(topic,index) in meetingForm.topics" closable :disable-transitions="false" @close="handleClose(topic)">
+        <el-tag :key="index" v-for="(topic, index) in meetingForm.topics" closable :disable-transitions="false" @close="handleClose(topic)">
           {{ topic }}
         </el-tag>
         <el-input
@@ -176,8 +176,8 @@ export default {
                 this.$message({ type: 'error', message: 'setting up meeting failed', duration: '2000', showClose: 'true', center: 'true' });
               }
             })
-            .catch((error) => {
-              this.$message({ type: 'error', message: error.data.message, duration: '2000', showClose: 'true', center: 'true' });
+            .catch((err) => {
+              this.$message({ type: 'error', message: err.data.message, duration: '2000', showClose: 'true', center: 'true' });
             });
         } else {
           this.$message({ type: 'warning', message: 'Please fill in the information', duration: '2000', showClose: 'true', center: 'true' });

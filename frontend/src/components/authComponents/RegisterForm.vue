@@ -80,13 +80,11 @@ export default {
           if (resp.status === 200) {
             return callback();
           } else {
-            this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
-            return callback(new Error(resp.data.message));
+            return callback(new Error('username has been regisred.'));
           }
         })
         .catch(() => {
-          this.$message({ type: 'error', message: 'operation error', duration: '2000', showClose: 'true', center: 'true' });
-          return callback();
+          return callback('username has been regisred.');
         });
     };
     const passwordValid = (rule, value, callback) => {
@@ -172,9 +170,8 @@ export default {
                 this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
               }
             })
-            .catch((error) => {
-              console.log(error);
-              this.$message({ type: 'error', message: error.data.message, duration: '2000', showClose: 'true', center: 'true' });
+            .catch((err) => {
+              this.$message({ type: 'error', message: err.data.message, duration: '2000', showClose: 'true', center: 'true' });
             });
         } else {
           this.$message({ type: 'warning', message: 'Please fill in the information', duration: '2000', showClose: 'true', center: 'true' });

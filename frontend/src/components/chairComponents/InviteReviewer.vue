@@ -74,8 +74,8 @@ export default {
             this.$message({ type: 'error', message: 'get information error', duration: '2000', showClose: 'true', center: 'true' });
           }
         })
-        .catch(() => {
-          this.$message({ type: 'error', message: 'get information error', duration: '2000', showClose: 'true', center: 'true' });
+        .catch((err) => {
+          this.$message({ type: 'error', message: err.data.message, duration: '2000', showClose: 'true', center: 'true' });
         });
     },
     searchUser() {
@@ -89,8 +89,8 @@ export default {
             this.$message({ type: 'error', message: 'get information error', duration: '2000', showClose: 'true', center: 'true' });
           }
         })
-        .catch(() => {
-          this.$message({ type: 'error', message: 'get information error', duration: '2000', showClose: 'true', center: 'true' });
+        .catch((err) => {
+          this.$message({ type: 'error', message: err.data.message, duration: '2000', showClose: 'true', center: 'true' });
         });
     },
     sendInvitation() {
@@ -110,8 +110,8 @@ export default {
             this.$message({ type: 'error', message: 'failed to send invitation ', duration: '2000', showClose: 'true', center: 'true' });
           }
         })
-        .catch(() => {
-          this.$message({ type: 'error', message: 'failed to send invitation', duration: '2000', showClose: 'true', center: 'true' });
+        .catch((err) => {
+          this.$message({ type: 'error', message: err.data.message, duration: '2000', showClose: 'true', center: 'true' });
         });
     },
     handleSelectionChange(val) {

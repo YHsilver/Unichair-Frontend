@@ -6,6 +6,7 @@
       <el-collapse v-model="activeLab" style="width:90%;margin:5%;">
         <el-collapse-item title="👍 LAB2" name="1"> <Lab2 /> </el-collapse-item>
         <el-collapse-item title="👍 LAB3" name="2"> <Lab3 /> </el-collapse-item>
+        <el-collapse-item title="👍 LAB4" name="3"> <Lab4 /> </el-collapse-item>
       </el-collapse>
     </div>
     <Footer />
@@ -17,12 +18,14 @@
 import Welcome from '@/components/homeComponents/Welcome.vue';
 import Lab2 from '@/components/homeComponents/Lab2.vue';
 import Lab3 from '@/components/homeComponents/Lab3.vue';
+import Lab4 from '@/components/homeComponents/Lab4.vue';
+
 import Header from '@/components/Header.vue';
 import Footer from '@/components/Footer.vue';
 
 export default {
   name: 'Home',
-  components: { Welcome, Lab2, Lab3, Header, Footer },
+  components: { Welcome, Lab2, Lab3, Lab4, Header, Footer },
   data() {
     return { activeLab: '1' };
   },

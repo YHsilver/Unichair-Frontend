@@ -262,24 +262,24 @@ export default {
   text-align: left;
 }
 
-img {
+#lab img {
   width: 80%;
   margin: 10%;
 }
 
-h1::before {
+#lab h1::before {
   content: '👌 ';
 }
 
-h2::before {
+#lab h2::before {
   content: '👉 ';
 }
 
-h3::before {
+#lab h3::before {
   content: '👍 ';
 }
 
-h4::before {
+#lab h4::before {
   content: '👏 ';
 }
 </style>

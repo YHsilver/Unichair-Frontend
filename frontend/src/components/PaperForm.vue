@@ -93,11 +93,13 @@ export default {
     this.$nextTick(() => {
       if (this.Identity === 'Author') {
         Bus.$on('getPaperInfo', (paperInfo) => {
-          this.paperForm = paperInfo;
+          this.paperForm.title = paperInfo.title;
+          this.paperForm.summary = paperInfo.summary;
+          this.paperForm.topics = paperInfo.topics;
+          this.paperForm.title = paperInfo.title;
+          this.paperForm.authors = [];
+          this.paperForm.file = null;
         });
-        this.address = '/system/authorModifyPaper';
-      } else {
-        this.address = '/system/userSubmitPaper';
       }
     });
   },
@@ -122,7 +124,6 @@ export default {
     };
     return {
       popoverVisible: false,
-      address: undefined,
       paperForm: { title: '', authors: [], summary: '', topics: [' '], file: null },
       authorRules: {
         name: [
@@ -183,8 +184,8 @@ export default {
             this.paperForm.authors.push({ name: me.fullName, unit: me.unit, area: me.unit, email: me.email });
           } else this.$message({ type: 'error', message: 'token invalid', duration: '2000', showClose: 'true', center: 'true' });
         })
-        .catch(() => {
-          this.$message({ type: 'error', message: 'token invalid', duration: '2000', showClose: 'true', center: 'true' });
+        .catch((err) => {
+          this.$message({ type: 'error', message: err.data.message, duration: '2000', showClose: 'true', center: 'true' });
         });
     },
     removeAuthor(author) {
@@ -261,10 +262,16 @@ export default {
         this.$message({ type: 'warning', message: "Athors name can't be the same!", duration: '2000', showClose: 'true', center: 'true' });
         return;
       }
+      let address;
+      if (this.Identity === 'Author') {
+        address = '/system/authorModifyPaper';
+      } else {
+        address = '/system/userSubmitPaper';
+      }
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.$axios
-            .post(this.address, this.getPaperData())
+            .post(address, this.getPaperData())
             .then((resp) => {
               if (resp.status === 200) {
                 this.paperForm = { title: '', authors: [], summary: '', topics: [' '], file: null };
@@ -272,13 +279,13 @@ export default {
                 this.$emit('submitPaperFinished');
               } else {
                 this.paperForm = { title: '', authors: [], summary: '', topics: [' '], file: null };
-                this.$message({ type: 'error', message: 'contribute failed', duration: '2000', showClose: 'true', center: 'true' });
+                this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
                 this.$emit('submitPaperFinished');
               }
             })
-            .catch(() => {
+            .catch((err) => {
+              this.$message({ type: 'error', message: err.data.message, duration: '2000', showClose: 'true', center: 'true' });
               this.paperForm = { title: '', authors: [], summary: '', topics: [' '], file: null };
-              this.$message({ type: 'error', message: 'contribute failed', duration: '2000', showClose: 'true', center: 'true' });
               this.$emit('submitPaperFinished');
             });
         } else {

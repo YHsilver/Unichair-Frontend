@@ -99,8 +99,8 @@ export default {
             this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
           }
         })
-        .catch(() => {
-          this.$message({ type: 'error', message: 'get information error', duration: '2000', showClose: 'true', center: 'true' });
+        .catch((err) => {
+          this.$message({ type: 'error', message: err.data.message, duration: '2000', showClose: 'true', center: 'true' });
         });
     },
     checkChosedTopics(row) {
@@ -119,8 +119,8 @@ export default {
             this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
           }
         })
-        .catch(() => {
-          this.$message({ type: 'error', message: 'operation error', duration: '2000', showClose: 'true', center: 'true' });
+        .catch((err) => {
+          this.$message({ type: 'error', message: err.data.message, duration: '2000', showClose: 'true', center: 'true' });
         });
     },
     // 打开会议详细界面

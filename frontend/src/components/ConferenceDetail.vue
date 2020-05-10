@@ -43,14 +43,11 @@
       </el-form-item>
 
       <el-form-item label="Reviewers">
-        <el-tag :key="index" v-for="(topic, index) in conferenceDetail.topics" :disable-transitions="false" effect="dark" style="margin-right: 10px;">
-          {{ topic }}
-        </el-tag>
         <span v-for="(pc, index) in conferenceDetail.PCMember" :key="index">{{ pc }} </span>
       </el-form-item>
 
-      <el-form-item label="Authors">
-        <span v-for="(aAuthor, index) in conferenceDetail.PCMember" :key="index">{{ aAuthor }} </span>
+      <el-form-item label="Author">
+        <span v-for="(aAuthor, index) in conferenceDetail.Author" :key="index">{{ aAuthor }} </span>
       </el-form-item>
     </el-form>
 
@@ -78,7 +75,7 @@
 
     <!-- author -->
     <!-- modify Paper -->
-    <el-button type="primary" @click="myPaperVisible = true" v-if="Identity === 'Author'">My paper</el-button>
+    <el-button type="primary" @click="myPaperVisible = true" v-if="Identity === 'Author'">My papers</el-button>
     <el-dialog :visible.sync="myPaperVisible" v-if="myPaperVisible" append-to-body :fullscreen="true">
       <MyPaper @modifyFinished="myPaperVisible = false" :conferenceId="Number(conferenceDetail.id)" :conferenceTopics="conferenceDetail.topics" />
     </el-dialog>
@@ -135,8 +132,10 @@ export default {
         .then((resp) => {
           if (resp.status === 200) {
             this.conferenceDetail = resp.data;
+            if (this.conferenceDetail.PCMember !== '') this.conferenceDetail.PCMember = this.conferenceDetail.PCMember.split(/, */);
+            if (this.conferenceDetail.Author !== '') this.conferenceDetail.Author = this.conferenceDetail.Author.split(/, */);
             for (let key in this.conferenceDetail) {
-              if (this.conferenceDetail[key] === []) this.conferenceDetail[key] = ['not available'];
+              if (this.conferenceDetail[key] === '') this.conferenceDetail[key] = ['No Data'];
             }
             // 转化为第一个字母大写
             this.conferenceDetail.stage = this.conferenceDetail.stage.charAt(0) + this.conferenceDetail.stage.substring(1).toLowerCase();
@@ -145,8 +144,8 @@ export default {
             this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
           }
         })
-        .catch(() => {
-          this.$message({ type: 'error', message: 'get conference details error', duration: '2000', showClose: 'true', center: 'true' });
+        .catch((err) => {
+          this.$message({ type: 'error', message: err.data.message, duration: '2000', showClose: 'true', center: 'true' });
         });
     },
     getNextStage(currStage) {
@@ -185,8 +184,8 @@ export default {
               this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
             }
           })
-          .catch(() => {
-            this.$message({ type: 'error', message: 'change stage error', duration: '2000', showClose: 'true', center: 'true' });
+          .catch((err) => {
+            this.$message({ type: 'error', message: err.data.message, duration: '2000', showClose: 'true', center: 'true' });
           });
       }
       this.popoverVisible = false;
@@ -201,8 +200,8 @@ export default {
             this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
           }
         })
-        .catch(() => {
-          this.$message({ type: 'error', message: 'change stage error', duration: '2000', showClose: 'true', center: 'true' });
+        .catch((err) => {
+          this.$message({ type: 'error', message: err.data.message, duration: '2000', showClose: 'true', center: 'true' });
         });
     },
   },

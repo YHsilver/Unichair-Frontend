@@ -72,8 +72,8 @@ export default {
                 this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
               }
             })
-            .catch(() => {
-              this.$message({ type: 'error', message: 'login error', duration: '2000', showClose: 'true', center: 'true' });
+            .catch((err) => {
+              this.$message({ type: 'error', message: err.data.message, duration: '2000', showClose: 'true', center: 'true' });
             });
         } else {
           this.$message({ type: 'warning', message: 'Please fill in the information', duration: '2000', showClose: 'true', center: 'true' });

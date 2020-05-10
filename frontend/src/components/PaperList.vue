@@ -44,8 +44,8 @@ export default {
             this.$message({ type: 'error', message: 'get paper information error', duration: '2000', showClose: 'true', center: 'true' });
           }
         })
-        .catch(() => {
-          this.$message({ type: 'error', message: 'get information error', duration: '2000', showClose: 'true', center: 'true' });
+        .catch((err) => {
+          this.$message({ type: 'error', message: err.data.message, duration: '2000', showClose: 'true', center: 'true' });
         });
     },
     choosePaper(row) {

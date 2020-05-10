@@ -34,4 +34,36 @@ body {
   min-height: 100vh;
   background-color: #fafbfe;
 }
+
+/* scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track-piece {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb:vertical {
+  background-color: rgba(44, 44, 44, 0.2);
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:horizontal {
+  background-color: rgba(44, 44, 44, 0.2);
+  border-radius: 6px;
+}
+
+sr-rd-content pre,
+sr-rd-content pre *,
+sr-rd-content pre div {
+  font-size: 20px !important;
+}
+
+sr-rd-content,
+sr-rd-desc,
+sr-rd-title {
+  width: auto;
+}
 </style>
