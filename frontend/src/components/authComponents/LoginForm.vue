@@ -67,7 +67,6 @@ export default {
                 } else {
                   this.$router.push({ path: 'user' });
                 }
-                this.$message({ type: 'success', message: 'welcome aboard ' + this.loginForm.username + ' !', duration: '2000', showClose: 'true', center: 'true' });
               } else {
                 this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
               }

@@ -32,6 +32,7 @@ export default {
   name: 'Admin',
   components: { Header },
   created() {
+    this.$message({ type: 'success', message: 'welcome aboard !', duration: '2000', showClose: 'true', center: 'true' });
     this.$notify({ title: 'Tip', message: 'Double click to view meeting details', offset: 50 });
   },
   data() {
