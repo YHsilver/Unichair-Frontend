@@ -26,9 +26,14 @@ export default {
   created() {
     this.getConference('PENDING');
   },
+  mounted() {
+    this.activeTab = (this.$route.query.type || 'pending').toLowerCase();
+    this.getConference(this.activeTab.toUpperCase());
+  },
   methods: {
     handleTabClick(tab) {
       this.getConference(tab.name.toUpperCase());
+      if (tab.name.toUpperCase() !== this.$route.query.type) this.$router.push({ query: { type: tab.name.toUpperCase() || 'PENDING' } });
     },
     getConference(Status) {
       this.$axios

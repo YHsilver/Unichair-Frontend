@@ -59,7 +59,7 @@ export default {
       multipleSelection: [],
       invitationsTable: [],
       sendLoading: true,
-      searchLoading: true,
+      searchLoading: false,
     };
   },
   methods: {
@@ -79,6 +79,7 @@ export default {
         });
     },
     searchUser() {
+      this.searchLoading = true;
       this.$axios
         .post('/system/chairSearchReviews', { token: this.$store.state.token, targetFullName: this.searchName, conferenceId: this.conferenceId })
         .then((resp) => {

@@ -20,7 +20,7 @@ const routes = [
       { path: "ConferenceSquare", name: 'ConferenceSquare', component: () => import("@/components/userComponents/ConferenceSquare"), meta: { requireAuth: true } },
       { path: "NewApplication", name: 'NewApplication', component: () => import("@/components/userComponents/NewApplication"), meta: { requireAuth: true } },
       { path: "MyApplication", name: 'MyApplication', component: () => import("@/components/userComponents/MyApplication"), meta: { requireAuth: true } },
-      { path: "MyConference", name: 'MyConference', component: () => import("@/components/userComponents/MyConference"), meta: { requireAuth: true } },
+      { path: "MeParticipated", name: 'MeParticipated', component: () => import("@/components/userComponents/MeParticipated"), meta: { requireAuth: true } },
       { path: "Messages", name: 'Messages', component: () => import("@/components/userComponents/Messages"), meta: { requireAuth: true } },
       { path: "UserInfo", name: 'UserInfo', component: () => import("@/components/userComponents/UserInfo"), meta: { requireAuth: true } },
     ]

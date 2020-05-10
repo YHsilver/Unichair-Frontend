@@ -6,10 +6,22 @@
       </el-form-item>
 
       <div v-if="Identity === 'Author'">
-        <el-form-item :key="index" v-for="(author, index) in paperInfo.authors" :label="'Authors ' + (index + 1)">
-          <strong> name: </strong><span> {{ author.name }} </span> <strong> area: </strong> <span> {{ author.area }} </span> <strong> unit: </strong>
-          <span> {{ author.unit }} </span> <strong> email: </strong><span> {{ author.email }} </span>
-        </el-form-item>
+        <el-form :key="index" v-for="(author, index) in paperInfo.authors" inline class="paperInfoAuthor">
+          <h3>{{ 'Author ' + (index + 1) }}</h3>
+          <el-form-item label="Name" prop="name">
+            <span> {{ author.name }} </span>
+          </el-form-item>
+          <el-form-item label="Area" prop="area">
+            <span> {{ author.area }} </span>
+          </el-form-item>
+          <el-form-item label="Unit" prop="unit">
+            <span> {{ author.name }} </span>
+          </el-form-item>
+          <el-form-item label="Email" prop="email">
+            <span> {{ author.email }} </span>
+          </el-form-item>
+          <el-divider></el-divider>
+        </el-form>
       </div>
 
       <el-form-item label="Topics" prop="topic">
@@ -20,10 +32,6 @@
 
       <el-form-item label="Summary" prop="summary">
         <span>{{ paperInfo.summary }}</span>
-      </el-form-item>
-
-      <el-form-item label="Status" prop="status">
-        <span>{{ paperInfo.status }}</span>
       </el-form-item>
 
       <el-form-item label="Status" prop="status">
@@ -48,16 +56,21 @@
         </el-form>
       </div>
 
-      <span>{{ paperInfo.fileName }}</span>
-      <el-button-group style="float: right">
-        <el-button type="plain" size="small" @click="downloadFile">Download</el-button>
-        <el-button type="primary" size="small" @click="previewFile">Preview</el-button>
-        <el-drawer :visible.sync="pdfVisible" :size="'720px'" :title="paperInfo.fileName" append-to-body>
-          <div v-loading="pdfLoading">
-            <iframe :src="pdfSrc" style="width: 90%;height: 90vh;margin-left: 5%;"></iframe>
-          </div>
-        </el-drawer>
-      </el-button-group>
+      <el-form-item label="File Name" prop="fileName">
+        <span>{{ paperInfo.fileName }} ( {{ (paperInfo.fileSize / 1024000).toPrecision(3) }} MB )</span>
+      </el-form-item>
+
+      <el-form-item>
+        <el-button-group style="float: right">
+          <el-button type="plain" size="small" @click="downloadFile">Download</el-button>
+          <el-button type="primary" size="small" @click="previewFile">Preview</el-button>
+          <el-drawer :visible.sync="pdfVisible" :size="'min(720px,100%)'" :title="paperInfo.fileName" append-to-body>
+            <div v-loading="pdfLoading">
+              <iframe :src="pdfSrc" style="width: 90%;height: 90vh;margin-left: 5%;"></iframe>
+            </div>
+          </el-drawer>
+        </el-button-group>
+      </el-form-item>
     </el-form>
     <el-divider></el-divider>
   </div>
@@ -175,9 +188,13 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 /* element tag */
 .el-tag {
   margin-right: 10px;
+}
+
+.paperInfoAuthor .el-form-item__label {
+  width: 60px !important;
 }
 </style>

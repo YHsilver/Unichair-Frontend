@@ -1,6 +1,6 @@
 <template>
   <div style="width:720px;margin:auto">
-    <el-table :data="paperTable" tooltip-effect="dark" v-loading="paperListLoading" @row-click="choosePaper">
+    <el-table :data="paperTable" tooltip-effect="dark" v-loading="paperListLoading" @row-click="choosePaper" :row-style="{ cursor: 'pointer' }">
       <el-table-column label="Title" prop="title"> </el-table-column>
 
       <el-table-column label="Athor" prop="authorFullName" v-if="Identity === 'Author'"> </el-table-column>

@@ -20,7 +20,7 @@
               <i class="el-icon-edit-outline"></i>
               <span slot="title">My Applications</span>
             </el-menu-item>
-            <el-menu-item index="MyConference">
+            <el-menu-item index="MeParticipated">
               <i class="el-icon-pie-chart"></i>
               <span slot="title">Me Participated</span>
             </el-menu-item>
@@ -80,7 +80,6 @@ export default {
     return { isDot: true, isCollapse: true };
   },
   created() {
-    this.$message({ type: 'success', message: 'welcome aboard !', duration: '2000', showClose: 'true', center: 'true' });
     this.$notify({ title: 'Tip', message: 'Double click to view meeting details', offset: 50 });
   },
   methods: {

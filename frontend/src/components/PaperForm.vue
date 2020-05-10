@@ -62,7 +62,7 @@
         <input type="file" required @change="getFile($event)" accept=".pdf" style="display:none" id="uploadInput" />
         <el-button type="primary" size="small" @click="upload">choose file</el-button> <span>{{ fileName }}</span>
         <el-button type="primary" @click="pdfVisible = true" size="small" v-show="previewVisible" style="float: right;">Preview</el-button>
-        <el-drawer :visible.sync="pdfVisible" :size="'720px'" :title="fileName" append-to-body>
+        <el-drawer :visible.sync="pdfVisible" :size="'min(720px,100%)'" :title="fileName" append-to-body>
           <iframe :src="src" style="width: 90%;height: 90vh;margin-left: 5%;"></iframe>
         </el-drawer>
       </el-form-item>
@@ -100,6 +100,7 @@ export default {
           this.paperForm.title = paperInfo.title;
           this.paperForm.authors = paperInfo.authors;
           this.paperForm.file = null;
+          this.fileName = '';
         });
       }
     });
@@ -201,6 +202,10 @@ export default {
     },
     getFile(event) {
       const file = event.currentTarget.files[0]; // 上传的文件
+      if (file.size > 4194304) {
+        this.$message({ type: 'error', message: 'File size needs to be less than 4 MB', duration: '2000', showClose: 'true', center: 'true' });
+        return;
+      }
       this.paperForm.file = file;
       this.fileName = file.name; // 文件名
       this.src = this.getFileURL(file); // 文件地址
@@ -275,22 +280,21 @@ export default {
               if (resp.status === 200) {
                 this.paperForm = { title: '', authors: [], summary: '', topics: [], file: null };
                 this.$message({ type: 'success', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
-                this.$emit('submitPaperFinished');
+                if (this.Identity !== 'Author') this.$emit('submitPaperFinished');
                 loading.close();
               } else {
                 this.paperForm = { title: '', authors: [], summary: '', topics: [], file: null };
                 this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
-                this.$emit('submitPaperFinished');
+                if (this.Identity !== 'Author') this.$emit('submitPaperFinished');
               }
             })
             .catch((err) => {
               this.$message({ type: 'error', message: err.data.message, duration: '2000', showClose: 'true', center: 'true' });
               this.paperForm = { title: '', authors: [], summary: '', topics: [], file: null };
-              this.$emit('submitPaperFinished');
+              if (this.Identity !== 'Author') this.$emit('submitPaperFinished');
             });
         } else {
           this.$message({ type: 'warning', message: 'Please fill in the information', duration: '2000', showClose: 'true', center: 'true' });
-          this.$emit('submitPaperFinished');
         }
       });
     },

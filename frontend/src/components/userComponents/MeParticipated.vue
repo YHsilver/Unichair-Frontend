@@ -14,7 +14,7 @@
 import ConferenceTable from '@/components/ConferenceTable.vue';
 
 export default {
-  name: 'MyConference',
+  name: 'MeParticipated',
   components: { ConferenceTable },
   data() {
     return {
@@ -26,9 +26,15 @@ export default {
   created() {
     this.getConferenceAs('Chair');
   },
+  mounted() {
+    //挂载时通过this.$route.query.type拿到url后的参数
+    this.activeTab = this.$route.query.type || 'Chair';
+    this.getConferenceAs(this.activeTab);
+  },
   methods: {
     handleTabClick(tab) {
       this.getConferenceAs(tab.name);
+      if (tab.name !== this.$route.query.type) this.$router.push({ query: { type: tab.name || 'Chair' } });
     },
     getConferenceAs(Identity) {
       this.$axios

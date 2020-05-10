@@ -1,6 +1,6 @@
 <template>
   <div style="width:90%">
-    <h5 style="margin:0"><i class="el-icon-edit-outline" /> MyApplication</h5>
+    <h5 style="margin:0"><i class="el-icon-edit-outline" /> My Application</h5>
 
     <el-tabs v-model="activeTab" @tab-click="handleTabClick">
       <el-tab-pane v-bind:label="name" v-bind:name="name" v-for="(table, name, index) in tables" :key="index">
@@ -26,9 +26,14 @@ export default {
   created() {
     this.getConferenceApplications('pending');
   },
+  mounted() {
+    this.activeTab = this.$route.query.type || 'pending';
+    this.getConferenceApplications(this.activeTab);
+  },
   methods: {
     handleTabClick(tab) {
       this.getConferenceApplications(tab.name);
+      if (tab.name !== this.$route.query.type) this.$router.push({ query: { type: tab.name || 'pending' } });
     },
     getConferenceApplications(Status) {
       this.$axios
