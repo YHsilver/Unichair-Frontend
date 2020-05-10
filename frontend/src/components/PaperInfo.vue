@@ -58,13 +58,6 @@ export default {
         .post(this.address, { token: this.$store.state.token, paperId: this.paperId })
         .then((resp) => {
           if (resp.status === 200) {
-            for (let i = 0; i < resp.data.length; i++) {
-              if (resp.data[i].isCurrPCMemberReviewed) {
-                resp.data[i].isCurrPCMemberReviewed = '√';
-              } else {
-                resp.data[i].isCurrPCMemberReviewed = '×';
-              }
-            }
             this.paperInfo = resp.data;
             Bus.$emit('getPaperInfo', this.paperInfo);
             if (this.paperInfo.isCurrPCMemberReviewed) {

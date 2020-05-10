@@ -38,6 +38,13 @@ export default {
         .then((resp) => {
           if (resp.status === 200) {
             this.paperTable = resp.data;
+            for (let i = 0; i < this.paperTable.length; i++) {
+              if (this.paperTable[i].isCurrPCMemberReviewed) {
+                this.paperTable[i].isCurrPCMemberReviewed = '√';
+              } else {
+                this.paperTable[i].isCurrPCMemberReviewed = '×';
+              }
+            }
             this.paperListLoading = false;
             this.$notify({ title: 'Tip', message: 'Click to view Paper details', duration: 2000 });
           } else {
