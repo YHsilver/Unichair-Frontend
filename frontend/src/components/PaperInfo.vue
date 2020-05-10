@@ -7,8 +7,8 @@
 
       <div v-if="Identity === 'Author'">
         <el-form-item :key="index" v-for="(author, index) in paperInfo.authors" :label="'Authors' + index">
-          <strong>name: </strong><span>{{ author.name }}</span> <strong>area: </strong><span>{{ author.area }}</span> <strong>unit: </strong><span>{{ author.unit }}</span>
-          <strong>email: </strong><span>{{ author.email }}</span>
+          <strong>name: </strong><span>{{ author.name }} </span> <strong>area: </strong><span>{{ author.area }} </span> <strong>unit: </strong><span>{{ author.unit }} </span>
+          <strong>email: </strong><span>{{ author.email }} </span>
         </el-form-item>
       </div>
 
