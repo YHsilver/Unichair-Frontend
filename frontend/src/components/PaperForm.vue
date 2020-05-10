@@ -36,7 +36,7 @@
         <el-button @click="addAuthor" style="margin:20px 0;" plain>+ Author</el-button>
       </el-form-item>
 
-      <el-form-item label="Topics" style="width: 60%;display:inline-block;">
+      <el-form-item label="Topics">
         <el-tag
           :key="index"
           v-for="(topic, index) in conferenceTopics"
@@ -50,7 +50,7 @@
         </el-tag>
       </el-form-item>
 
-      <el-form-item label="My Topics" prop="topics" style="width: 38%;display: inline-block;margin-left: 2%;">
+      <el-form-item label="My Topics" prop="topics">
         <el-button :key="index" v-for="(topic, index) in paperForm.topics" v-model="paperForm.topics" type="text">{{ topic }}</el-button>
       </el-form-item>
 
@@ -76,7 +76,7 @@
           </div>
           <el-button slot="reference" type="primary">Send</el-button>
         </el-popover>
-        <el-button @click="paperForm = { title: '', authors: [], summary: '', topics: [' '], file: null }" style="margin-left:10px">Reset</el-button>
+        <el-button @click="paperForm = { title: '', authors: [], summary: '', topics: [], file: null }" style="margin-left:10px">Reset</el-button>
         <el-button @click="cancel()" type="text" style="float:right">Cancel</el-button>
       </el-form-item>
     </el-form>
@@ -96,7 +96,7 @@ export default {
           this.paperForm.title = paperInfo.title;
           this.paperForm.summary = paperInfo.summary;
           this.paperForm.topics = paperInfo.topics;
-          this.paperForm.topics.push(' ');
+          this.paperForm.paperId = paperInfo.paperId;
           this.paperForm.title = paperInfo.title;
           this.paperForm.authors = paperInfo.authors;
           this.paperForm.file = null;
@@ -107,7 +107,7 @@ export default {
   data() {
     const topicsValid = (rule, value, callback) => {
       let topics = this.paperForm.topics;
-      if (topics.length < 2) {
+      if (topics.length === 0) {
         return callback(new Error('At least one topic!'));
       }
       return callback();
@@ -125,7 +125,7 @@ export default {
     };
     return {
       popoverVisible: false,
-      paperForm: { title: '', authors: [], summary: '', topics: [' '], file: null },
+      paperForm: { title: '', authors: [], summary: '', topics: [], file: null },
       authorRules: {
         name: [
           { required: true, message: '', trigger: 'blur' },
@@ -223,10 +223,6 @@ export default {
       return url;
     },
     getPaperData: function() {
-      // 去除占位符
-      let topicSet = new Set(this.paperForm.topics);
-      topicSet.delete(' ');
-      this.paperForm.topics = [...topicSet];
       // authors 转为 String 数组
       let authorString = JSON.stringify(this.paperForm.authors);
       authorString = authorString.replace(/"\w+?":/g, '');
@@ -234,7 +230,7 @@ export default {
       // formData
       let formData = new FormData();
       formData.append('file', this.paperForm.file);
-      if (this.Identity === 'Author') formData.append('paperId', this.paperInfo.paperId);
+      if (this.Identity === 'Author') formData.append('paperId', this.paperForm.paperId);
       formData.append('authors', authorString);
       formData.append('topics', this.paperForm.topics);
       formData.append('conferenceId', this.conferenceId);
@@ -275,18 +271,18 @@ export default {
             .post(address, this.getPaperData())
             .then((resp) => {
               if (resp.status === 200) {
-                this.paperForm = { title: '', authors: [], summary: '', topics: [' '], file: null };
+                this.paperForm = { title: '', authors: [], summary: '', topics: [], file: null };
                 this.$message({ type: 'success', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
                 this.$emit('submitPaperFinished');
               } else {
-                this.paperForm = { title: '', authors: [], summary: '', topics: [' '], file: null };
+                this.paperForm = { title: '', authors: [], summary: '', topics: [], file: null };
                 this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
                 this.$emit('submitPaperFinished');
               }
             })
             .catch((err) => {
               this.$message({ type: 'error', message: err.data.message, duration: '2000', showClose: 'true', center: 'true' });
-              this.paperForm = { title: '', authors: [], summary: '', topics: [' '], file: null };
+              this.paperForm = { title: '', authors: [], summary: '', topics: [], file: null };
               this.$emit('submitPaperFinished');
             });
         } else {
