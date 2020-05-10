@@ -17,7 +17,7 @@
             v-show="toggle === 'PaperInfo'"
             type="primary"
             @click="toggle === 'PaperInfo' ? (toggle = 'ModifyForm') : (toggle = 'PaperInfo')"
-            :disabled="!status === 'CONTRIBUTION'"
+            :disabled="status !== 'CONTRIBUTION'"
             >Modify</el-button
           >
           <el-button v-show="toggle === 'PaperInfo'" @click="finish()" type="text" style="float:right">Cancel</el-button>
