@@ -132,10 +132,8 @@ export default {
         .then((resp) => {
           if (resp.status === 200) {
             this.conferenceDetail = resp.data;
-            if (this.conferenceDetail.PCMember !== '') this.conferenceDetail.PCMember = this.conferenceDetail.PCMember.split(/, */);
-            if (this.conferenceDetail.Author !== '') this.conferenceDetail.Author = this.conferenceDetail.Author.split(/, */);
             for (let key in this.conferenceDetail) {
-              if (this.conferenceDetail[key] === '') this.conferenceDetail[key] = ['No Data'];
+              if (this.conferenceDetail[key] === []) this.conferenceDetail[key] = ['No Data'];
             }
             // 转化为第一个字母大写
             this.conferenceDetail.stage = this.conferenceDetail.stage.charAt(0) + this.conferenceDetail.stage.substring(1).toLowerCase();
