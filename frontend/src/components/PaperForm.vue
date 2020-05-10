@@ -134,7 +134,14 @@ export default {
         ],
         unit: [{ required: true, message: '', trigger: 'blur' }],
         area: [{ required: true, message: '', trigger: 'blur' }],
-        email: [{ required: true, message: '', trigger: 'blur' }],
+        email: [
+          { required: true, message: '', trigger: 'blur' },
+          {
+            pattern: /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,
+            message: 'Email is not in the correct format',
+            trigger: 'blur',
+          },
+        ],
       },
       paperFormRules: {
         title: [
