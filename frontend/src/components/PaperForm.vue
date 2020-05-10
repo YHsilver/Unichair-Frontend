@@ -96,6 +96,7 @@ export default {
           this.paperForm.title = paperInfo.title;
           this.paperForm.summary = paperInfo.summary;
           this.paperForm.topics = paperInfo.topics;
+          this.paperForm.topics.push(' ');
           this.paperForm.title = paperInfo.title;
           this.paperForm.authors = [];
           this.paperForm.file = null;
