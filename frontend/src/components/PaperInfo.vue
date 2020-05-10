@@ -62,7 +62,7 @@ export default {
             Bus.$emit('getPaperInfo', this.paperInfo);
             if (this.paperInfo.isCurrPCMemberReviewed) {
               let Result = {};
-              Result.grade = this.paperInfo.myGrade;
+              this.paperInfo.myGrade > 0 ? (Result.grade = this.paperInfo.myGrade + 2) : (Result.grade = this.paperInfo.myGrade + 3);
               switch (this.paperInfo.myConfidence) {
                 case 'VERY_LOW':
                   Result.confidenceVal = 1;
