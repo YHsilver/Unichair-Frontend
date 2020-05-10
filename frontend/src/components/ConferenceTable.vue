@@ -17,7 +17,7 @@
               <span>{{ props.row.place }}</span>
             </el-form-item>
             <el-form-item label="Contribute Start Time">
-              <span>{{ props.row.time }}</span>
+              <span>{{ props.row.contributeStartTime }}</span>
             </el-form-item>
             <el-form-item label="Contribute End Time">
               <span>{{ props.row.contributeEndTime }}</span>
