@@ -15,7 +15,7 @@
 
       <el-table-column label="Status" prop="status"> </el-table-column>
 
-      <el-table-column label="Reviewed" prop="isCurrPCMemberReviewed"> </el-table-column>
+      <el-table-column label="Reviewed" :prop="isCurrPCMemberReviewed.toString()"> </el-table-column>
     </el-table>
   </div>
 </template>

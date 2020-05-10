@@ -6,9 +6,9 @@
       </el-form-item>
 
       <div v-if="Identity === 'Author'">
-        <el-form-item :key="index" v-for="(author, index) in paperInfo.authors" :label="'Authors' + index">
-          <strong>name: </strong><span>{{ author.name }} </span> <strong>area: </strong><span>{{ author.area }} </span> <strong>unit: </strong><span>{{ author.unit }} </span>
-          <strong>email: </strong><span>{{ author.email }} </span>
+        <el-form-item :key="index" v-for="(author, index) in paperInfo.authors" :label="'Authors' + index + 1">
+          <strong> name: </strong><span> {{ author.name }} </span> <strong> area: </strong> <span> {{ author.area }} </span> <strong> unit: </strong>
+          <span> {{ author.unit }} </span> <strong> email: </strong><span> {{ author.email }} </span>
         </el-form-item>
       </div>
 
@@ -63,7 +63,20 @@ export default {
             if (this.paperInfo.isCurrPCMemberReviewed) {
               let Result = {};
               Result.grade = this.paperInfo.myGrade;
-              Result.confidence = this.paperInfo.myConfidence;
+              switch (this.paperInfo.myConfidence) {
+                case 'VERY_LOW':
+                  Result.confidence = 1;
+                  break;
+                case 'LOW':
+                  Result.confidence = 2;
+                  break;
+                case 'HIGHT':
+                  Result.confidence = 3;
+                  break;
+                case 'VERY_HIGHT':
+                  Result.confidence = 4;
+                  break;
+              }
               Result.comment = this.paperInfo.myComment;
               Bus.$emit('isPaperRated', this.paperInfo.isCurrPCMemberReviewed, Result);
             }
