@@ -25,7 +25,7 @@ export default {
     };
   },
   created() {
-    this.getConferenceApplications('pass');
+    this.getConferenceApplications('pending');
   },
   methods: {
     handleTabClick(tab) {
