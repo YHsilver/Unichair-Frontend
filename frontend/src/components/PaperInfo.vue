@@ -58,6 +58,13 @@ export default {
         .post(this.address, { token: this.$store.state.token, paperId: this.paperId })
         .then((resp) => {
           if (resp.status === 200) {
+            for (let i = 0; i < resp.data.length; i++) {
+              if (resp.data[i].isCurrPCMemberReviewed) {
+                resp.data[i].isCurrPCMemberReviewed = '√';
+              } else {
+                resp.data[i].isCurrPCMemberReviewed = '×';
+              }
+            }
             this.paperInfo = resp.data;
             Bus.$emit('getPaperInfo', this.paperInfo);
             if (this.paperInfo.isCurrPCMemberReviewed) {
@@ -65,16 +72,16 @@ export default {
               Result.grade = this.paperInfo.myGrade;
               switch (this.paperInfo.myConfidence) {
                 case 'VERY_LOW':
-                  Result.confidence = 1;
+                  Result.confidenceVal = 1;
                   break;
                 case 'LOW':
-                  Result.confidence = 2;
+                  Result.confidenceVal = 2;
                   break;
-                case 'HIGHT':
-                  Result.confidence = 3;
+                case 'HIGH':
+                  Result.confidenceVal = 3;
                   break;
-                case 'VERY_HIGHT':
-                  Result.confidence = 4;
+                case 'VERY_HIGH':
+                  Result.confidenceVal = 4;
                   break;
               }
               Result.comment = this.paperInfo.myComment;
