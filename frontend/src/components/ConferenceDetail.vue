@@ -6,20 +6,32 @@
         <span>{{ conferenceDetail.id }}</span>
       </el-form-item>
       <!-- user -->
-      <el-form-item label="Full Name / Abbreviation">
-        <strong>{{ conferenceDetail.fullName }} / {{ conferenceDetail.abbreviation }}</strong>
+      <el-form-item label="Abbreviation">
+        <strong>{{ conferenceDetail.abbreviation }}</strong>
+      </el-form-item>
+
+      <el-form-item label="Full Name">
+        <span>{{ conferenceDetail.fullName }}</span>
       </el-form-item>
 
       <el-form-item label="Conference Location">
         <span>{{ conferenceDetail.heldPlace }}</span>
       </el-form-item>
 
-      <el-form-item label="Contribute Start Time / Contribute End Time">
-        <span>{{ conferenceDetail.submissionDate }} / {{ conferenceDetail.submissionDeadline }}</span>
+      <el-form-item label="Contribute Start Time">
+        <span>{{ conferenceDetail.submissionDate }}</span>
       </el-form-item>
 
-      <el-form-item label="Result Release Time / Conference Time">
-        <span>{{ conferenceDetail.releaseDate }} / {{ conferenceDetail.heldDate }}</span>
+      <el-form-item label="Contribute End Time">
+        <span>{{ conferenceDetail.submissionDeadline }}</span>
+      </el-form-item>
+
+      <el-form-item label="Result Release Time">
+        <span>{{ conferenceDetail.releaseDate }}</span>
+      </el-form-item>
+
+      <el-form-item label="Conference Time">
+        <span>{{ conferenceDetail.heldDate }}</span>
       </el-form-item>
 
       <el-form-item label="Conference Stage">
