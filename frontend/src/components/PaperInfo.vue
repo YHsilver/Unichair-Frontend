@@ -26,25 +26,26 @@
         <span>{{ paperInfo.status }}</span>
       </el-form-item>
 
-      <div v-if="paperInfo.status === 'REVIEWED'">
-        <el-form-item :key="index" v-for="index in 3" :label="'Reviewer' + index">
-          <p>
-            <strong> Reviewer Name: </strong><span> {{ paperInfo.reviewerFullNames[index] }} </span>
-          </p>
-          <p>
-            <strong> Grade: </strong> <span> {{ paperInfo.grades[index] }} </span>
-          </p>
-          <p>
-            <strong> Confidences: </strong> <span> {{ paperInfo.confidences[index] }} </span>
-          </p>
-          <p>
-            <strong> Comments: </strong><span> {{ paperInfo.comments[index] }} </span>
-          </p>
-        </el-form-item>
+      <el-form-item label="Status" prop="status">
+        <span>{{ paperInfo.status }}</span>
+      </el-form-item>
 
-        <el-form-item label="Status" prop="status">
-          <span>{{ paperInfo.status }}</span>
-        </el-form-item>
+      <div v-if="paperInfo.status === 'REVIEWED'">
+        <el-form :key="index" v-for="index in 3" label-width="200px" label-position="left">
+          <el-form-item label="Reviewer Name:">
+            <span>{{ paperInfo.reviewerFullNames[index - 1] }}</span>
+          </el-form-item>
+          <el-form-item label="Grade:">
+            <span>{{ paperInfo.grades[index - 1] }}</span>
+          </el-form-item>
+          <el-form-item label="Confidences:">
+            <span>{{ paperInfo.confidences[index - 1] }}</span>
+          </el-form-item>
+          <el-form-item label="Comments:">
+            <span>{{ paperInfo.comments[index - 1] }}</span>
+          </el-form-item>
+          <el-divider></el-divider>
+        </el-form>
       </div>
 
       <span>{{ paperInfo.fileName }}</span>
