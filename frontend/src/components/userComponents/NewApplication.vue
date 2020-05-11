@@ -3,7 +3,7 @@
     <el-form :model="meetingForm" :rules="rules" class="meeting_container" v-loading="loading" :ref="meetingForm" label-position="left" label-width="200px">
       <h3 class="meeting_title">
         New Conference
-        <el-switch v-model="elSwitch" active-color="#8669ed" inactive-color="#a7adba" style="float: right;margin: 5px 0;"></el-switch>
+        <el-switch v-model="elSwitch" active-color="#8669ed" inactive-color="#a7adba" style="float: right;margin: 5px 0;" @change.once="experimental"></el-switch>
       </h3>
 
       <el-form-item prop="conferenceAbbreviation" label="Conference Abbreviation">
@@ -324,6 +324,9 @@ export default {
       }
       this.inputVisible = false;
       this.inputValue = '';
+    },
+    experimental() {
+      this.$notify({ title: 'Tip', message: 'Experimental function', type: 'warning', offset: 50 });
     },
   },
 };

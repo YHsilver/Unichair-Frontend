@@ -1,16 +1,18 @@
 <template>
   <div v-loading="loading" id="ConferenceDetail">
-    <el-form label-position="left" label-width="200px" align="left">
+    <el-form label-position="left" label-width="120px" align="left">
+      <el-switch v-model="elSwitch" active-color="#8669ed" inactive-color="#a7adba" style="transform: translate(560px, -64px)" @change.once="experimental"></el-switch>
+
       <!-- admin -->
       <el-form-item label="ID" v-if="Identity === 'Admin'">
         <span>{{ conferenceDetail.id }}</span>
       </el-form-item>
       <!-- user -->
-      <el-form-item label="Abbreviation">
+      <el-form-item label="Conference Abbreviation">
         <strong>{{ conferenceDetail.abbreviation }}</strong>
       </el-form-item>
 
-      <el-form-item label="Full Name">
+      <el-form-item label="Conference Full Name">
         <span>{{ conferenceDetail.fullName }}</span>
       </el-form-item>
 
@@ -18,34 +20,57 @@
         <span>{{ conferenceDetail.heldPlace }}</span>
       </el-form-item>
 
-      <el-form-item label="Contribute Start Time">
-        <span>{{ conferenceDetail.submissionDate }}</span>
-      </el-form-item>
+      <div v-show="!elSwitch">
+        <el-form-item label="Contribute Start Date">
+          <span>{{ conferenceDetail.submissionDate }}</span>
+        </el-form-item>
 
-      <el-form-item label="Contribute End Time">
-        <span>{{ conferenceDetail.submissionDeadline }}</span>
-      </el-form-item>
+        <el-form-item label="Contribute End Date">
+          <span>{{ conferenceDetail.submissionDeadline }}</span>
+        </el-form-item>
 
-      <el-form-item label="Result Release Time">
-        <span>{{ conferenceDetail.releaseDate }}</span>
-      </el-form-item>
+        <el-form-item label="Result Release Date">
+          <span>{{ conferenceDetail.releaseDate }}</span>
+        </el-form-item>
 
-      <el-form-item label="Conference Time">
-        <span>{{ conferenceDetail.heldDate }}</span>
-      </el-form-item>
+        <el-form-item label="Conference Date">
+          <span>{{ conferenceDetail.heldDate }}</span>
+        </el-form-item>
+      </div>
 
-      <el-form-item label="Conference Stage">
+      <el-form-item label="Conference Stage" v-show="!elSwitch">
         <el-button type="text">{{ conferenceDetail.stage }}</el-button>
+      </el-form-item>
+
+      <div v-show="elSwitch" style="padding: 10px 0">
+        <label style="float: left;">Timeline</label>
+        <el-steps id="Timeline" :active="4">
+          <el-step title="Contribute Start Date" :description="conferenceDetail.submissionDate"> </el-step>
+          <el-step title="Contribute End Date" :description="conferenceDetail.submissionDeadline"></el-step>
+          <el-step title="Contribute Release Date" :description="conferenceDetail.releaseDate"></el-step>
+          <el-step title="Conference Date" :description="conferenceDetail.heldDate"></el-step>
+        </el-steps>
+      </div>
+
+      <div v-show="elSwitch" style="padding: 20px 0">
+        <label style="float: left;">Conference Stage</label>
+        <el-steps :active="stepActive" finish-status="success">
+          <el-step title="Preparation"></el-step>
+          <el-step title="Contribution"></el-step>
+          <el-step title="Reviewing"></el-step>
+          <el-step title="Grading"></el-step>
+          <el-step title="Ending"></el-step>
+        </el-steps>
+      </div>
+
+      <el-form-item label="Conference Topics">
+        <el-tag :key="index" v-for="(topic, index) in conferenceDetail.topics" :disable-transitions="false" effect="dark" style="margin-right: 10px;">
+          {{ topic }}
+        </el-tag>
       </el-form-item>
 
       <el-form-item label="Conference Introduction">
         <span>{{ conferenceDetail.introduction }}</span>
-      </el-form-item>
-
-      <el-form-item label="Conference Topics" class="tag-group">
-        <el-tag :key="index" v-for="(topic, index) in conferenceDetail.topics" :disable-transitions="false" effect="dark" style="margin-right: 10px;">
-          {{ topic }}
-        </el-tag>
       </el-form-item>
 
       <el-divider></el-divider>
@@ -132,10 +157,26 @@ export default {
       myPaperVisible: false,
       loading: true,
       popoverVisible: false,
+      elSwitch: false,
     };
   },
   created() {
     this.getConferenceDetails();
+  },
+  computed: {
+    stepActive() {
+      const currStage = this.conferenceDetail.stage;
+      if (currStage === 'Preparation') {
+        return 0;
+      } else if (currStage === 'Contribution') {
+        return 1;
+      } else if (currStage === 'Reviewing') {
+        return 2;
+      } else if (currStage === 'Grading') {
+        return 3;
+      }
+      return 4;
+    },
   },
   methods: {
     getConferenceDetails() {
@@ -214,6 +255,9 @@ export default {
           this.$message({ type: 'error', message: err.data.message, duration: '2000', showClose: 'true', center: 'true' });
         });
     },
+    experimental() {
+      this.$notify({ title: 'Tip', message: 'Experimental function', type: 'warning', offset: 50 });
+    },
   },
 };
 </script>
@@ -222,5 +266,35 @@ export default {
 #ConferenceDetail .el-button ~ .el-button,
 #ConferenceDetail .el-button ~ span .el-button {
   margin-left: 10px;
+}
+/* style="transform: scale(0.82);width:480px;" */
+
+#ConferenceDetail .el-step__title.is-process {
+  font-weight: 400;
+}
+
+#ConferenceDetail .el-step__title {
+  font-size: 14px;
+}
+
+#ConferenceDetail .el-step__icon {
+  border: 1px solid !important;
+  width: 18px;
+  height: 18px;
+}
+
+#ConferenceDetail .el-step__icon .el-step__icon-inner {
+  font-size: 10px;
+}
+
+.el-step__main {
+  white-space: nowrap;
+}
+
+#Timeline .el-step__icon {
+  width: 12px;
+  height: 12px;
+  background-color: #8669ed;
+  transform: translateY(2px);
 }
 </style>

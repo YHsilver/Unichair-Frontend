@@ -16,16 +16,16 @@
             <el-form-item label="Conference Location">
               <span>{{ props.row.place }}</span>
             </el-form-item>
-            <el-form-item label="Contribute Start Time">
+            <el-form-item label="Contribute Start Date">
               <span>{{ props.row.contributeStartTime }}</span>
             </el-form-item>
-            <el-form-item label="Contribute End Time">
+            <el-form-item label="Contribute End Date">
               <span>{{ props.row.contributeEndTime }}</span>
             </el-form-item>
-            <el-form-item label="Result Release Time">
+            <el-form-item label="Result Release Date">
               <span>{{ props.row.resultReleaseTime }}</span>
             </el-form-item>
-            <el-form-item label="Conference Time">
+            <el-form-item label="Conference Date">
               <span>{{ props.row.time }}</span>
             </el-form-item>
           </el-form>
@@ -44,7 +44,7 @@
     </el-table>
 
     <!-- Conference Detail -->
-    <el-dialog title="Conference Detail" v-if="ConferenceDetailVisible" :visible.sync="ConferenceDetailVisible" top="5vh" width="min(80%,600px)">
+    <el-dialog title="Conference Detail" v-if="ConferenceDetailVisible" :visible.sync="ConferenceDetailVisible" top="5vh" width="min(80%,960px)">
       <ConferenceDetail :conferenceId="conferenceId" :Identity="Identity" />
     </el-dialog>
   </div>
