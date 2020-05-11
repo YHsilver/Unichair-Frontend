@@ -72,6 +72,7 @@
 
 <script>
 import Header from '@/components/Header.vue';
+import Bus from '@/api/Bus';
 
 export default {
   name: 'User',
@@ -79,9 +80,15 @@ export default {
   data() {
     return { isCollapse: true };
   },
+  created() {
+    Bus.$on('login', () => {
+      this.$message({ type: 'success', message: 'welcome aboard !', duration: '2000', showClose: 'true', center: 'true' });
+      this.$notify({ title: 'Tip', message: 'Double click to view conference details', offset: 50 });
+    });
+  },
   methods: {
     seeMessage() {
-      this.$notify({ title: 'Tip', message: 'Double click the meeting name to view the meeting details', offset: 50 });
+      this.$notify({ title: 'Tip', message: 'Double click the conference name to view details', offset: 50 });
     },
   },
 };

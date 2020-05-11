@@ -27,12 +27,16 @@
 
 <script>
 import Header from '@/components/Header.vue';
+import Bus from '@/api/Bus';
 
 export default {
   name: 'Admin',
   components: { Header },
   created() {
-    this.$notify({ title: 'Tip', message: 'Double click to view meeting details', offset: 50 });
+    Bus.$on('login', () => {
+      this.$message({ type: 'success', message: 'welcome aboard !', duration: '2000', showClose: 'true', center: 'true' });
+      this.$notify({ title: 'Tip', message: 'Double click to view conference details', offset: 50 });
+    });
   },
   data() {
     return { show: 'Conferencelist', isCollapse: true };

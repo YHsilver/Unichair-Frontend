@@ -36,6 +36,7 @@
 
 <script>
 import RegisterForm from '@/components/authComponents/RegisterForm.vue';
+import Bus from '@/api/Bus';
 
 export default {
   name: 'LoginForm',
@@ -62,9 +63,7 @@ export default {
               if (resp.status === 200 && Object.prototype.hasOwnProperty.call(resp.data, 'token')) {
                 this.$store.commit('login', resp.data);
                 this.$store.state.token = resp.data.token;
-                setTimeout(() => {
-                  this.$message({ type: 'success', message: 'welcome aboard !', duration: '2000', showClose: 'true', center: 'true' });
-                }, 1200);
+                Bus.$emit('login');
                 if (this.$store.state.userDetails.username === 'admin') {
                   this.$router.push({ path: 'admin' });
                 } else {

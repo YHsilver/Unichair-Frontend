@@ -21,7 +21,6 @@ export default {
     };
   },
   created() {
-    this.$notify({ title: 'Tip', message: 'Double click to view meeting details', offset: 50 });
     this.getAllConference();
   },
   methods: {
