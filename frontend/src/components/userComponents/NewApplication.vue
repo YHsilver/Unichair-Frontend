@@ -254,36 +254,18 @@ export default {
     setUp(formName) {
       this.$refs[formName].validate((valid) => {
         let conferenceForm;
-        if (!this.elSwitch) {
-          conferenceForm = {
-            token: this.$store.state.token,
-            conferenceAbbreviation: this.meetingForm.conferenceAbbreviation,
-            conferenceFullName: this.meetingForm.conferenceFullName,
-            resultReleaseTime: this.meetingForm.resultReleaseTime,
-            conferenceLocation: this.meetingForm.conferenceLocation,
-            contributeStartTime: this.meetingForm.contributeStartTime,
-            contributeEndTime: this.meetingForm.contributeEndTime,
-            conferenceTime: this.meetingForm.conferenceTime,
-            introduction: this.meetingForm.introduction,
-            topics: this.meetingForm.topics,
-          };
-        } else {
-          this.meetingForm.conferenceDates.sort(function(a, b) {
-            return new Date(a) - new Date(b);
-          });
-          conferenceForm = {
-            token: this.$store.state.token,
-            conferenceAbbreviation: this.meetingForm.conferenceAbbreviation,
-            conferenceFullName: this.meetingForm.conferenceFullName,
-            conferenceLocation: this.meetingForm.conferenceLocation,
-            contributeStartTime: this.meetingForm.conferenceDates[0],
-            contributeEndTime: this.meetingForm.conferenceDates[1],
-            resultReleaseTime: this.meetingForm.conferenceDates[2],
-            conferenceTime: this.meetingForm.conferenceDates[3],
-            introduction: this.meetingForm.introduction,
-            topics: this.meetingForm.topics,
-          };
-        }
+        conferenceForm = {
+          token: this.$store.state.token,
+          conferenceAbbreviation: this.meetingForm.conferenceAbbreviation,
+          conferenceFullName: this.meetingForm.conferenceFullName,
+          resultReleaseTime: this.meetingForm.resultReleaseTime,
+          conferenceLocation: this.meetingForm.conferenceLocation,
+          contributeStartTime: this.meetingForm.contributeStartTime,
+          contributeEndTime: this.meetingForm.contributeEndTime,
+          conferenceTime: this.meetingForm.conferenceTime,
+          introduction: this.meetingForm.introduction,
+          topics: this.meetingForm.topics,
+        };
         if (valid) {
           this.$axios
             .post('/system/addConferenceApplication', conferenceForm)
@@ -326,7 +308,7 @@ export default {
       this.inputValue = '';
     },
     experimental() {
-      this.$notify({ title: 'Tip', message: 'Experimental function', type: 'warning', offset: 50 });
+      this.$notify({ title: 'Tip', message: 'Experimental feature', type: 'warning', offset: 50 });
     },
   },
 };
@@ -364,8 +346,11 @@ export default {
 
 .input-new-tag {
   width: 90px;
-  margin-left: 10px;
   vertical-align: bottom;
+}
+
+.el-tag + .input-new-tag {
+  margin-left: 10px;
 }
 
 .yoyo {

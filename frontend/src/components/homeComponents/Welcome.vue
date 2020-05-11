@@ -27,7 +27,7 @@
         <br />
         <el-button @click="reactDialogVisible = true" type="text" style="color:white" size="small" icon="el-icon-loading">...how we code?</el-button>
         <el-dialog :visible.sync="reactDialogVisible" id="reactCode" width="min(100vw,800px)">
-          <img alt="react" src="/welcome/react.svg" style="width:min(100vw,800px)" />
+          <img alt="react" src="/welcome/react.svg" style="width:min(100vw,800px);padding:40px 0" />
         </el-dialog>
       </el-col>
     </el-row>

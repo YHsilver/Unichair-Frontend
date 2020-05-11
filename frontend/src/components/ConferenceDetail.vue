@@ -1,6 +1,6 @@
 <template>
   <div v-loading="loading" id="ConferenceDetail">
-    <el-form label-position="left" label-width="120px" align="left">
+    <el-form label-position="left" label-width="200px" align="left">
       <el-switch v-model="elSwitch" active-color="#8669ed" inactive-color="#a7adba" style="transform: translate(560px, -64px)" @change.once="experimental"></el-switch>
 
       <!-- admin -->
@@ -185,9 +185,9 @@ export default {
         .then((resp) => {
           if (resp.status === 200) {
             this.conferenceDetail = resp.data;
-            for (let key in this.conferenceDetail) {
-              if (this.conferenceDetail[key] === []) this.conferenceDetail[key] = ['No Data'];
-            }
+            if (this.conferenceDetail.PCMember.length === 0) this.conferenceDetail.PCMember = ['No Data'];
+            if (this.conferenceDetail.Author.length === 0) this.conferenceDetail.Author = ['No Data'];
+
             // 转化为第一个字母大写
             this.conferenceDetail.stage = this.conferenceDetail.stage.charAt(0) + this.conferenceDetail.stage.substring(1).toLowerCase();
             this.loading = false;
@@ -256,7 +256,7 @@ export default {
         });
     },
     experimental() {
-      this.$notify({ title: 'Tip', message: 'Experimental function', type: 'warning', offset: 50 });
+      this.$notify({ title: 'Tip', message: 'Experimental feature', type: 'warning', offset: 50 });
     },
   },
 };

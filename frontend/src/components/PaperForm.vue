@@ -287,18 +287,20 @@ export default {
               if (resp.status === 200) {
                 this.paperForm = { title: '', authors: [], summary: '', topics: [], file: null };
                 this.$message({ type: 'success', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
-                if (this.Identity !== 'Author') this.$emit('submitPaperFinished');
+                this.$emit('submitPaperFinished');
                 loading.close();
               } else {
                 this.paperForm = { title: '', authors: [], summary: '', topics: [], file: null };
                 this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
-                if (this.Identity !== 'Author') this.$emit('submitPaperFinished');
+                this.$emit('submitPaperFinished');
+                loading.close();
               }
             })
             .catch((err) => {
               this.$message({ type: 'error', message: err.data.message, duration: '2000', showClose: 'true', center: 'true' });
               this.paperForm = { title: '', authors: [], summary: '', topics: [], file: null };
-              if (this.Identity !== 'Author') this.$emit('submitPaperFinished');
+              this.$emit('submitPaperFinished');
+              loading.close();
             });
         } else {
           this.$message({ type: 'warning', message: 'Please check the form', duration: '2000', showClose: 'true', center: 'true' });

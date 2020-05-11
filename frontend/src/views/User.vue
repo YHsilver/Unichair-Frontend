@@ -45,7 +45,7 @@
             <span slot="title">/* Personal Center */</span>
             <el-menu-item index="Messages" @click="seeMessage()">
               <i class="el-icon-message"></i>
-              <span slot="title">My Messages<el-badge :is-dot="isDot" style="top: -10px;"></el-badge></span>
+              <span slot="title">My Messages<el-badge style="top: -10px;"></el-badge></span>
             </el-menu-item>
             <el-menu-item index="UserInfo">
               <i class="el-icon-postcard"></i>
@@ -77,11 +77,10 @@ export default {
   name: 'User',
   components: { Header },
   data() {
-    return { isDot: true, isCollapse: true };
+    return { isCollapse: true };
   },
   methods: {
     seeMessage() {
-      this.isDot = false;
       this.$notify({ title: 'Tip', message: 'Double click the meeting name to view the meeting details', offset: 50 });
     },
   },

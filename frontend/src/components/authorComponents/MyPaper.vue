@@ -20,7 +20,7 @@
             :disabled="status !== 'CONTRIBUTION'"
             >Modify</el-button
           >
-          <el-button v-show="toggle === 'PaperInfo'" @click="finish()" type="text" style="float:right">Cancel</el-button>
+          <el-button v-show="toggle === 'PaperInfo'" @click="cancel()" type="text" style="float:right">Cancel</el-button>
         </div>
       </el-col>
     </el-row>
@@ -40,9 +40,11 @@ export default {
     return { toggle: 'PaperInfo', chosePaper: false, chosePaperId: undefined, status: undefined };
   },
   methods: {
+    cancel() {
+      this.chosePaper = false;
+    },
     finish() {
       this.toggle = 'PaperInfo';
-      this.$emit('modifyFinished');
     },
     passPaperId(paperId, status) {
       this.toggle = 'PaperInfo';
