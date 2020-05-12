@@ -1,12 +1,13 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home'
+import Home from '../pages/Home'
 import store from '../store'
 
 Vue.use(VueRouter)
 
 const routes = [
   { path: '/', name: 'Home', component: Home },
+  { path: '/home', redirect: '/', },
   {
     path: '/user',
     redirect: "/user/ConferenceSquare",
@@ -15,14 +16,14 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/User'),
+    component: () => import(/* webpackChunkName: "about" */ '../pages/User'),
     children: [
-      { path: "ConferenceSquare", name: 'ConferenceSquare', component: () => import("@/components/userComponents/ConferenceSquare"), meta: { requireAuth: true } },
-      { path: "NewApplication", name: 'NewApplication', component: () => import("@/components/userComponents/NewApplication"), meta: { requireAuth: true } },
-      { path: "MyApplication", name: 'MyApplication', component: () => import("@/components/userComponents/MyApplication"), meta: { requireAuth: true } },
-      { path: "MeParticipated", name: 'MeParticipated', component: () => import("@/components/userComponents/MeParticipated"), meta: { requireAuth: true } },
-      { path: "Messages", name: 'Messages', component: () => import("@/components/userComponents/Messages"), meta: { requireAuth: true } },
-      { path: "UserInfo", name: 'UserInfo', component: () => import("@/components/userComponents/UserInfo"), meta: { requireAuth: true } },
+      { path: "ConferenceSquare", name: 'ConferenceSquare', component: () => import("@/views/user/ConferenceSquare"), meta: { requireAuth: true } },
+      { path: "NewApplication", name: 'NewApplication', component: () => import("@/views/user/NewApplication"), meta: { requireAuth: true } },
+      { path: "MyApplication", name: 'MyApplication', component: () => import("@/views/user/MyApplication"), meta: { requireAuth: true } },
+      { path: "MeParticipated", name: 'MeParticipated', component: () => import("@/views/user/MeParticipated"), meta: { requireAuth: true } },
+      { path: "Messages", name: 'Messages', component: () => import("@/views/user/Messages"), meta: { requireAuth: true } },
+      { path: "UserInfo", name: 'UserInfo', component: () => import("@/views/user/UserInfo"), meta: { requireAuth: true } },
     ]
   },
   {
@@ -30,11 +31,24 @@ const routes = [
     redirect: '/admin/Conferencelist',
     name: 'Admin',
     meta: { requireAdminAuth: true },
-    component: () => import(/* webpackChunkName: "about" */ '../views/Admin'),
+    component: () => import(/* webpackChunkName: "about" */ '../pages/Admin'),
     children: [
-      { path: "Conferencelist", name: 'Conferencelist', component: () => import("@/components/adminComponents/Conferencelist"), meta: { requireAdminAuth: true } }
+      { path: "Conferencelist", name: 'Conferencelist', component: () => import("@/views/admin/AuditConference"), meta: { requireAdminAuth: true } }
     ]
   },
+  {
+    path: "/404",
+    name: "non-existing",
+    component: () => import(/* webpackChunkName: "about" */ '../pages/NonExisting'),
+  }, {
+    path: "*", // 此处需特别注意置于最底部
+    redirect: "/404"
+  },
+  {
+    // 会匹配所有路径
+    path: '*',
+    redirect: '/404',
+  }
 ]
 
 const router = new VueRouter({

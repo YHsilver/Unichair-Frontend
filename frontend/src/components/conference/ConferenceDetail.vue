@@ -139,10 +139,10 @@
 </template>
 
 <script>
-import InviteReviewer from '@/components/chairComponents/InviteReviewer.vue';
-import MyPaper from '@/components/authorComponents/MyPaper.vue';
-import ReviewingPaper from '@/components/reviewerComponents/ReviewingPaper.vue';
-import PaperForm from '@/components/PaperForm.vue';
+import InviteReviewer from '@/components/message/InviteReviewer.vue';
+import MyPaper from '@/components/paper/MyPaper.vue';
+import ReviewingPaper from '@/components/paper/ReviewingPaper.vue';
+import PaperForm from '@/components/paper/PaperForm.vue';
 
 export default {
   name: 'ConferenceDetail',

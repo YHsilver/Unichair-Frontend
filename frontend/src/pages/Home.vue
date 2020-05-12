@@ -1,6 +1,5 @@
 <template>
   <div style="min-height:100vh;display:flex;flex-direction: column;">
-    <Header v-bind:loginSwitch="false" class="headContainer" />
     <div style="flex:1">
       <Welcome />
       <el-collapse v-model="activeLab" style="width:90%;margin:5%;">
@@ -15,17 +14,16 @@
 </template>
 
 <script>
-import Welcome from '@/components/homeComponents/Welcome.vue';
-import Lab2 from '@/components/homeComponents/Lab2.vue';
-import Lab3 from '@/components/homeComponents/Lab3.vue';
-import Lab4 from '@/components/homeComponents/Lab4.vue';
+import Welcome from '@/components/home/Welcome.vue';
+import Lab2 from '@/components/home/Lab2.vue';
+import Lab3 from '@/components/home/Lab3.vue';
+import Lab4 from '@/components/home/Lab4.vue';
 
-import Header from '@/components/Header.vue';
-import Footer from '@/components/Footer.vue';
+import Footer from '@/components/home/Footer.vue';
 
 export default {
   name: 'Home',
-  components: { Welcome, Lab2, Lab3, Lab4, Header, Footer },
+  components: { Welcome, Lab2, Lab3, Lab4, Footer },
   data() {
     return { activeLab: '1' };
   },

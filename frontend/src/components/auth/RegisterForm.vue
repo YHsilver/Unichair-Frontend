@@ -80,11 +80,11 @@ export default {
           if (resp.status === 200) {
             return callback();
           } else {
-            return callback(new Error('username has been regisred.'));
+            return callback(new Error('username has been registered.'));
           }
         })
         .catch(() => {
-          return callback('username has been regisred.');
+          return callback('username has been registered.');
         });
     };
     const passwordValid = (rule, value, callback) => {
@@ -117,7 +117,7 @@ export default {
             message: 'Can only contain letters, numbers or two special characters (-), and can only start with a letter or -',
             trigger: 'blur',
           },
-          { validator: usernameValid, message: 'username has been regisred.', trigger: 'blur' },
+          { validator: usernameValid, message: 'username has been registered.', trigger: 'blur' },
         ],
         password: [
           { required: true, message: '', trigger: 'blur' },

@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import RegisterForm from '@/components/authComponents/RegisterForm.vue';
+import RegisterForm from '@/components/auth/RegisterForm.vue';
 import Bus from '@/api/Bus';
 
 export default {
@@ -62,7 +62,6 @@ export default {
             .then((resp) => {
               if (resp.status === 200 && Object.prototype.hasOwnProperty.call(resp.data, 'token')) {
                 this.$store.commit('login', resp.data);
-                this.$store.state.token = resp.data.token;
                 Bus.$emit('login');
                 if (this.$store.state.userDetails.username === 'admin') {
                   this.$router.push({ path: 'admin' });

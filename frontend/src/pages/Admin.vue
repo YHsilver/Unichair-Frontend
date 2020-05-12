@@ -1,6 +1,5 @@
 <template>
   <div style="display:flex;flex-direction:column">
-    <Header v-bind:loginSwitch="true" />
     <div style="display: flex;min-height: calc(100vh - 60px);">
       <el-menu v-bind:class="{ Bar: !isCollapse }" :default-active="$route.path.replace('/admin/', '')" :collapse="isCollapse" router :collapse-transition="false">
         <el-menu-item index="Conferencelist" class="mainMenu">
@@ -26,12 +25,10 @@
 </template>
 
 <script>
-import Header from '@/components/Header.vue';
 import Bus from '@/api/Bus';
 
 export default {
   name: 'Admin',
-  components: { Header },
   created() {
     Bus.$on('login', () => {
       this.$message({ type: 'success', message: 'welcome aboard !', duration: '2000', showClose: 'true', center: 'true' });

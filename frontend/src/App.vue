@@ -1,17 +1,19 @@
 <template>
   <div id="app">
+    <Header />
     <router-view />
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
+import Header from '@/components/home/Header.vue';
 
 export default {
   name: 'APP',
-  components: {},
+  components: { Header },
   created() {
-    console.log('\n'.concat(' %c Uni Conference 🎉 v', '1.2.1', ' \n'), 'color: #fafafa; background: #8669ed; padding:5px 0;');
+    console.log('\n'.concat(' %c Uni Conference 🎉 v', '2.0.0', ' \n'), 'color: #fafafa; background: #8669ed; padding:5px 0;');
   },
 };
 </script>

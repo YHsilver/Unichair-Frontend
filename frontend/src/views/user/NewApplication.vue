@@ -318,6 +318,7 @@ export default {
 .meeting_container {
   border-radius: 10px;
   width: 660px;
+  max-width: 70vw;
   padding: 40px;
   background-color: white;
   text-align: center;
