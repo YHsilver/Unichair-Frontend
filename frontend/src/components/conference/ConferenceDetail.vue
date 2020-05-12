@@ -256,7 +256,7 @@ export default {
         });
     },
     experimental() {
-      this.$notify({ title: 'Tip', message: 'Experimental feature', type: 'warning', offset: 50 });
+      this.$notify({ title: 'β', message: 'Experimental feature', type: 'warning', offset: 50 });
     },
   },
 };
