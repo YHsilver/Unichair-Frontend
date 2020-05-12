@@ -267,7 +267,6 @@ export default {
 #ConferenceDetail .el-button ~ span .el-button {
   margin-left: 10px;
 }
-/* style="transform: scale(0.82);width:480px;" */
 
 #ConferenceDetail .el-step__title.is-process {
   font-weight: 400;

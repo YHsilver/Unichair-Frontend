@@ -150,7 +150,7 @@ export default {
 label {
   width: 200px !important;
   color: #8669ed !important;
-  font-weight: 900;
+  font-weight: 600;
 }
 
 .tableFrame {

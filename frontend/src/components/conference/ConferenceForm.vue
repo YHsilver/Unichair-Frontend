@@ -315,6 +315,12 @@ export default {
   margin: 20px;
 }
 
+.el-form-item/deep/label.el-form-item__label {
+  width: 200px !important;
+  color: #8669ed !important;
+  font-weight: 600;
+}
+
 .el-date-editor {
   width: 100%;
 }
