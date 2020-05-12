@@ -1,6 +1,6 @@
 <template>
   <div id="NonExisting">
-    <img src="/no_data.svg" style="width: min(640px,80%);" />
+    <img src="/no_data.svg" style="width: min(640px,80%)" />
   </div>
 </template>
 
