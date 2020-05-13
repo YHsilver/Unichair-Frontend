@@ -14,7 +14,7 @@
 import ConferenceTable from '@/components/conference/ConferenceTable.vue';
 
 export default {
-  name: 'AuditConference',
+  name: 'AdminConferenceAudit',
   components: { ConferenceTable },
   data() {
     return {

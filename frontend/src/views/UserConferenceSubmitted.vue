@@ -14,7 +14,7 @@
 import ConferenceTable from '@/components/conference/ConferenceTable.vue';
 
 export default {
-  name: 'MyApplication',
+  name: 'UserConferenceSubmitted',
   components: { ConferenceTable },
   data() {
     return {

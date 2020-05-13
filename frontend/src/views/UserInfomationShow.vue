@@ -8,7 +8,7 @@
 import userDetails from '@/components/auth/userDetails.vue';
 
 export default {
-  name: 'UserInfo',
+  name: 'UserInfomationShow',
   components: { userDetails },
 };
 </script>

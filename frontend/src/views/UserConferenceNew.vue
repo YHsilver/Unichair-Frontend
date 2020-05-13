@@ -8,7 +8,7 @@
 import ConferenceForm from '@/components/conference/ConferenceForm.vue';
 
 export default {
-  name: 'NewApplication',
+  name: 'UserConferenceNew',
   components: { ConferenceForm },
 };
 </script>

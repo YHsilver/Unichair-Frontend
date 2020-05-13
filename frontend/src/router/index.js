@@ -18,12 +18,12 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../pages/User'),
     children: [
-      { path: "ConferenceSquare", name: 'ConferenceSquare', component: () => import("@/views/user/ConferenceSquare"), meta: { requireAuth: true } },
-      { path: "NewApplication", name: 'NewApplication', component: () => import("@/views/user/NewApplication"), meta: { requireAuth: true } },
-      { path: "MyApplication", name: 'MyApplication', component: () => import("@/views/user/MyApplication"), meta: { requireAuth: true } },
-      { path: "MeParticipated", name: 'MeParticipated', component: () => import("@/views/user/MeParticipated"), meta: { requireAuth: true } },
-      { path: "Messages", name: 'Messages', component: () => import("@/views/user/Messages"), meta: { requireAuth: true } },
-      { path: "UserInfo", name: 'UserInfo', component: () => import("@/views/user/UserInfo"), meta: { requireAuth: true } },
+      { path: "ConferenceSquare", name: 'ConferenceSquare', component: () => import("@/views/UserConferenceBrowser"), meta: { requireAuth: true } },
+      { path: "NewApplication", name: 'NewApplication', component: () => import("@/views/UserConferenceNew"), meta: { requireAuth: true } },
+      { path: "MyApplication", name: 'MyApplication', component: () => import("@/views/UserConferenceSubmitted"), meta: { requireAuth: true } },
+      { path: "MeParticipated", name: 'MeParticipated', component: () => import("@/views/UserConferenceParticipated"), meta: { requireAuth: true } },
+      { path: "Messages", name: 'Messages', component: () => import("@/views/UserMessageReceived"), meta: { requireAuth: true } },
+      { path: "UserInfo", name: 'UserInfo', component: () => import("@/views/UserInfomationShow"), meta: { requireAuth: true } },
     ]
   },
   {
@@ -33,7 +33,7 @@ const routes = [
     meta: { requireAdminAuth: true },
     component: () => import(/* webpackChunkName: "about" */ '../pages/Admin'),
     children: [
-      { path: "Conferencelist", name: 'Conferencelist', component: () => import("@/views/admin/AuditConference"), meta: { requireAdminAuth: true } }
+      { path: "Conferencelist", name: 'Conferencelist', component: () => import("@/views/AdminConferenceAudit"), meta: { requireAdminAuth: true } }
     ]
   },
   {

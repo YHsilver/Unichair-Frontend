@@ -8,7 +8,7 @@
 import MessageTable from '@/components/message/MessageTable.vue';
 
 export default {
-  name: 'Messages',
+  name: 'UserMessageReceived',
   components: { MessageTable },
 };
 </script>

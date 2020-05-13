@@ -14,7 +14,7 @@
 import ConferenceTable from '@/components/conference/ConferenceTable.vue';
 
 export default {
-  name: 'MeParticipated',
+  name: 'UserConferenceParticipated',
   components: { ConferenceTable },
   data() {
     return {

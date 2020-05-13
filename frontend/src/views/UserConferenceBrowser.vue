@@ -10,7 +10,7 @@
 import ConferenceTable from '@/components/conference/ConferenceTable.vue';
 
 export default {
-  name: 'ConferenceSquare',
+  name: 'UserConferenceBrowser',
   components: { ConferenceTable },
   data() {
     return {
