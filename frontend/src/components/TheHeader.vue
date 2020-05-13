@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import LoginForm from '@/components/auth/LoginForm.vue';
+import LoginForm from '@/components/AuthorityLoginForm.vue';
 import Bus from '@/api/Bus';
 
 export default {

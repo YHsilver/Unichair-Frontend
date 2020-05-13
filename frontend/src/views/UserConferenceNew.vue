@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import ConferenceForm from '@/components/conference/ConferenceForm.vue';
+import ConferenceForm from '@/components/ConferenceForm.vue';
 
 export default {
   name: 'UserConferenceNew',

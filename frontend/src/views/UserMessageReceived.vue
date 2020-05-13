@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import MessageTable from '@/components/message/MessageTable.vue';
+import MessageTable from '@/components/MessageTable.vue';
 
 export default {
   name: 'UserMessageReceived',

@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import userDetails from '@/components/auth/userDetails.vue';
+import userDetails from '@/components/InfomationUser.vue';
 
 export default {
   name: 'UserInfomationShow',

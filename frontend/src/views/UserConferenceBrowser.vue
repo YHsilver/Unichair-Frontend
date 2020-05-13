@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import ConferenceTable from '@/components/conference/ConferenceTable.vue';
+import ConferenceTable from '@/components/ConferenceTable.vue';
 
 export default {
   name: 'UserConferenceBrowser',

@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import ConferenceDetail from '@/components/conference/ConferenceDetail.vue';
+import ConferenceDetail from '@/components/ConferenceDetail.vue';
 
 export default {
   name: 'MessageTable',

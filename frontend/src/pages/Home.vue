@@ -14,12 +14,11 @@
 </template>
 
 <script>
-import Welcome from '@/components/home/Welcome.vue';
-import Lab2 from '@/components/home/Lab2.vue';
-import Lab3 from '@/components/home/Lab3.vue';
-import Lab4 from '@/components/home/Lab4.vue';
-
-import Footer from '@/components/home/Footer.vue';
+import Welcome from '@/components/HomeWelcome.vue';
+import Lab2 from '@/components/HomeLab2.vue';
+import Lab3 from '@/components/HomeLab3.vue';
+import Lab4 from '@/components/HomeLab4.vue';
+import Footer from '@/components/TheFooter.vue';
 
 export default {
   name: 'Home',

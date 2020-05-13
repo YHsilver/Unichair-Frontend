@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import RegisterForm from '@/components/auth/RegisterForm.vue';
+import RegisterForm from '@/components/AuthorityRegisterForm.vue';
 import Bus from '@/api/Bus';
 
 export default {

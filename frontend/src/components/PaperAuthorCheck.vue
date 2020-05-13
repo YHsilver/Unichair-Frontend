@@ -28,9 +28,9 @@
 </template>
 
 <script>
-import PaperForm from '@/components/paper/PaperForm.vue';
-import PaperInfo from '@/components/paper/PaperInfo.vue';
-import PaperList from '@/components/paper/PaperList.vue';
+import PaperForm from '@/components/PaperSubmitForm.vue';
+import PaperInfo from '@/components/PaperDetail.vue';
+import PaperList from '@/components/PaperTable.vue';
 
 export default {
   name: 'MyPaper',
