@@ -5,14 +5,12 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    token: localStorage.getItem('token') || sessionStorage.getItem("token") || null,
-    userDetails: JSON.parse(localStorage.getItem('userDetails')) || JSON.parse(sessionStorage.getItem("userDetails")) || null
+    token: sessionStorage.getItem("token") || null,
+    userDetails: JSON.parse(sessionStorage.getItem("userDetails")) || null
   },
   mutations: {
     // 添加token
     login (state, data) {
-      localStorage.setItem('token', data.token)
-      localStorage.setItem('userDetails', JSON.stringify(data.userDetails))
       sessionStorage.setItem('token', data.token)
       sessionStorage.setItem('userDetails', JSON.stringify(data.userDetails))
       state.userDetails = data.userDetails

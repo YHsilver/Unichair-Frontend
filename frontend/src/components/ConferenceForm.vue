@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-form :model="meetingForm" :rules="rules" class="meeting_container" v-loading="loading" :ref="meetingForm" label-position="left" label-width="200px">
-      <h3 class="meeting_title">
+      <h3>
         New Conference
         <el-switch v-model="elSwitch" active-color="#8669ed" inactive-color="#a7adba" style="float: right;margin: 5px 0;" @change.once="experimental"></el-switch>
       </h3>

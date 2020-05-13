@@ -44,7 +44,7 @@
     </el-table>
 
     <!-- Conference Detail -->
-    <el-dialog title="Conference Detail" v-if="ConferenceDetailVisible" :visible.sync="ConferenceDetailVisible" top="5vh" width="min(80%,960px)">
+    <el-dialog v-if="ConferenceDetailVisible" :visible.sync="ConferenceDetailVisible" top="5vh" width="min(80%,960px)">
       <ConferenceDetail :conferenceId="conferenceId" :Identity="Identity" />
     </el-dialog>
   </div>

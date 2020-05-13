@@ -5,7 +5,7 @@
 
       <!-- user -->
       <el-form-item prop="username" class="inputBox">
-        <el-input type="text" v-model="loginForm.username" auto-complete="off" placeholder="username" clearable>
+        <el-input type="text" v-model="loginForm.username" auto-complete="off" placeholder="username" clearable @keyup.enter.native="login(loginForm)" ref="loginFormUsername">
           <i slot="prefix" class="el-input__icon el-icon-user"></i>
         </el-input>
       </el-form-item>
@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import RegisterForm from '@/components/AuthorityRegisterForm.vue';
+import RegisterForm from '@/components/TheRegisterForm.vue';
 import Bus from '@/api/Bus';
 
 export default {
@@ -52,6 +52,11 @@ export default {
       },
       registerFormVisible: false,
     };
+  },
+  mounted() {
+    this.$nextTick(() => {
+      this.$refs.loginFormUsername.$refs.input.focus();
+    });
   },
   methods: {
     login(formName) {

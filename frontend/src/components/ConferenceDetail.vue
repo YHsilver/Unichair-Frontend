@@ -1,7 +1,10 @@
 <template>
   <div v-loading="loading" id="ConferenceDetail">
-    <el-form label-position="left" label-width="200px" align="left">
-      <el-switch v-model="elSwitch" active-color="#8669ed" inactive-color="#a7adba" @change.once="experimental"></el-switch>
+    <el-form label-position="left" label-width="200px">
+      <h3 style="text-align:center">
+        Conference Detail
+        <el-switch v-model="elSwitch" style="float: right;margin: 5px 0;" active-color="#8669ed" inactive-color="#a7adba" @change.once="experimental"></el-switch>
+      </h3>
 
       <!-- admin -->
       <el-form-item label="ID" v-if="Identity === 'Admin'">
@@ -43,7 +46,7 @@
       </el-form-item>
 
       <div v-show="elSwitch" style="padding: 10px 0">
-        <label style="float: left;">Timeline</label>
+        <label style="float: left;text-align: left;">Timeline</label>
         <el-steps id="Timeline" :active="4">
           <el-step title="Contribute Start Date" :description="conferenceDetail.submissionDate"> </el-step>
           <el-step title="Contribute End Date" :description="conferenceDetail.submissionDeadline"></el-step>
@@ -53,7 +56,7 @@
       </div>
 
       <div v-show="elSwitch" style="padding: 20px 0">
-        <label style="float: left;">Conference Stage</label>
+        <label style="float: left;text-align: left;">Conference Stage</label>
         <el-steps :active="stepActive" finish-status="success">
           <el-step title="Preparation"></el-step>
           <el-step title="Contribution"></el-step>
@@ -265,11 +268,6 @@ export default {
 <style>
 #ConferenceDetail .el-form-item__content {
   text-align: left;
-}
-
-#ConferenceDetail .el-switch {
-  transform: translate(560px, -64px);
-  display: table;
 }
 
 #ConferenceDetail .el-button ~ .el-button,
