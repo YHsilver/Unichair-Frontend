@@ -62,7 +62,7 @@ router.beforeEach(function (to, from, next) {
       path: '/',
       query: { redirect: to.fullPath } // 登录成功之后重新跳转到该路由
     })
-    document.getElementById("login").click()
+    if (document.getElementById("login")) document.getElementById("login").click()
   }
   else if (to.matched.some(record => record.meta.requireAdminAuth)) {
     let axios = require('axios');
@@ -74,7 +74,7 @@ router.beforeEach(function (to, from, next) {
             path: '/',
             query: { redirect: to.fullPath }
           })
-          document.getElementById("login").click()
+          if (document.getElementById("login")) document.getElementById("login").click()
         } else {
           next()
         }
@@ -92,7 +92,7 @@ router.beforeEach(function (to, from, next) {
             path: '/',
             query: { redirect: to.fullPath }
           })
-          document.getElementById("login").click()
+          if (document.getElementById("login")) document.getElementById("login").click()
         } else {
           next()
         }

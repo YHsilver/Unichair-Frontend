@@ -1,7 +1,7 @@
 <template>
   <div v-loading="loading" id="ConferenceDetail">
     <el-form label-position="left" label-width="200px" align="left">
-      <el-switch v-model="elSwitch" active-color="#8669ed" inactive-color="#a7adba" style="transform: translate(560px, -64px)" @change.once="experimental"></el-switch>
+      <el-switch v-model="elSwitch" active-color="#8669ed" inactive-color="#a7adba" @change.once="experimental"></el-switch>
 
       <!-- admin -->
       <el-form-item label="ID" v-if="Identity === 'Admin'">
@@ -263,6 +263,15 @@ export default {
 </script>
 
 <style>
+#ConferenceDetail .el-form-item__content {
+  text-align: left;
+}
+
+#ConferenceDetail .el-switch {
+  transform: translate(560px, -64px);
+  display: table;
+}
+
 #ConferenceDetail .el-button ~ .el-button,
 #ConferenceDetail .el-button ~ span .el-button {
   margin-left: 10px;
@@ -280,6 +289,8 @@ export default {
   border: 1px solid !important;
   width: 18px;
   height: 18px;
+  display: flex;
+  transform: translateY(5px);
 }
 
 #ConferenceDetail .el-step__icon .el-step__icon-inner {
@@ -294,6 +305,5 @@ export default {
   width: 12px;
   height: 12px;
   background-color: #8669ed;
-  transform: translateY(2px);
 }
 </style>

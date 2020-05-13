@@ -34,18 +34,22 @@ export default {
 };
 </script>
 
-<style>
-#card label {
-  width: 200px !important;
-  color: #8669ed !important;
-  font-weight: 600;
-}
-
+<style scoped>
 #card {
   padding: 40px;
   margin: 20px;
   border: none;
   border-radius: 10px;
-  width: 520px;
+  width: 480px;
+}
+
+#card/deep/label {
+  width: 200px !important;
+  color: #8669ed !important;
+  font-weight: 600;
+}
+
+#card/deep/.el-form-item__content {
+  text-align: left !important;
 }
 </style>
