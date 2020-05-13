@@ -1,7 +1,7 @@
 <template>
   <div style="display:flex;flex-direction:column">
     <div style="display: flex;min-height: calc(100vh - 60px);">
-      <el-menu v-bind:class="{ Bar: !isCollapse }" :default-active="$route.path.replace('/user/', '')" :collapse="isCollapse" :collapse-transition="false" router>
+      <el-menu :class="{ Bar: !isCollapse }" :default-active="$route.path.replace('/user/', '')" :collapse="isCollapse" :collapse-transition="false" router>
         <el-menu-item index="/user/NewApplication" class="mainMenu">
           <i class="el-icon-circle-plus"></i>
           <span slot="title">New Application</span>

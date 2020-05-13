@@ -12,14 +12,14 @@
 
       <!-- password -->
       <el-form-item prop="password" class="inputBox">
-        <el-input type="password" v-model="loginForm.password" auto-complete="off" placeholder="password" show-password v-on:keyup.enter.native="login(loginForm)" clearable>
+        <el-input type="password" v-model="loginForm.password" auto-complete="off" placeholder="password" show-password @keyup.enter.native="login(loginForm)" clearable>
           <i slot="prefix" class="el-input__icon el-icon-key"></i>
         </el-input>
       </el-form-item>
 
       <!-- submit -->
       <el-form-item>
-        <el-button type="primary" v-on:click="login(loginForm)">login</el-button>
+        <el-button type="primary" @click="login(loginForm)">login</el-button>
       </el-form-item>
 
       <!-- register tip -->

@@ -3,8 +3,8 @@
     <h5 style="margin:0"><i class="el-icon-edit-outline" /> My Application</h5>
 
     <el-tabs v-model="activeTab" @tab-click="handleTabClick">
-      <el-tab-pane v-bind:label="name" v-bind:name="name" v-for="(table, name, index) in tables" :key="index">
-        <ConferenceTable v-bind:showList="showList" v-bind:data="table" :Identity="name === 'pass' ? 'Chair' : 'Other'" />
+      <el-tab-pane :label="name" :name="name" v-for="(table, name, index) in tables" :key="index">
+        <ConferenceTable :showList="showList" :data="table" :Identity="name === 'pass' ? 'Chair' : 'Other'" />
       </el-tab-pane>
     </el-tabs>
   </div>

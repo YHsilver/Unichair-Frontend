@@ -2,7 +2,7 @@
   <div style="width: 90%;">
     <h5 style="margin:0 0 20px"><i class="el-icon-wind-power" /> Conference Square</h5>
 
-    <ConferenceTable v-bind:showList="showList" v-bind:data="table" :Identity="'Passerby'" />
+    <ConferenceTable :showList="showList" :data="table" :Identity="'Passerby'" />
   </div>
 </template>
 

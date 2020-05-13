@@ -47,7 +47,7 @@
 
       <!-- email -->
       <el-form-item prop="email" class="inputBox">
-        <el-input type="email" class="form-input" v-model="registerForm.email" placeholder="email" clearable v-on:keyup.enter.native="resetForm(registerForm)">
+        <el-input type="email" class="form-input" v-model="registerForm.email" placeholder="email" clearable @keyup.enter.native="resetForm(registerForm)">
           <i slot="prefix" class="el-icon-message"></i>
         </el-input>
       </el-form-item>
@@ -61,7 +61,7 @@
       </el-form-item>
 
       <el-form-item>
-        <el-button class="uni-button" type="primary" v-on:click="register(registerForm)">Submit</el-button>
+        <el-button class="uni-button" type="primary" @click="register(registerForm)">Submit</el-button>
         <el-button @click="resetForm(registerForm)">Reset</el-button>
       </el-form-item>
     </el-form>

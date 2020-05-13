@@ -62,7 +62,7 @@
         <el-button v-else class="button-new-tag" size="small" @click="showInput">+ Topic</el-button>
       </el-form-item>
 
-      <el-button type="primary" v-on:click="setUp(meetingForm)">Submit</el-button>
+      <el-button type="primary" @click="setUp(meetingForm)">Submit</el-button>
       <el-button @click="resetForm(meetingForm)">Reset</el-button>
     </el-form>
   </div>

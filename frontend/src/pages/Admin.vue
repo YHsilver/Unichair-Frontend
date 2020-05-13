@@ -1,7 +1,7 @@
 <template>
   <div style="display:flex;flex-direction:column">
     <div style="display: flex;min-height: calc(100vh - 60px);">
-      <el-menu v-bind:class="{ Bar: !isCollapse }" :default-active="$route.path.replace('/admin/', '')" :collapse="isCollapse" router :collapse-transition="false">
+      <el-menu :class="{ Bar: !isCollapse }" :default-active="$route.path.replace('/admin/', '')" :collapse="isCollapse" router :collapse-transition="false">
         <el-menu-item index="Conferencelist" class="mainMenu">
           <i class="el-icon-chat-square"></i>
           <span slot="title">Audit Conference</span>
