@@ -57,7 +57,7 @@
       </div>
 
       <el-form-item label="File Name" prop="fileName">
-        <span>{{ paperInfo.fileName }} ( {{ (paperInfo.fileSize / 1024000).toPrecision(3) }} MB )</span>
+        <span>{{ paperInfo.fileName }} ( {{ fileSizeString }} )</span>
       </el-form-item>
 
       <el-form-item>
@@ -87,6 +87,14 @@ export default {
   },
   mounted() {
     this.getPaperInfo();
+  },
+  computed() {
+    fileSizeString: {
+      // bigger than 1 MB
+      if (this.paperInfo.fileSize >= 1048576) return (this.paperInfo.fileSize / 1048576).toFixed(2) + 'MB';
+      // lest than 1 MB
+      else return (this.paperInfo.fileSize / 1024).toFixed(2) + 'KB';
+    }
   },
   methods: {
     getPaperInfo() {
