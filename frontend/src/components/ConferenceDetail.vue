@@ -78,7 +78,7 @@
 
       <el-divider></el-divider>
 
-      <el-form-item label="Chairman">
+      <el-form-item label="Chair">
         <el-tag type="warning" effect="plain">{{ conferenceDetail.chair }}</el-tag>
       </el-form-item>
 
@@ -128,7 +128,12 @@
     </el-dialog>
 
     <!-- submit paper -->
-    <el-button type="primary" @click="contributeFormVisible = true" v-if="Identity == 'Passerby' && conferenceDetail.stage === 'Contribution'">Submit paper</el-button>
+    <el-button
+      type="primary"
+      @click="contributeFormVisible = true"
+      v-if="Identity == 'Passerby' && conferenceDetail.stage === 'Contribution' && $store.state.userDetails.username !== conferenceDetail.chair"
+      >Submit paper</el-button
+    >
     <el-dialog :visible.sync="contributeFormVisible" append-to-body :fullscreen="true" v-if="contributeFormVisible === true">
       <PaperForm
         @submitPaperFinished="contributeFormVisible = false"
