@@ -85,16 +85,24 @@ export default {
   data() {
     return { loading: true, paperInfo: {}, address: '', file: undefined, pdfSrc: undefined, pdfVisible: false, pdfLoading: true };
   },
+  created() {
+    Bus.$on('prereviewPaper', () => {
+      this.previewFile();
+    });
+    Bus.$on('submitPaperFinished', () => {
+      this.getPaperInfo();
+    });
+  },
   mounted() {
     this.getPaperInfo();
   },
-  computed() {
-    fileSizeString: {
+  computed: {
+    fileSizeString: function() {
       // bigger than 1 MB
-      if (this.paperInfo.fileSize >= 1048576) return (this.paperInfo.fileSize / 1048576).toFixed(2) + 'MB';
+      if (this.paperInfo.fileSize >= 1048576) return (this.paperInfo.fileSize / 1048576).toFixed(1) + 'MB';
       // lest than 1 MB
-      else return (this.paperInfo.fileSize / 1024).toFixed(2) + 'KB';
-    }
+      else return (this.paperInfo.fileSize / 1024).toFixed(1) + 'KB';
+    },
   },
   methods: {
     getPaperInfo() {

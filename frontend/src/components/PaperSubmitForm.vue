@@ -61,7 +61,7 @@
       <el-form-item label="PDF File" prop="file">
         <input type="file" required @change="getFile($event)" accept=".pdf" style="display:none" id="uploadInput" />
         <el-button type="primary" size="small" @click="upload">choose file</el-button> <span>{{ fileName }}</span>
-        <el-button type="primary" @click="pdfVisible = true" size="small" v-show="previewVisible" style="float: right;">Preview</el-button>
+        <el-button type="primary" @click="PreviewPaper" size="small" v-show="previewButtonVisible" style="float: right;">Preview</el-button>
         <el-drawer :visible.sync="pdfVisible" :size="'min(720px,100%)'" :title="fileName" append-to-body>
           <iframe :src="src" style="width: 90%;height: 90vh;margin-left: 5%;"></iframe>
         </el-drawer>
@@ -99,9 +99,10 @@ export default {
           this.paperForm.paperId = paperInfo.paperId;
           this.paperForm.title = paperInfo.title;
           this.paperForm.authors = paperInfo.authors;
+          this.fileName = paperInfo.fileName;
           this.paperForm.file = null;
-          this.fileName = '';
         });
+        this.previewButtonVisible = true;
       }
     });
   },
@@ -162,7 +163,7 @@ export default {
       inputVisible: false,
       inputValue: '',
       fileName: '',
-      previewVisible: false,
+      previewButtonVisible: false,
       src: '',
       pdfVisible: false,
     };
@@ -216,7 +217,7 @@ export default {
       this.paperForm.file = file;
       this.fileName = file.name; // 文件名
       this.src = this.getFileURL(file); // 文件地址
-      this.previewVisible = true; // 预览的按钮
+      this.previewButtonVisible = true; // 预览的按钮
       let index = this.fileName.lastIndexOf('.'); //获取最后一个.的位置
       let type = this.fileName.substr(index + 1); //获取后缀
       if (type !== 'PDF' && type !== 'pdf') {
@@ -288,11 +289,13 @@ export default {
                 this.paperForm = { title: '', authors: [], summary: '', topics: [], file: null };
                 this.$message({ type: 'success', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
                 this.$emit('submitPaperFinished');
+                Bus.$emit('submitPaperFinished');
                 loading.close();
               } else {
                 this.paperForm = { title: '', authors: [], summary: '', topics: [], file: null };
                 this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
                 this.$emit('submitPaperFinished');
+                Bus.$emit('submitPaperFinished');
                 loading.close();
               }
             })
@@ -300,12 +303,21 @@ export default {
               this.$message({ type: 'error', message: err.data.message, duration: '2000', showClose: 'true', center: 'true' });
               this.paperForm = { title: '', authors: [], summary: '', topics: [], file: null };
               this.$emit('submitPaperFinished');
+              Bus.$emit('submitPaperFinished');
               loading.close();
             });
         } else {
           this.$message({ type: 'warning', message: 'Please check the form', duration: '2000', showClose: 'true', center: 'true' });
         }
       });
+    },
+    PreviewPaper() {
+      // 不会传文件过来，由此可以判断是提交稿件还是修改稿件
+      if (this.paperForm.file !== null) {
+        this.pdfVisible = true;
+      } else {
+        Bus.$emit('prereviewPaper');
+      }
     },
     cancel() {
       this.$emit('submitPaperFinished');
