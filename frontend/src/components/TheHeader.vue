@@ -4,7 +4,7 @@
 
     <div v-if="loginSwitch">
       <el-button plain icon="el-icon-user" style="float:right;margin: 10px;" circle></el-button>
-      <el-dropdown @command="handleCommand">
+      <el-dropdown @command="handleCommand" trigger="click">
         <span class="el-dropdown-link">Me</span>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item command="mySpace">My Space</el-dropdown-item>
