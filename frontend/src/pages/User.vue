@@ -57,7 +57,8 @@
         </el-submenu>
 
         <el-menu-item @click="isCollapse = !isCollapse" style="position: absolute;bottom: 0;width:100%" class="mainMenu">
-          <i class="el-icon-more"></i>
+          <i v-show="isCollapse" class="el-icon-upload2" style="transform: rotate(90deg);"></i>
+          <i v-show="!isCollapse" class="el-icon-download" style="transform: rotate(90deg);"></i>
         </el-menu-item>
       </el-menu>
 
