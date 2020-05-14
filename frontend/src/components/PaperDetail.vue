@@ -80,10 +80,10 @@
 import Bus from '@/api/Bus';
 
 export default {
-  name: 'PaperInfo',
+  name: 'PaperDetail',
   props: { paperId: Number, Identity: String },
   data() {
-    return { loading: true, paperInfo: {}, address: '', file: undefined, pdfSrc: undefined, pdfVisible: false, pdfLoading: true };
+    return { loading: true, paperInfo: {}, address: '', file: null, pdfSrc: undefined, pdfVisible: false, pdfLoading: true };
   },
   created() {
     Bus.$on('prereviewPaper', () => {

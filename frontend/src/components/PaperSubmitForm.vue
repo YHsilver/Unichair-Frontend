@@ -1,6 +1,6 @@
 <template>
   <div style="width:900px;margin:auto">
-    <div>
+    <div v-if="Identity !== 'Author'">
       <h2>{{ conferenceFullName }}</h2>
       <el-divider></el-divider>
     </div>
@@ -87,7 +87,7 @@
 import Bus from '@/api/Bus';
 
 export default {
-  name: 'PaperForm',
+  name: 'PaperSubmitForm',
   props: { conferenceId: Number, conferenceFullName: String, conferenceTopics: Array, Identity: String },
   created() {
     this.$nextTick(() => {
@@ -254,7 +254,6 @@ export default {
     },
     sendPaperForm(formName) {
       this.popoverVisible = false;
-
       // authors infomation all filled
       for (let i = 0; i < this.paperForm.authors.length; i++) {
         let author = this.paperForm.authors[i];

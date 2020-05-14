@@ -7,20 +7,20 @@
       </el-col>
       <el-col :xl="14" :sm="24" :xs="24" v-if="chosePaper">
         <!-- paper details -->
-        <PaperInfo v-show="toggle === 'PaperInfo'" :Identity="'Author'" :paperId="chosePaperId" />
+        <PaperDetail v-show="toggle === 'PaperDetail'" :Identity="'Author'" :paperId="chosePaperId" />
 
         <!-- modify paper -->
-        <PaperForm @submitPaperFinished="finish()" v-show="toggle === 'ModifyForm'" :conferenceId="conferenceId" :conferenceTopics="conferenceTopics" :Identity="'Author'" />
+        <PaperSubmitForm @submitPaperFinished="finish()" v-show="toggle === 'ModifyForm'" :conferenceId="conferenceId" :conferenceTopics="conferenceTopics" :Identity="'Author'" />
 
         <div style="width:720px;margin:auto">
           <el-button
-            v-show="toggle === 'PaperInfo'"
+            v-show="toggle === 'PaperDetail'"
             type="primary"
-            @click="toggle === 'PaperInfo' ? (toggle = 'ModifyForm') : (toggle = 'PaperInfo')"
+            @click="toggle === 'PaperDetail' ? (toggle = 'ModifyForm') : (toggle = 'PaperDetail')"
             :disabled="status !== 'CONTRIBUTION'"
             >Modify</el-button
           >
-          <el-button v-show="toggle === 'PaperInfo'" @click="cancel()" type="text" style="float:right">Cancel</el-button>
+          <el-button v-show="toggle === 'PaperDetail'" @click="cancel()" type="text" style="float:right">Cancel</el-button>
         </div>
       </el-col>
     </el-row>
@@ -28,26 +28,26 @@
 </template>
 
 <script>
-import PaperForm from '@/components/PaperSubmitForm.vue';
-import PaperInfo from '@/components/PaperDetail.vue';
+import PaperSubmitForm from '@/components/PaperSubmitForm.vue';
+import PaperDetail from '@/components/PaperDetail.vue';
 import PaperList from '@/components/PaperTable.vue';
 
 export default {
   name: 'MyPaper',
-  components: { PaperForm, PaperInfo, PaperList },
+  components: { PaperSubmitForm, PaperDetail, PaperList },
   props: { conferenceId: Number, conferenceTopics: Array },
   data() {
-    return { toggle: 'PaperInfo', chosePaper: false, chosePaperId: undefined, status: undefined };
+    return { toggle: 'PaperDetail', chosePaper: false, chosePaperId: undefined, status: undefined };
   },
   methods: {
     cancel() {
       this.chosePaper = false;
     },
     finish() {
-      this.toggle = 'PaperInfo';
+      this.toggle = 'PaperDetail';
     },
     passPaperId(paperId, status) {
-      this.toggle = 'PaperInfo';
+      this.toggle = 'PaperDetail';
       this.chosePaperId = paperId;
       this.status = status;
       this.chosePaper = true;
