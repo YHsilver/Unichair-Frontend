@@ -37,7 +37,7 @@ export default {
     });
   },
   data() {
-    return { show: 'Conferencelist', isCollapse: true };
+    return { show: 'Conferencelist', isCollapse: false };
   },
   methods: {},
 };

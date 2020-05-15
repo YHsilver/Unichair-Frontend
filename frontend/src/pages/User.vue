@@ -1,19 +1,27 @@
 <template>
   <div style="display:flex;flex-direction:column">
     <div style="display: flex;min-height: calc(100vh - 60px);">
-      <el-menu :class="{ Bar: !isCollapse }" :default-active="$route.path.replace('/user/', '')" :collapse="isCollapse" :collapse-transition="false" router>
+      <el-menu
+        :class="{ Bar: !isCollapse }"
+        :default-active="$route.path.replace('/user/', '')"
+        :collapse="isCollapse"
+        :collapse-transition="false"
+        router
+        :default-openeds="openeds"
+      >
         <el-menu-item index="/user/NewApplication" class="mainMenu">
           <i class="el-icon-circle-plus"></i>
           <span slot="title">New Application</span>
         </el-menu-item>
 
-        <el-submenu class="mainMenu" index="Conference">
+        <el-submenu class="mainMenu" index="Conferences">
           <template slot="title">
             <i class="el-icon-files"></i>
-            <span slot="uer">Conference</span>
+            <span slot="uer">Conferences</span>
           </template>
+
           <el-menu-item-group>
-            <span slot="title">/* Conference */</span>
+            <span slot="title" v-show="isCollapse">Conferences</span>
             <el-menu-item index="MyApplication">
               <i class="el-icon-edit-outline"></i>
               <span slot="title">My Applications</span>
@@ -40,7 +48,7 @@
             <span slot="uer">Personal Center</span>
           </template>
           <el-menu-item-group>
-            <span slot="title">/* Personal Center */</span>
+            <span slot="title" v-show="isCollapse">Personal Center</span>
             <el-menu-item index="Messages" @click="seeMessage()">
               <i class="el-icon-message"></i>
               <span slot="title">My Messages<el-badge style="top: -10px;"></el-badge></span>
@@ -75,7 +83,7 @@ import Bus from '@/api/Bus';
 export default {
   name: 'User',
   data() {
-    return { isCollapse: true };
+    return { isCollapse: false, openeds: ['Conferences', 'My'] };
   },
   created() {
     Bus.$on('login', () => {
@@ -83,6 +91,23 @@ export default {
       this.$notify({ title: 'Tip', message: 'Double click to view conference details', offset: 50 });
     });
   },
+  // mounted() {
+  //   var titles = document.getElementsByClassName('el-menu-item-group__title');
+  //   titles[0].style.display = 'none';
+  //   titles[1].style.display = 'none';
+  // },
+  // watch: {
+  //   isCollapse() {
+  //     var titles = document.getElementsByClassName('el-menu-item-group__title');
+  //     if (this.isCollapse === true) {
+  //       titles[0].style.display = 'none';
+  //       titles[1].style.display = 'none';
+  //     } else {
+  //       titles[0].style.display = 'block';
+  //       titles[1].style.display = 'block';
+  //     }
+  //   },
+  // },
   methods: {
     seeMessage() {
       this.$notify({ title: 'Tip', message: 'Double click the conference name to view details', offset: 50 });
@@ -106,5 +131,9 @@ export default {
 
 .mainMenu {
   text-align: left;
+}
+
+.mainMenu >>> .el-menu-item-group__title {
+  display: contents;
 }
 </style>
