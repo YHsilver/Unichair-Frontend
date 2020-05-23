@@ -55,7 +55,7 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
-      this.$refs.loginFormUsername.$refs.input.focus();
+      if (this.loginForm.username !== null) this.$refs.loginFormUsername.$refs.input.focus();
     });
   },
   methods: {

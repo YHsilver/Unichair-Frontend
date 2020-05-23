@@ -2,8 +2,10 @@
   <el-row id="hi">
     <el-col :md="16" :sm="24">
       <div id="hiIM">
-        Hi! We’re <br />
-        🦄 Uni Conference.
+        <p id="words">
+          Hi! We’re <br />
+          🦄 Uni Conference.
+        </p>
       </div>
       <div class="animationSection">
         <div class="animation animation1"></div>
@@ -13,12 +15,22 @@
         <div class="animation animation5"></div>
       </div>
     </el-col>
+    <el-col :sm="24"> <i class="el-icon-d-arrow-right swipe-down" @click="swipeDown"></i> </el-col>
   </el-row>
 </template>
 
 <script>
 export default {
   name: 'HomeHi',
+  methods: {
+    swipeDown() {
+      const height = window.innerHeight;
+      window.scrollTo({
+        top: height,
+        behavior: 'smooth',
+      });
+    },
+  },
 };
 </script>
 
@@ -32,11 +44,37 @@ export default {
 #hiIM {
   font-size: 64px;
   font-weight: 900;
-  padding: 20%;
   color: white;
   text-align: left;
   word-wrap: break-word;
   word-break: normal;
+  height: 88vh;
+}
+
+#words {
+  padding-top: 30vh;
+  margin: auto;
+  padding-left: 10vh;
+}
+
+.swipe-down {
+  font-size: 36px;
+  color: white;
+  cursor: pointer;
+  animation: zooming 3s ease-in-out infinite;
+}
+
+@keyframes zooming {
+  0% {
+    transform: rotate(90deg);
+  }
+  50% {
+    transform: scale(1.2) rotate(90deg);
+    opacity: 0.2;
+  }
+  100% {
+    transform: rotate(90deg);
+  }
 }
 
 @keyframes shootingStar {
