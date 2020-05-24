@@ -13,7 +13,8 @@ export default {
   name: 'APP',
   components: { Header },
   created() {
-    console.log('\n'.concat(' %c Uni Conference 🎉 v', '2.0.0', ' \n'), 'color: #fafafa; background: #8669ed; padding:5px 0;');
+    const { log: uniPrint } = console;
+    uniPrint('\n'.concat(' %c Uni Conference 🎉 v', '2.0.0', ' \n'), 'color: #fafafa; background: #8669ed; padding:5px 0;');
   },
 };
 </script>
