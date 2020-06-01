@@ -3,7 +3,7 @@
     <el-row id="intro">
       <el-col :md="8" :sm="24">
         <el-carousel indicator-position="outside" width="400px" height="min(400px,60vw)">
-          <el-carousel-item v-for="i in 4" :key="i">
+          <el-carousel-item v-for="i in 5" :key="i">
             <img style="max-height: 360px; padding: 10px;max-width: 100%;" alt="startup" :src="'welcome/setup (' + i + ').svg'" />
           </el-carousel-item>
         </el-carousel>
