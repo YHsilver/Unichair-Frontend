@@ -9,7 +9,7 @@
         router
         :default-openeds="openeds"
       >
-        <el-menu-item index="/user/NewApplication" class="mainMenu">
+        <el-menu-item index="NewApplication" class="mainMenu">
           <i class="el-icon-circle-plus"></i>
           <span slot="title">New Application</span>
         </el-menu-item>
@@ -91,23 +91,6 @@ export default {
       this.$notify({ title: 'Tip', message: 'Double click to view conference details', offset: 50 });
     });
   },
-  // mounted() {
-  //   var titles = document.getElementsByClassName('el-menu-item-group__title');
-  //   titles[0].style.display = 'none';
-  //   titles[1].style.display = 'none';
-  // },
-  // watch: {
-  //   isCollapse() {
-  //     var titles = document.getElementsByClassName('el-menu-item-group__title');
-  //     if (this.isCollapse === true) {
-  //       titles[0].style.display = 'none';
-  //       titles[1].style.display = 'none';
-  //     } else {
-  //       titles[0].style.display = 'block';
-  //       titles[1].style.display = 'block';
-  //     }
-  //   },
-  // },
   methods: {
     seeMessage() {
       this.$notify({ title: 'Tip', message: 'Double click the conference name to view details', offset: 50 });
@@ -135,5 +118,9 @@ export default {
 
 .mainMenu >>> .el-menu-item-group__title {
   display: contents;
+}
+
+.el-menu-item.is-active {
+  background-color: #fafbfe !important;
 }
 </style>

@@ -59,4 +59,8 @@ export default {
   justify-content: center;
   width: 100%;
 }
+
+.el-menu-item.is-active {
+  background-color: #fafbfe !important;
+}
 </style>
