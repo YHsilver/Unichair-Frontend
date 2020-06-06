@@ -20,6 +20,13 @@
             :disabled="status !== 'CONTRIBUTION'"
             >Modify</el-button
           >
+          <!-- TODO: status = ? -->
+          <el-button v-show="toggle === 'PaperDetail' && status === 'CONTRIBUTION'" type="primary" plain @click="rebuttalVisible = true">Rebuttal</el-button>
+          <el-dialog title="Rebuttal" :visible.sync="rebuttalVisible" append-to-body>
+            <el-input placeholder="author name" v-model="rebuttalAuthorName"> </el-input>
+            <div style="margin: 20px 0;"></div>
+            <el-input type="textarea" rows="16" placeholder="rebuttal" v-model="rebuttalAuthorText" maxlength="800" show-word-limit> </el-input>
+          </el-dialog>
           <el-button v-show="toggle === 'PaperDetail'" @click="cancel()" type="text" style="float:right">Cancel</el-button>
         </div>
       </el-col>
@@ -37,7 +44,16 @@ export default {
   components: { PaperSubmitForm, PaperDetail, PaperList },
   props: { conferenceId: Number, conferenceTopics: Array },
   data() {
-    return { toggle: 'PaperDetail', chosePaper: false, chosePaperId: undefined, status: undefined };
+    return {
+      toggle: 'PaperDetail',
+      chosePaper: false,
+      chosePaperId: undefined,
+      status: undefined,
+      // rebuttal
+      rebuttalVisible: false,
+      rebuttalAuthorName: '',
+      rebuttalAuthorText: '',
+    };
   },
   methods: {
     cancel() {
@@ -51,6 +67,25 @@ export default {
       this.chosePaperId = paperId;
       this.status = status;
       this.chosePaper = true;
+    },
+    sendRebuttal() {
+      this.$axios
+        .post('/system/authorSendRebuttal', {
+          authorId: this.$store.state.id,
+          name: this.rebuttalAuthorName,
+          paperId: this.paperId,
+          rebuttal: this.rebuttalAuthorText,
+        })
+        .then((resp) => {
+          if (resp.status === 200) {
+            this.$message({ type: 'success', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
+          } else {
+            this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
+          }
+        })
+        .catch((err) => {
+          this.$message({ type: 'error', message: err.data.message, duration: '2000', showClose: 'true', center: 'true' });
+        });
     },
   },
 };
