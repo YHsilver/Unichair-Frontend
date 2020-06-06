@@ -9,6 +9,14 @@
         <!-- paper details -->
         <PaperInfo :conferenceId="conferenceId" :Identity="'Reviewer'" :paperId="chosePaperId" />
 
+        <!-- discuss paper -->
+        <div style="width:720px;margin:auto">
+          <el-button plain @click="discussPaperVisible = true" id="discussPaperButton"> <i class="el-icon-chat-dot-square"></i> Discuss paper</el-button>
+          <el-dialog :visible.sync="discussPaperVisible" v-if="discussPaperVisible" append-to-body id="discussDialog" top="10vh">
+            <DiscussingPaper :Identity="'Reviewer'" :paperId="chosePaperId" />
+          </el-dialog>
+        </div>
+
         <!-- rating -->
         <RatingForm :paperId="chosePaperId" @finishRatingAPaper="finishARating" />
       </el-col>
@@ -20,13 +28,14 @@
 import RatingForm from '@/components/PaperRatingForm.vue';
 import PaperInfo from '@/components/PaperDetail.vue';
 import PaperList from '@/components/PaperTable.vue';
+import DiscussingPaper from '@/components/PaperReviewerDiscuss.vue';
 
 export default {
   name: 'ReviewingPaper',
-  components: { RatingForm, PaperInfo, PaperList },
+  components: { RatingForm, PaperInfo, PaperList, DiscussingPaper },
   props: { conferenceId: Number },
   data() {
-    return { chosePaper: false, chosePaperId: undefined };
+    return { chosePaper: false, chosePaperId: undefined, discussPaperVisible: false };
   },
   methods: {
     passPaperId(paperId) {
@@ -39,3 +48,14 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+#discussPaperButton {
+  float: right;
+}
+
+#discussDialog /deep/ .el-dialog {
+  height: 80vh !important;
+  overflow: auto !important;
+}
+</style>

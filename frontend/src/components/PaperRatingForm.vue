@@ -1,5 +1,5 @@
 <template>
-  <div style="width:520px;margin:auto">
+  <div style="width:720px;margin:auto">
     <el-form :model="RatingForm" :rules="RatingFormRules" :ref="RatingForm" label-width="200px" label-position="top" :disabled="disabled">
       <el-form-item label="Rating" prop="grade">
         <el-rate v-model="RatingForm.grade" :show-text="true" :texts="ratingTexts" :colors="colors" :max="4"> </el-rate>
@@ -11,15 +11,25 @@
         <el-rate v-model="RatingForm.confidenceVal" :show-text="true" :texts="confidenceTexts" :colors="colors" :max="4"> </el-rate>
       </el-form-item>
       <el-form-item v-show="!disabled">
-        <el-popover placement="top" width="160" v-model="visible">
+        <el-popover placement="top" width="160" v-model="ratingVisible">
           <p>Are you sure to submit?</p>
           <div style="text-align: right; margin: 0">
-            <el-button size="mini" type="text" @click="visible = false">Cancel</el-button>
+            <el-button size="mini" type="text" @click="ratingVisible = false">Cancel</el-button>
             <el-button type="primary" size="mini" @click="submitRatingResult()">Yes</el-button>
           </div>
           <el-button type="primary" slot="reference">Rating</el-button>
         </el-popover>
         <el-button @click="resetForm(RatingForm)" style="margin-left:10px">Reset</el-button>
+
+        <!-- check -->
+        <el-popover placement="top" width="160" style="float:right" v-model="checkVisible">
+          <p>Are you sure that you wanna confirm the review results?</p>
+          <div style="text-align: right; margin: 0">
+            <el-button size="mini" type="text" @click="checkVisible = false">Cancel</el-button>
+            <el-button type="primary" size="mini" @click="CheckRating">Sure</el-button>
+          </div>
+          <el-button slot="reference" type="primary" round>Check</el-button>
+        </el-popover>
       </el-form-item>
     </el-form>
   </div>
@@ -39,7 +49,7 @@ export default {
   },
   data() {
     return {
-      visible: false,
+      ratingVisible: false,
       disabled: false,
       // reviewer
       RatingForm: { grade: undefined, comment: '', confidenceVal: undefined },
@@ -51,11 +61,12 @@ export default {
         comment: [{ required: true, message: '', trigger: 'blur' }],
         confidenceVal: [{ required: true, message: '', trigger: 'blur' }],
       },
+      checkVisible: false,
     };
   },
   methods: {
     submitRatingResult() {
-      this.visible = false;
+      this.ratingVisible = false;
       // grade
       let grade;
       this.RatingForm.grade > 2 ? (grade = this.RatingForm.grade - 2) : (grade = this.RatingForm.grade - 3);
@@ -101,6 +112,25 @@ export default {
     },
     finishRating() {
       this.$emit('finishRatingAPaper');
+    },
+    CheckRating() {
+      this.checkVisible = false;
+      this.$axios
+        .post('/system/reviewerckRate', {
+          token: this.$store.state.token,
+          paperId: this.paperId,
+          modify: true,
+        })
+        .then((resp) => {
+          if (resp.status === 200) {
+            this.$message({ type: 'success', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
+          } else {
+            this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
+          }
+        })
+        .catch((err) => {
+          this.$message({ type: 'error', message: err.data.message, duration: '2000', showClose: 'true', center: 'true' });
+        });
     },
   },
 };
