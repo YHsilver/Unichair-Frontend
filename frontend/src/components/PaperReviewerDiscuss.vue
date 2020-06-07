@@ -80,53 +80,17 @@ export default {
     };
   },
   created() {
-    this.getComment();
-    this.getJudge();
+    this.getDiscussion('/system/reviewerGetComment', 'comments');
+    this.getDiscussion('/system/reviewerGetJudge', 'judges');
     this.getRebuttal();
   },
   methods: {
-    getComment() {
+    getDiscussion(address, discussion) {
       this.$axios
-        .post('/system/reviewerGetComment', { paperId: this.paperId })
+        .post(address, { paperId: this.paperId })
         .then((resp) => {
           if (resp.status === 200) {
-            this.comments = resp.data;
-          } else {
-            this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
-          }
-        })
-        .catch((err) => this.$message({ type: 'error', message: err.data.message, duration: '2000', showClose: 'true', center: 'true' }));
-    },
-    getJudge() {
-      this.$axios
-        .post('/system/reviewerGetJudge', { paperId: this.paperId })
-        .then((resp) => {
-          if (resp.status === 200) {
-            this.judges = resp.data;
-          } else {
-            this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
-          }
-        })
-        .catch((err) => this.$message({ type: 'error', message: err.data.message, duration: '2000', showClose: 'true', center: 'true' }));
-    },
-    submitComment() {
-      this.$axios
-        .post('/system/reviewerSendComment', { token: this.$store.state.token, comment: this.myComment, paperId: this.paperId })
-        .then((resp) => {
-          if (resp.status === 200) {
-            this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
-          } else {
-            this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
-          }
-        })
-        .catch((err) => this.$message({ type: 'error', message: err.data.message, duration: '2000', showClose: 'true', center: 'true' }));
-    },
-    submitJudge() {
-      this.$axios
-        .post('/system/reviewerSendJudge', { token: this.$store.state.token, judge: this.myComment, paperId: this.paperId })
-        .then((resp) => {
-          if (resp.status === 200) {
-            this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
+            this[discussion] = resp.data;
           } else {
             this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
           }
@@ -134,8 +98,18 @@ export default {
         .catch((err) => this.$message({ type: 'error', message: err.data.message, duration: '2000', showClose: 'true', center: 'true' }));
     },
     sendDiscussion() {
-      if (this.rebuttal.length === 0) this.submitComment();
-      else this.submitJudge();
+      let request;
+      if (this.rebuttal.length === 0) {
+        request = this.$axios.post('/system/reviewerSendComment', { token: this.$store.state.token, comment: this.myComment, paperId: this.paperId });
+      } else {
+        request = this.$axios.post('/system/reviewerSendJudge', { token: this.$store.state.token, judge: this.myComment, paperId: this.paperId });
+      }
+      request
+        .then((resp) => {
+          if (resp.status === 200) this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
+          else this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
+        })
+        .catch((err) => this.$message({ type: 'error', message: err.data.message, duration: '2000', showClose: 'true', center: 'true' }));
       this.myComment = '';
     },
     getRebuttal() {
