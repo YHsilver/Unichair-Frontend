@@ -106,7 +106,7 @@ export default {
       }
       request
         .then((resp) => {
-          if (resp.status === 200) this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
+          if (resp.status === 200) this.$message({ type: 'success', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
           else this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
         })
         .catch((err) => this.$message({ type: 'error', message: err.data.message, duration: '2000', showClose: 'true', center: 'true' }));
