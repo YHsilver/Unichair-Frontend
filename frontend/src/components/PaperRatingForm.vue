@@ -11,21 +11,23 @@
         <el-rate v-model="RatingForm.confidenceVal" :show-text="true" :texts="confidenceTexts" :colors="colors" :max="4"> </el-rate>
       </el-form-item>
       <el-form-item v-show="!disabled">
-        <el-popover placement="top" width="160" v-model="ratingVisible">
-          <p>Are you sure to submit?</p>
-          <div style="text-align: right; margin: 0">
-            <el-button size="mini" type="text" @click="ratingVisible = false">Cancel</el-button>
-            <el-button type="primary" size="mini" @click="submitRatingResult()">Yes</el-button>
-          </div>
-          <el-button type="primary" slot="reference">Rating</el-button>
-        </el-popover>
-        <el-button @click="resetForm(RatingForm)" style="margin-left:10px">Reset</el-button>
+        <div style="float:right">
+          <el-popover placement="top" width="160" v-model="ratingPopoverVisible">
+            <p>Are you sure to submit?</p>
+            <div style="text-align: right; margin: 0">
+              <el-button size="mini" type="text" @click="ratingPopoverVisible = false">Cancel</el-button>
+              <el-button type="primary" size="mini" @click="submitRatingResult()">Yes</el-button>
+            </div>
+            <el-button type="primary" slot="reference">{{ rateText }}</el-button>
+          </el-popover>
+          <el-button @click="resetForm(RatingForm)" style="margin-left:10px">Reset</el-button>
+        </div>
 
         <!-- check -->
-        <el-popover placement="top" width="160" style="float:right" v-model="checkVisible">
+        <el-popover placement="top" width="200" v-model="checkPopoverVisible">
           <p>Are you sure that you wanna confirm the review results?</p>
           <div style="text-align: right; margin: 0">
-            <el-button size="mini" type="text" @click="checkVisible = false">Cancel</el-button>
+            <el-button size="mini" type="text" @click="checkPopoverVisible = false">Cancel</el-button>
             <el-button type="primary" size="mini" @click="CheckRating">Sure</el-button>
           </div>
           <el-button slot="reference" type="primary" round>Check</el-button>
@@ -49,7 +51,7 @@ export default {
   },
   data() {
     return {
-      ratingVisible: false,
+      ratingPopoverVisible: false,
       disabled: false,
       // reviewer
       RatingForm: { grade: undefined, comment: '', confidenceVal: undefined },
@@ -61,12 +63,19 @@ export default {
         comment: [{ required: true, message: '', trigger: 'blur' }],
         confidenceVal: [{ required: true, message: '', trigger: 'blur' }],
       },
-      checkVisible: false,
+      checkPopoverVisible: false,
+      ratingBefore: false,
     };
+  },
+  computed: {
+    rateText() {
+      if (!this.ratingBefore) return 'Rating';
+      else return 'reRating';
+    },
   },
   methods: {
     submitRatingResult() {
-      this.ratingVisible = false;
+      this.ratingPopoverVisible = false;
       // grade
       let grade;
       this.RatingForm.grade > 2 ? (grade = this.RatingForm.grade - 2) : (grade = this.RatingForm.grade - 3);
@@ -88,8 +97,13 @@ export default {
         default:
           break;
       }
+
+      let address;
+      if (!this.ratingBefore) address = '/system/submitPaperReviewed';
+      else address = '/system/reviewerModifyRate';
+
       this.$axios
-        .post('/system/submitPaperReviewed', {
+        .post(address, {
           token: this.$store.state.token,
           paperId: this.paperId,
           comment: this.RatingForm.comment,
@@ -114,7 +128,7 @@ export default {
       this.$emit('finishRatingAPaper');
     },
     CheckRating() {
-      this.checkVisible = false;
+      this.checkPopoverVisible = false;
       this.$axios
         .post('/system/reviewerckRate', {
           token: this.$store.state.token,
