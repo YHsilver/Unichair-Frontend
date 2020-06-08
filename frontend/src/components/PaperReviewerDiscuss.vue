@@ -87,7 +87,7 @@ export default {
   methods: {
     getDiscussion(address, discussion) {
       this.$axios
-        .post(address, { paperId: this.paperId })
+        .post(address, { token: this.$store.state.token, paperId: this.paperId })
         .then((resp) => {
           if (resp.status === 200) {
             this[discussion] = resp.data;

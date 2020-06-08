@@ -71,8 +71,7 @@ export default {
     sendRebuttal() {
       this.$axios
         .post('/system/authorSendRebuttal', {
-          authorId: this.$store.state.id,
-          name: this.rebuttalAuthorName,
+          token: this.$store.state.token,
           paperId: this.paperId,
           rebuttal: this.rebuttalAuthorText,
         })

@@ -130,10 +130,9 @@ export default {
     CheckRating() {
       this.checkPopoverVisible = false;
       this.$axios
-        .post('/system/reviewerckRate', {
+        .post('/system/reviewerCheckRate', {
           token: this.$store.state.token,
           paperId: this.paperId,
-          modify: true,
         })
         .then((resp) => {
           if (resp.status === 200) {
