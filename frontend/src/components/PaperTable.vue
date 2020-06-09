@@ -1,5 +1,6 @@
 <template>
   <div style="width:720px;margin:auto">
+    <el-alert title="Click to view Paper details" type="info" :closable="false"> </el-alert>
     <el-table :data="paperTable" tooltip-effect="dark" v-loading="paperListLoading" @row-click="choosePaper" :row-style="{ cursor: 'pointer' }">
       <el-table-column label="Title" prop="title"> </el-table-column>
 
@@ -46,7 +47,6 @@ export default {
               }
             }
             this.paperListLoading = false;
-            this.$notify({ title: 'Tip', message: 'Click to view Paper details', duration: 2000 });
           } else {
             this.$message({ type: 'error', message: 'get paper information error', duration: '2000', showClose: 'true', center: 'true' });
           }

@@ -1,6 +1,7 @@
 <template>
   <div class="tableFrame">
     <h5 style="margin:0 0 20px"><i class="el-icon-message" /> Messages</h5>
+    <el-alert title="Double click the conference name to view details" type="info" :closable="false" style="width: 90%;margin-left: 5%;"> </el-alert>
 
     <el-table :data="messageTable" class="tableContent" v-loading="loading" @cell-dblclick="openDetails">
       <el-table-column label="Sender" prop="sender"> </el-table-column>

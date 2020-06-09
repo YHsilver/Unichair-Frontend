@@ -1,6 +1,7 @@
 <template>
   <div>
-    <el-table :data="data" height="calc(100vh - 200px)" :row-style="{ cursor: 'pointer' }" @row-dblclick="openConferenceDetails" v-loading="loading">
+    <el-alert title="Double click to view conference details" type="info" :closable="false"> </el-alert>
+    <el-table :data="data" height="calc(100vh - 220px)" :row-style="{ cursor: 'pointer' }" @row-dblclick="openConferenceDetails" v-loading="loading">
       <el-table-column type="expand">
         <template slot-scope="props">
           <el-form label-position="left" inline>

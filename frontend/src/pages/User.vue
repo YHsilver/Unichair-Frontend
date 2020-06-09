@@ -49,7 +49,7 @@
           </template>
           <el-menu-item-group>
             <span slot="title" v-show="isCollapse">Personal Center</span>
-            <el-menu-item index="Messages" @click="seeMessage()">
+            <el-menu-item index="Messages">
               <i class="el-icon-message"></i>
               <span slot="title">My Messages<el-badge style="top: -10px;"></el-badge></span>
             </el-menu-item>
@@ -88,13 +88,7 @@ export default {
   created() {
     Bus.$on('login', () => {
       this.$message({ type: 'success', message: 'welcome aboard !', duration: '2000', showClose: 'true', center: 'true' });
-      this.$notify({ title: 'Tip', message: 'Double click to view conference details', offset: 50 });
     });
-  },
-  methods: {
-    seeMessage() {
-      this.$notify({ title: 'Tip', message: 'Double click the conference name to view details', offset: 50 });
-    },
   },
 };
 </script>
