@@ -134,6 +134,7 @@ export default {
               Bus.$emit('isPaperRated', this.paperInfo.isCurrPCMemberReviewed, Result);
               Bus.$emit('isPaperChecked', this.paperInfo.isCurrPCMemberChecked);
               Bus.$emit('isRebuttalChecked', this.paperInfo.isCurrPCMemberRebuttalChecked);
+              Bus.$emit('isRebuttaled', this.paperInfo.isRebuttal);
               this.loading = false;
             }
           } else {

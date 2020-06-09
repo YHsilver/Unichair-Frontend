@@ -21,7 +21,9 @@
             >Modify</el-button
           >
 
-          <el-button v-show="toggle === 'PaperDetail' && status === 'Reviewing'" type="primary" plain @click="rebuttalVisible = true">Rebuttal</el-button>
+          <el-button v-show="toggle === 'PaperDetail' && status === 'Reviewing'" type="primary" plain @click="rebuttalVisible = true" :disabled="rebuttalDisabled">
+            Rebuttal
+          </el-button>
           <el-dialog title="Rebuttal" :visible.sync="rebuttalVisible" append-to-body>
             <el-input type="textarea" rows="16" placeholder="rebuttal" v-model="rebuttalAuthorText" maxlength="800" show-word-limit> </el-input>
           </el-dialog>
@@ -36,6 +38,7 @@
 import PaperSubmitForm from '@/components/PaperSubmitForm.vue';
 import PaperDetail from '@/components/PaperDetail.vue';
 import PaperList from '@/components/PaperTable.vue';
+import Bus from '@/api/Bus.js';
 
 export default {
   name: 'MyPaper',
@@ -51,7 +54,13 @@ export default {
       rebuttalVisible: false,
       rebuttalAuthorName: '',
       rebuttalAuthorText: '',
+      rebuttalDisabled: false,
     };
+  },
+  created() {
+    Bus.$on('isRebuttaled', (isRebuttal) => {
+      this.rebuttalDisabled = isRebuttal;
+    });
   },
   methods: {
     cancel() {
