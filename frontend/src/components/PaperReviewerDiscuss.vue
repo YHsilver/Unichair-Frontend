@@ -98,13 +98,11 @@ export default {
         .catch((err) => this.$message({ type: 'error', message: err.data.message, duration: '2000', showClose: 'true', center: 'true' }));
     },
     sendDiscussion() {
-      let request;
-      if (this.rebuttal.length === 0) {
-        request = this.$axios.post('/system/reviewerSendComment', { token: this.$store.state.token, comment: this.myComment, paperId: this.paperId });
-      } else {
-        request = this.$axios.post('/system/reviewerSendJudge', { token: this.$store.state.token, judge: this.myComment, paperId: this.paperId });
-      }
-      request
+      let address;
+      if (this.rebuttal.length === 0) address = '/system/reviewerSendComment';
+      else address = '/system/reviewerSendJudge';
+      this.$axios
+        .post(address, { token: this.$store.state.token, message: this.myComment, paperId: this.paperId })
         .then((resp) => {
           if (resp.status === 200) this.$message({ type: 'success', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
           else this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
