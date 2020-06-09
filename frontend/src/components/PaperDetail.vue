@@ -132,6 +132,8 @@ export default {
               }
               Result.comment = this.paperInfo.myComment;
               Bus.$emit('isPaperRated', this.paperInfo.isCurrPCMemberReviewed, Result);
+              Bus.$emit('isPaperChecked', this.paperInfo.isCurrPCMemberChecked);
+              Bus.$emit('isRebuttalChecked', this.paperInfo.isCurrPCMemberRebuttalChecked);
               this.loading = false;
             }
           } else {

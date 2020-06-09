@@ -1,6 +1,6 @@
 <template>
   <div style="width:720px;margin:auto">
-    <el-form :model="RatingForm" :rules="RatingFormRules" :ref="RatingForm" label-width="200px" label-position="top" :disabled="disabled">
+    <el-form :model="RatingForm" :rules="RatingFormRules" :ref="RatingForm" label-width="200px" label-position="top" :disabled="ratingDisabled">
       <el-form-item label="Rating" prop="grade">
         <el-rate v-model="RatingForm.grade" :show-text="true" :texts="ratingTexts" :colors="colors" :max="4"> </el-rate>
       </el-form-item>
@@ -10,7 +10,7 @@
       <el-form-item label="Confidence" prop="confidenceVal">
         <el-rate v-model="RatingForm.confidenceVal" :show-text="true" :texts="confidenceTexts" :colors="colors" :max="4"> </el-rate>
       </el-form-item>
-      <el-form-item v-show="!disabled">
+      <el-form-item v-show="!ratingDisabled">
         <div style="float:right">
           <el-popover placement="top" width="160" v-model="ratingPopoverVisible">
             <p>Are you sure to submit?</p>
@@ -44,15 +44,21 @@ export default {
   name: 'RatingForm',
   props: { paperId: Number },
   created() {
-    Bus.$on('isPaperRated', (disabled, Result) => {
-      this.disabled = disabled;
+    Bus.$on('isPaperRated', (ratingDisabled, Result) => {
+      this.ratingDisabled = ratingDisabled;
       this.RatingForm = Result;
+    });
+    Bus.$on('isPaperChecked', (checkingDisabled) => {
+      this.checkingDisabled = checkingDisabled;
+    });
+    Bus.$on('isRebuttalChecked', (rebuttalCheckedDisabled) => {
+      this.rebuttalCheckedDisabled = rebuttalCheckedDisabled;
     });
   },
   data() {
     return {
       ratingPopoverVisible: false,
-      disabled: false,
+      ratingDisabled: false,
       // reviewer
       RatingForm: { grade: undefined, comment: '', confidenceVal: undefined },
       ratingTexts: ['-2 => reject', '-1 => weak reject', '1 => weak accept', '2 => accept'],
@@ -63,13 +69,14 @@ export default {
         comment: [{ required: true, message: '', trigger: 'blur' }],
         confidenceVal: [{ required: true, message: '', trigger: 'blur' }],
       },
+      checkingDisabled: false,
       checkPopoverVisible: false,
-      ratingBefore: false,
+      rebuttalCheckedDisabled: false,
     };
   },
   computed: {
     rateText() {
-      if (!this.ratingBefore) return 'Rating';
+      if (!this.ratingDisabled) return 'Rating';
       else return 'reRating';
     },
   },
@@ -99,7 +106,7 @@ export default {
       }
 
       let address;
-      if (!this.ratingBefore) address = '/system/submitPaperReviewed';
+      if (!this.ratingDisabled) address = '/system/submitPaperReviewed';
       else address = '/system/reviewerModifyRate';
 
       this.$axios
