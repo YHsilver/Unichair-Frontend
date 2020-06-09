@@ -2,7 +2,7 @@
   <div>
     <el-card shadow="hover" v-for="(judge, index) in judges" :key="'judge' + index">
       <el-avatar> {{ judge.name }} </el-avatar>
-      <p>{{ judge.comment }}</p>
+      <p>{{ judge.message }}</p>
     </el-card>
 
     <div style="position:sticky">
@@ -14,7 +14,7 @@
 
     <el-card shadow="hover" v-for="(comment, index) in comments" :key="'comment' + index">
       <el-avatar> {{ comment.name }} </el-avatar>
-      <p>{{ comment.comment }}</p>
+      <p>{{ comment.message }}</p>
     </el-card>
 
     <div id="inputComment">
