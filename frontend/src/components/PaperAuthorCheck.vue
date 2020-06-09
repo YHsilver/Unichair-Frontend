@@ -20,11 +20,9 @@
             :disabled="status !== 'CONTRIBUTION'"
             >Modify</el-button
           >
-          <!-- TODO: status = ? -->
-          <el-button v-show="toggle === 'PaperDetail' && status === 'CONTRIBUTION'" type="primary" plain @click="rebuttalVisible = true">Rebuttal</el-button>
+
+          <el-button v-show="toggle === 'PaperDetail' && status === 'Reviewing'" type="primary" plain @click="rebuttalVisible = true">Rebuttal</el-button>
           <el-dialog title="Rebuttal" :visible.sync="rebuttalVisible" append-to-body>
-            <el-input placeholder="author name" v-model="rebuttalAuthorName"> </el-input>
-            <div style="margin: 20px 0;"></div>
             <el-input type="textarea" rows="16" placeholder="rebuttal" v-model="rebuttalAuthorText" maxlength="800" show-word-limit> </el-input>
           </el-dialog>
           <el-button v-show="toggle === 'PaperDetail'" @click="cancel()" type="text" style="float:right">Cancel</el-button>

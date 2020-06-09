@@ -3,7 +3,6 @@
     <el-form label-position="left" label-width="200px">
       <h3 style="text-align:center">
         Conference Detail
-        <el-switch v-model="elSwitch" style="float: right;margin: 5px 0;" active-color="#8669ed" inactive-color="#a7adba" @change.once="experimental"></el-switch>
       </h3>
 
       <!-- admin -->
@@ -23,29 +22,7 @@
         <span>{{ conferenceDetail.heldPlace }}</span>
       </el-form-item>
 
-      <div v-show="!elSwitch">
-        <el-form-item label="Contribute Start Date">
-          <span>{{ conferenceDetail.submissionDate }}</span>
-        </el-form-item>
-
-        <el-form-item label="Contribute End Date">
-          <span>{{ conferenceDetail.submissionDeadline }}</span>
-        </el-form-item>
-
-        <el-form-item label="Result Release Date">
-          <span>{{ conferenceDetail.releaseDate }}</span>
-        </el-form-item>
-
-        <el-form-item label="Conference Date">
-          <span>{{ conferenceDetail.heldDate }}</span>
-        </el-form-item>
-      </div>
-
-      <el-form-item label="Conference Stage" v-show="!elSwitch">
-        <el-button type="text">{{ conferenceDetail.stage }}</el-button>
-      </el-form-item>
-
-      <div v-show="elSwitch" style="padding: 10px 0">
+      <div style="padding: 10px 0">
         <label style="float: left;text-align: left;">Timeline</label>
         <el-steps id="Timeline" :active="4">
           <el-step title="Contribute Start Date" :description="conferenceDetail.submissionDate"> </el-step>
@@ -55,7 +32,7 @@
         </el-steps>
       </div>
 
-      <div v-show="elSwitch" style="padding: 20px 0">
+      <div style="padding: 20px 0">
         <label style="float: left;text-align: left;">Conference Stage</label>
         <el-steps :active="stepActive" finish-status="success">
           <el-step title="Preparation"></el-step>
@@ -165,7 +142,6 @@ export default {
       myPaperVisible: false,
       loading: true,
       popoverVisible: false,
-      elSwitch: false,
     };
   },
   created() {
@@ -262,9 +238,6 @@ export default {
         .catch((err) => {
           this.$message({ type: 'error', message: err.data.message, duration: '2000', showClose: 'true', center: 'true' });
         });
-    },
-    experimental() {
-      this.$notify({ title: 'β', message: 'Experimental feature', type: 'warning', offset: 50 });
     },
   },
 };
