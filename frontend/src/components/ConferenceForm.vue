@@ -3,7 +3,15 @@
     <el-form :model="meetingForm" :rules="rules" class="meeting_container" v-loading="loading" :ref="meetingForm" label-position="left" label-width="200px">
       <h3>
         New Conference
-        <el-switch v-model="elSwitch" active-color="#8669ed" inactive-color="#a7adba" style="float: right;margin: 5px 0;" @change.once="experimental"></el-switch>
+        <el-switch
+          v-model="elSwitch"
+          active-color="#8669ed"
+          inactive-color="#a7adba"
+          style="float: right;margin: 5px 0;"
+          id="elSwitch"
+          active-text="β"
+          @change="experimental"
+        ></el-switch>
       </h3>
 
       <el-form-item prop="conferenceAbbreviation" label="Conference Abbreviation">
@@ -79,6 +87,12 @@ export default {
         },
       };
     };
+  },
+  mounted() {
+    if (localStorage.getItem('elSwitch') === 'true') {
+      this.elSwitch = localStorage.getItem('elSwitch');
+      document.getElementById('elSwitch').parentElement.click();
+    }
   },
   data() {
     const contributeStartTimeValid = (rule, value, callback) => {
@@ -298,7 +312,7 @@ export default {
       this.inputValue = '';
     },
     experimental() {
-      this.$notify({ title: 'β', message: 'Experimental feature', type: 'warning', offset: 50 });
+      localStorage.setItem('elSwitch', this.elSwitch);
     },
   },
 };
