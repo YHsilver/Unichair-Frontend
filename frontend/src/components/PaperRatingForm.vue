@@ -10,30 +10,29 @@
       <el-form-item label="Confidence" prop="confidenceVal">
         <el-rate v-model="RatingForm.confidenceVal" :show-text="true" :texts="confidenceTexts" :colors="colors" :max="4"> </el-rate>
       </el-form-item>
-      <el-form-item v-show="!ratingDisabled">
-        <div style="float:right">
-          <el-popover placement="top" width="160" v-model="ratingPopoverVisible">
-            <p>Are you sure to submit?</p>
-            <div style="text-align: right; margin: 0">
-              <el-button size="mini" type="text" @click="ratingPopoverVisible = false">Cancel</el-button>
-              <el-button type="primary" size="mini" @click="submitRatingResult()">Yes</el-button>
-            </div>
-            <el-button type="primary" slot="reference">{{ rateText }}</el-button>
-          </el-popover>
-          <el-button @click="resetForm(RatingForm)" style="margin-left:10px">Reset</el-button>
-        </div>
-
-        <!-- check -->
-        <el-popover placement="top" width="200" v-model="checkPopoverVisible">
-          <p>Are you sure that you wanna confirm the review results?</p>
-          <div style="text-align: right; margin: 0">
-            <el-button size="mini" type="text" @click="checkPopoverVisible = false">Cancel</el-button>
-            <el-button type="primary" size="mini" @click="CheckRating">Sure</el-button>
-          </div>
-          <el-button slot="reference" type="primary" round>Check</el-button>
-        </el-popover>
-      </el-form-item>
     </el-form>
+
+    <div style="float:right" v-show="!ratingDisabled" :disabled="ratingDisabled">
+      <el-popover placement="top" width="160" v-model="ratingPopoverVisible">
+        <p>Are you sure to submit?</p>
+        <div style="text-align: right; margin: 0">
+          <el-button size="mini" type="text" @click="ratingPopoverVisible = false">Cancel</el-button>
+          <el-button type="primary" size="mini" @click="submitRatingResult()">Yes</el-button>
+        </div>
+        <el-button type="primary" slot="reference">{{ rateText }}</el-button>
+      </el-popover>
+      <el-button @click="resetForm(RatingForm)" style="margin-left:10px">Reset</el-button>
+    </div>
+
+    <!-- check -->
+    <el-popover placement="top" width="200" v-model="checkPopoverVisible">
+      <p>Are you sure that you wanna confirm the review results?</p>
+      <div style="text-align: right; margin: 0">
+        <el-button size="mini" type="text" @click="checkPopoverVisible = false">Cancel</el-button>
+        <el-button type="primary" size="mini" @click="CheckRating">Sure</el-button>
+      </div>
+      <el-button slot="reference" type="primary" round :disabled="checkingDisabled">Check</el-button>
+    </el-popover>
   </div>
 </template>
 

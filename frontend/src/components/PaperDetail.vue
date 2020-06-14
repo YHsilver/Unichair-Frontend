@@ -40,9 +40,9 @@
 
       <div v-if="paperInfo.status === 'REVIEWED'">
         <el-form :key="index" v-for="index in 3" label-width="200px" label-position="left">
-          <el-form-item label="Reviewer Name:">
+          <!-- <el-form-item label="Reviewer Name:">
             <span>{{ paperInfo.reviewerFullNames[index - 1] }}</span>
-          </el-form-item>
+          </el-form-item> -->
           <el-form-item label="Grade:">
             <span>{{ paperInfo.grades[index - 1] }}</span>
           </el-form-item>
@@ -115,7 +115,7 @@ export default {
             Bus.$emit('getPaperInfo', this.paperInfo);
             if (this.paperInfo.isCurrPCMemberReviewed === 'true') {
               let Result = {};
-              this.paperInfo.myGrade > 0 ? (Result.grade = this.paperInfo.myGrade + 2) : (Result.grade = this.paperInfo.myGrade + 3);
+              this.paperInfo.myGrade > 0 ? Number((Result.grade = this.paperInfo.myGrade + 2)) : Number((Result.grade = this.paperInfo.myGrade + 3));
               switch (this.paperInfo.myConfidence) {
                 case 'VERY_LOW':
                   Result.confidenceVal = 1;
@@ -132,7 +132,7 @@ export default {
               }
               Result.comment = this.paperInfo.myComment;
               Bus.$emit('isPaperRated', this.paperInfo.isCurrPCMemberReviewed === 'true', Result);
-              Bus.$emit('isPaperChecked', this.paperInfo.isCurrPCMemberChecked);
+              Bus.$emit('isPaperChecked', this.paperInfo.isCurrPCMemberChecked === 'true');
               Bus.$emit('isRebuttalChecked', this.paperInfo.isCurrPCMemberRebuttalChecked);
               Bus.$emit('isRebuttaled', this.paperInfo.isRebuttal);
               this.loading = false;

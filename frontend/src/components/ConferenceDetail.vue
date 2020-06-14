@@ -38,7 +38,7 @@
           <el-step title="Preparation"></el-step>
           <el-step title="Contribution"></el-step>
           <el-step title="Reviewing"></el-step>
-          <el-step title="Grading"></el-step>
+          <el-step title="Reviewed"></el-step>
           <el-step title="Ending"></el-step>
         </el-steps>
       </div>
@@ -81,13 +81,13 @@
       <InviteReviewer @inviteReviewerFinished="InviteReviewerVisible = false" :conferenceId="Number(conferenceDetail.id)" :conferenceFullName="conferenceDetail.fullName" />
     </el-dialog>
     <!-- move to next stage -->
-    <el-popover placement="top" width="160" v-model="popoverVisible" v-if="Identity === 'Chair'" :disabled="conferenceDetail.stage === 'Ending'">
+    <el-popover placement="top" width="160" v-model="popoverVisible" v-if="Identity === 'Chair'">
       <p>Are you sure you wanna move the conference to the next stage?</p>
       <div style="text-align: right; margin: 0">
         <el-button size="mini" type="text" @click="popoverVisible = false">Cancel</el-button>
         <el-button type="primary" size="mini" @click="moveToNextStage()">Yes</el-button>
       </div>
-      <el-button type="primary" slot="reference">Move to next Stage</el-button>
+      <el-button type="primary" slot="reference" :disabled="conferenceDetail.stage === 'Ending'">Move to next Stage</el-button>
     </el-popover>
 
     <!-- author -->
@@ -151,15 +151,15 @@ export default {
     stepActive() {
       const currStage = this.conferenceDetail.stage;
       if (currStage === 'Preparation') {
-        return 0;
-      } else if (currStage === 'Contribution') {
         return 1;
-      } else if (currStage === 'Reviewing') {
+      } else if (currStage === 'Contribution') {
         return 2;
-      } else if (currStage === 'Grading') {
+      } else if (currStage === 'Reviewing') {
         return 3;
+      } else if (currStage === 'Reviewed') {
+        return 4;
       }
-      return 4;
+      return 5;
     },
   },
   methods: {
@@ -189,8 +189,8 @@ export default {
       } else if (currStage === 'Contribution') {
         return 'Reviewing'.toUpperCase();
       } else if (currStage === 'Reviewing') {
-        return 'Grading'.toUpperCase();
-      } else if (currStage === 'Grading') {
+        return 'Reviewed'.toUpperCase();
+      } else if (currStage === 'Reviewed') {
         return 'Ending'.toUpperCase();
       }
       return 'UNDEFINED';

@@ -21,7 +21,7 @@
             >Modify</el-button
           >
 
-          <el-button v-show="toggle === 'PaperDetail' && status === 'Reviewing'" type="primary" plain @click="rebuttalVisible = true" :disabled="rebuttalDisabled">
+          <el-button v-show="toggle === 'PaperDetail' && status === 'Reviewed'" type="primary" plain @click="rebuttalVisible = true" :disabled="rebuttalDisabled">
             Rebuttal
           </el-button>
           <el-dialog title="Rebuttal" :visible.sync="rebuttalVisible" append-to-body width="600px">
