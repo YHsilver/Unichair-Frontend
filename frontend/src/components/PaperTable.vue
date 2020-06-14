@@ -4,7 +4,7 @@
     <el-table :data="paperTable" tooltip-effect="dark" v-loading="paperListLoading" @row-click="choosePaper" :row-style="{ cursor: 'pointer' }">
       <el-table-column label="Title" prop="title"> </el-table-column>
 
-      <el-table-column label="Athor" prop="authorFullName" v-if="Identity === 'Author'"> </el-table-column>
+      <el-table-column label="Athor" prop="authorFullName" v-if="Identity === 'Author' || Identity === 'PasserBy'"> </el-table-column>
 
       <el-table-column label="Topics" prop="topics">
         <template slot-scope="scope">
@@ -33,8 +33,11 @@ export default {
   },
   methods: {
     getPaper() {
-      this.Identity === 'Author' ? (this.address = '/system/authorGetMyPapers') : (this.address = '/system/reviewerGetPapers');
-      this.$axios
+      if (this.Identity === 'Author') this.address = '/system/authorGetMyPapers';
+      else if (this.Identity === 'Reviewer') this.address = '/system/reviewerGetPapers';
+      else this.address = '/system/userGetPassedPapers';
+
+      this.this.$axios
         .post(this.address, { token: this.$store.state.token, conferenceId: this.conferenceId })
         .then((resp) => {
           if (resp.status === 200) {

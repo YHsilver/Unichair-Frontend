@@ -5,7 +5,7 @@
         <span>{{ paperInfo.title }}</span>
       </el-form-item>
 
-      <div v-if="Identity === 'Author'">
+      <div v-if="Identity === 'Author' || Identity === 'PasserBy'">
         <el-form :key="index" v-for="(author, index) in paperInfo.authors" inline class="paperInfoAuthor">
           <h3>{{ 'Author ' + (index + 1) }}</h3>
           <el-form-item label="Name" prop="name">

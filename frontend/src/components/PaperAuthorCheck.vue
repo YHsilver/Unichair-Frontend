@@ -5,6 +5,7 @@
         <!-- paper list -->
         <PaperList :Identity="'Author'" :conferenceId="conferenceId" @chosePaper="passPaperId" />
       </el-col>
+
       <el-col :xl="14" :sm="24" :xs="24" v-if="chosePaper">
         <!-- paper details -->
         <PaperDetail v-show="toggle === 'PaperDetail'" :Identity="'Author'" :paperId="chosePaperId" />

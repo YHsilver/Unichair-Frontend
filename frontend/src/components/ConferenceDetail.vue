@@ -120,6 +120,12 @@
         :Identity="Identity"
       />
     </el-dialog>
+
+    <!-- conference result -->
+    <el-button type="primary" @click="conferenceResultVisible = true" v-if="conferenceDetail.stage === 'Ending'">Conference result</el-button>
+    <el-dialog :visible.sync="conferenceResultVisible" append-to-body :fullscreen="true" v-if="conferenceResultVisible === true">
+      <ConferenceResult :conferenceId="Number(conferenceDetail.id)" />
+    </el-dialog>
   </div>
 </template>
 
@@ -128,11 +134,12 @@ import InviteReviewer from '@/components/MessageSend.vue';
 import MyPaper from '@/components/PaperAuthorCheck.vue';
 import PaperReviewerReview from '@/components/PaperReviewerReview.vue';
 import PaperForm from '@/components/PaperSubmitForm.vue';
+import ConferenceResult from '@/components/ConferenceResult.vue';
 
 export default {
   name: 'ConferenceDetail',
   props: { conferenceId: Number, Identity: String },
-  components: { InviteReviewer, MyPaper, PaperReviewerReview, PaperForm },
+  components: { InviteReviewer, MyPaper, PaperReviewerReview, PaperForm, ConferenceResult },
   data() {
     return {
       conferenceDetail: {},
@@ -142,6 +149,7 @@ export default {
       myPaperVisible: false,
       loading: true,
       popoverVisible: false,
+      conferenceResultVisible: false,
     };
   },
   created() {
