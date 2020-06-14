@@ -80,13 +80,7 @@ export default {
             } else {
               let p = new Promise((resolve, reject) => {
                 for (const message of resp.data) {
-                  this.$axios.post('/system/getConferenceTopics', { conferenceId: Number(message.conferenceId) }).then((resp) => {
-                    if (resp.status === 200) {
-                      message.topics = resp.data;
-                      message.chosedTopics = [];
-                      resolve();
-                    } else reject();
-                  });
+                  this.getConferenceTopics(message, resolve, reject);
                 }
               });
               p.then(() => {
@@ -103,6 +97,15 @@ export default {
         .catch((err) => {
           this.$message({ type: 'error', message: err.data.message, duration: '2000', showClose: 'true', center: 'true' });
         });
+    },
+    getConferenceTopics(message, resolve, reject) {
+      this.$axios.post('/system/getConferenceTopics', { conferenceId: Number(message.conferenceId) }).then((resp2) => {
+        if (resp2.status === 200) {
+          message.topics = resp2.data;
+          message.chosedTopics = [];
+          resolve();
+        } else reject();
+      });
     },
     checkChosedTopics(row) {
       if (row.chosedTopics.length === 0) this.$message({ type: 'warning', message: 'You must choose at least one topic', duration: '2000', showClose: 'true', center: 'true' });

@@ -13,22 +13,31 @@
       </el-dropdown>
     </div>
 
-    <el-button v-if="!loginSwitch" @click="loginFormVisible = true" plain style="float:right;margin: 10px;" id="login">Login</el-button>
-    <el-dialog :visible.sync="loginFormVisible" width="360px">
-      <LoginForm :v-bind="loginFormVisible" />
-    </el-dialog>
+    <div v-if="!loginSwitch">
+      <el-button @click="loginFormVisible = true" plain style="float:right;margin: 10px;">Login</el-button>
+      <el-dialog :visible.sync="loginFormVisible" width="360px">
+        <LoginForm />
+      </el-dialog>
+
+      <el-button @click="registerFormVisible = true" type="success" style="float:right;margin: 10px;">Register</el-button>
+      <el-dialog :visible.sync="registerFormVisible" width="520px">
+        <RegisterForm />
+      </el-dialog>
+    </div>
   </el-menu>
 </template>
 
 <script>
 import LoginForm from '@/components/TheLoginForm.vue';
+import RegisterForm from '@/components/TheRegisterForm.vue';
+
 import Bus from '@/api/Bus';
 
 export default {
   name: 'Header',
-  components: { LoginForm },
+  components: { LoginForm, RegisterForm },
   data() {
-    return { loginFormVisible: false, loginSwitch: false };
+    return { loginFormVisible: false, loginSwitch: false, registerFormVisible: false };
   },
   created() {
     Bus.$on('login', () => {

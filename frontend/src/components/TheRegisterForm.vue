@@ -53,12 +53,12 @@
       </el-form-item>
 
       <!-- verification code -->
-      <el-form-item>
+      <!-- <el-form-item>
         <el-input class="form-input" placeholder="verification code" style="width: 60%;" disabled>
           <i slot="prefix" class="el-icon-circle-check"></i>
         </el-input>
         <el-button style="width: 18%;margin-left:2%" disabled>Send</el-button>
-      </el-form-item>
+      </el-form-item> -->
 
       <el-form-item>
         <el-button class="uni-button" type="primary" @click="register(registerForm)">Submit</el-button>

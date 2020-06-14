@@ -7,10 +7,10 @@
           <span slot="title">Audit Conference</span>
         </el-menu-item>
 
-        <el-menu-item index="ManageUser" class="mainMenu" disabled>
+        <!-- <el-menu-item index="ManageUser" class="mainMenu" disabled>
           <i class="el-icon-s-operation"></i>
           <span slot="title">Manage Users</span>
-        </el-menu-item>
+        </el-menu-item> -->
 
         <el-menu-item @click="isCollapse = !isCollapse" style="position: absolute;bottom: 0;width:100%" class="mainMenu">
           <i v-show="isCollapse" class="el-icon-upload2" style="transform: rotate(90deg);"></i>
@@ -36,7 +36,7 @@ export default {
     });
   },
   data() {
-    return { show: 'Conferencelist', isCollapse: false };
+    return { show: 'Conferencelist', isCollapse: true };
   },
   methods: {},
 };
