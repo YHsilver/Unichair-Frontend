@@ -5,7 +5,7 @@
       <p>{{ judge.message }}</p>
     </el-card>
 
-    <div style="position:sticky">
+    <div class="rebuttalText" v-show="rebuttal !== ''">
       <el-card shadow="always">
         <el-tag type="primary" effect="dark"> Rebuttal </el-tag>
         <p>{{ rebuttal }}</p>
@@ -95,5 +95,12 @@ export default {
   padding-top: 20px;
   padding-bottom: 60px;
   background: #ffffff;
+}
+
+.rebuttalText {
+  position: fixed;
+  top: 100px;
+  left: 100px;
+  width: 400px;
 }
 </style>

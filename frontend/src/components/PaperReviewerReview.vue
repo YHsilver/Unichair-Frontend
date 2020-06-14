@@ -12,7 +12,7 @@
         <!-- discuss paper -->
         <div style="width:720px;margin:auto">
           <el-button plain @click="discussPaperVisible = true" id="discussPaperButton"> <i class="el-icon-chat-dot-square"></i> Discuss paper</el-button>
-          <el-dialog :visible.sync="discussPaperVisible" v-if="discussPaperVisible" append-to-body id="discussDialog" top="10vh">
+          <el-dialog :visible.sync="discussPaperVisible" v-if="discussPaperVisible" append-to-body id="discussDialog" top="10vh" width="600px">
             <DiscussingPaper :Identity="'Reviewer'" :paperId="chosePaperId" />
           </el-dialog>
         </div>

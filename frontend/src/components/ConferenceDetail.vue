@@ -101,7 +101,7 @@
     <!-- reviewPaper -->
     <el-button type="primary" @click="reviewPaperVisible = true" v-if="Identity === 'Reviewer' && conferenceDetail.stage === 'Reviewing'">Review paper</el-button>
     <el-dialog :visible.sync="reviewPaperVisible" v-if="reviewPaperVisible" append-to-body :fullscreen="true">
-      <ReviewingPaper :Identity="Identity" :conferenceId="Number(conferenceDetail.id)" />
+      <PaperReviewerReview :Identity="Identity" :conferenceId="Number(conferenceDetail.id)" />
     </el-dialog>
 
     <!-- submit paper -->
@@ -126,13 +126,13 @@
 <script>
 import InviteReviewer from '@/components/MessageSend.vue';
 import MyPaper from '@/components/PaperAuthorCheck.vue';
-import ReviewingPaper from '@/components/PaperReviewerReview.vue';
+import PaperReviewerReview from '@/components/PaperReviewerReview.vue';
 import PaperForm from '@/components/PaperSubmitForm.vue';
 
 export default {
   name: 'ConferenceDetail',
   props: { conferenceId: Number, Identity: String },
-  components: { InviteReviewer, MyPaper, ReviewingPaper, PaperForm },
+  components: { InviteReviewer, MyPaper, PaperReviewerReview, PaperForm },
   data() {
     return {
       conferenceDetail: {},

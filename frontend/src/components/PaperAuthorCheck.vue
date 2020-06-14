@@ -24,8 +24,8 @@
           <el-button v-show="toggle === 'PaperDetail' && status === 'Reviewing'" type="primary" plain @click="rebuttalVisible = true" :disabled="rebuttalDisabled">
             Rebuttal
           </el-button>
-          <el-dialog title="Rebuttal" :visible.sync="rebuttalVisible" append-to-body>
-            <el-input type="textarea" rows="16" placeholder="rebuttal" v-model="rebuttalAuthorText" maxlength="800" show-word-limit> </el-input>
+          <el-dialog title="Rebuttal" :visible.sync="rebuttalVisible" append-to-body width="600px">
+            <el-input type="textarea" rows="24" placeholder="rebuttal" v-model="rebuttalAuthorText" maxlength="800" show-word-limit> </el-input>
           </el-dialog>
           <el-button v-show="toggle === 'PaperDetail'" @click="cancel()" type="text" style="float:right">Cancel</el-button>
         </div>
