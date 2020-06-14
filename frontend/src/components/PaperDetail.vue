@@ -113,7 +113,7 @@ export default {
           if (resp.status === 200) {
             this.paperInfo = resp.data;
             Bus.$emit('getPaperInfo', this.paperInfo);
-            if (this.paperInfo.isCurrPCMemberReviewed) {
+            if (this.paperInfo.isCurrPCMemberReviewed === 'true') {
               let Result = {};
               this.paperInfo.myGrade > 0 ? (Result.grade = this.paperInfo.myGrade + 2) : (Result.grade = this.paperInfo.myGrade + 3);
               switch (this.paperInfo.myConfidence) {
@@ -131,7 +131,7 @@ export default {
                   break;
               }
               Result.comment = this.paperInfo.myComment;
-              Bus.$emit('isPaperRated', this.paperInfo.isCurrPCMemberReviewed, Result);
+              Bus.$emit('isPaperRated', this.paperInfo.isCurrPCMemberReviewed === 'true', Result);
               Bus.$emit('isPaperChecked', this.paperInfo.isCurrPCMemberChecked);
               Bus.$emit('isRebuttalChecked', this.paperInfo.isCurrPCMemberRebuttalChecked);
               Bus.$emit('isRebuttaled', this.paperInfo.isRebuttal);

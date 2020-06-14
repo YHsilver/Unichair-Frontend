@@ -1,18 +1,18 @@
 <template>
   <div>
-    <el-card shadow="hover" v-for="(judge, index) in judges" :key="'judge' + index">
+    <el-card shadow="hover" v-for="(judge, index) in judges.reverse()" :key="'judge' + index">
       <el-avatar> {{ judge.name }} </el-avatar>
       <p>{{ judge.message }}</p>
     </el-card>
 
-    <div class="rebuttalText" v-show="rebuttal !== ''">
+    <div class="rebuttalText">
       <el-card shadow="always">
         <el-tag type="primary" effect="dark"> Rebuttal </el-tag>
         <p>{{ rebuttal }}</p>
       </el-card>
     </div>
 
-    <el-card shadow="hover" v-for="(comment, index) in comments" :key="'comment' + index">
+    <el-card shadow="hover" v-for="(comment, index) in comments.reverse()" :key="'comment' + index">
       <el-avatar> {{ comment.name }} </el-avatar>
       <p>{{ comment.message }}</p>
     </el-card>
@@ -55,24 +55,33 @@ export default {
         .catch((err) => this.$message({ type: 'error', message: err.data.message, duration: '2000', showClose: 'true', center: 'true' }));
     },
     sendDiscussion() {
+      if (this.myComment === '') {
+        this.$message({ type: 'error', message: 'please fill in sth!', duration: '2000', showClose: 'true', center: 'true' });
+        return;
+      }
+
       let address;
+
       if (this.rebuttal.length === 0) address = '/system/reviewerSendComment';
       else address = '/system/reviewerSendJudge';
       this.$axios
         .post(address, { token: this.$store.state.token, message: this.myComment, paperId: this.paperId })
         .then((resp) => {
-          if (resp.status === 200) this.$message({ type: 'success', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
-          else this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
+          if (resp.status === 200) {
+            this.$message({ type: 'success', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
+            this.getDiscussion('/system/reviewerGetComment', 'comments');
+            this.getDiscussion('/system/reviewerGetJudge', 'judges');
+          } else this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
         })
         .catch((err) => this.$message({ type: 'error', message: err.data.message, duration: '2000', showClose: 'true', center: 'true' }));
       this.myComment = '';
     },
     getRebuttal() {
       this.$axios
-        .post('/system/reviewerGetRebuttal', { paperId: this.paperId })
+        .post('/system/reviewerGetRebuttal', { token: this.$store.state.token, paperId: this.paperId })
         .then((resp) => {
           if (resp.status === 200) {
-            this.rebuttal = resp.data;
+            this.rebuttal = resp.data.rebuttal;
           } else {
             this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
           }

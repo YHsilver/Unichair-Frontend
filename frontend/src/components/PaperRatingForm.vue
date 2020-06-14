@@ -83,6 +83,10 @@ export default {
   methods: {
     submitRatingResult() {
       this.ratingPopoverVisible = false;
+      if (!this.RatingForm.grade || !this.RatingForm.confidenceVal || !this.RatingForm.comment) {
+        this.$message({ type: 'warning', message: 'Please rate!', duration: '2000', showClose: 'true', center: 'true' });
+        return;
+      }
       // grade
       let grade;
       this.RatingForm.grade > 2 ? (grade = this.RatingForm.grade - 2) : (grade = this.RatingForm.grade - 3);
@@ -120,6 +124,7 @@ export default {
         .then((resp) => {
           if (resp.status === 200) {
             this.$message({ type: 'success', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
+            this.finishRating();
           } else {
             this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
           }

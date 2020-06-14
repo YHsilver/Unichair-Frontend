@@ -5,9 +5,10 @@
         <!-- paper list -->
         <PaperList :Identity="'Reviewer'" :conferenceId="conferenceId" @chosePaper="passPaperId" />
       </el-col>
+
       <el-col :xl="14" :sm="24" :xs="24" v-if="chosePaper">
         <!-- paper details -->
-        <PaperInfo :conferenceId="conferenceId" :Identity="'Reviewer'" :paperId="chosePaperId" />
+        <PaperDetail :conferenceId="conferenceId" :Identity="'Reviewer'" :paperId="chosePaperId" />
 
         <!-- discuss paper -->
         <div style="width:720px;margin:auto">
@@ -18,32 +19,33 @@
         </div>
 
         <!-- rating -->
-        <RatingForm :paperId="chosePaperId" @finishRatingAPaper="finishARating" />
+        <PaperRatingForm :paperId="chosePaperId" @finishRatingAPaper="finishARating" />
       </el-col>
     </el-row>
   </div>
 </template>
 
 <script>
-import RatingForm from '@/components/PaperRatingForm.vue';
-import PaperInfo from '@/components/PaperDetail.vue';
+import PaperRatingForm from '@/components/PaperRatingForm.vue';
+import PaperDetail from '@/components/PaperDetail.vue';
 import PaperList from '@/components/PaperTable.vue';
 import DiscussingPaper from '@/components/PaperReviewerDiscuss.vue';
 
 export default {
   name: 'ReviewingPaper',
-  components: { RatingForm, PaperInfo, PaperList, DiscussingPaper },
+  components: { PaperRatingForm, PaperDetail, PaperList, DiscussingPaper },
   props: { conferenceId: Number },
   data() {
     return { chosePaper: false, chosePaperId: undefined, discussPaperVisible: false };
   },
   methods: {
     passPaperId(paperId) {
-      this.chosePaperId = paperId;
+      this.chosePaperId = Number(paperId);
       this.chosePaper = true;
     },
     finishARating() {
-      this.chosePaperId = undefined;
+      this.chosePaper = false;
+      // this.chosePaperId = undefined;
     },
   },
 };
