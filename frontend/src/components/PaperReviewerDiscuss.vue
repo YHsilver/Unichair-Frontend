@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-card shadow="hover" v-for="(judge, index) in judges" :key="'judge' + index">
-      <el-avatar> {{ judge.name }} </el-avatar>
+      <el-tag> {{ judge.name }} </el-tag>
       <p>{{ judge.message }}</p>
     </el-card>
 

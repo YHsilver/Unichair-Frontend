@@ -1,6 +1,13 @@
 <template>
   <div style="width:720px;margin:auto">
-    <el-form :model="RatingForm" :rules="RatingFormRules" :ref="RatingForm" label-width="200px" label-position="top">
+    <el-form
+      :model="RatingForm"
+      :rules="RatingFormRules"
+      :ref="RatingForm"
+      label-width="200px"
+      label-position="top"
+      :disabled="(checkingDisabled && rebuttalCheckedDisabled) || !isRebuttal"
+    >
       <el-form-item label="Rating" prop="grade">
         <el-rate v-model="RatingForm.grade" :show-text="true" :texts="ratingTexts" :colors="colors" :max="4"> </el-rate>
       </el-form-item>
@@ -19,9 +26,9 @@
           <el-button size="mini" type="text" @click="ratingPopoverVisible = false">Cancel</el-button>
           <el-button type="primary" size="mini" @click="submitRatingResult()">Yes</el-button>
         </div>
-        <el-button type="primary" slot="reference">{{ rateText }}</el-button>
+        <el-button type="primary" slot="reference" :disabled="(checkingDisabled && rebuttalCheckedDisabled) || !isRebuttal">{{ rateText }}</el-button>
       </el-popover>
-      <el-button @click="resetForm(RatingForm)" style="margin-left:10px">Reset</el-button>
+      <el-button @click="resetForm(RatingForm)" style="margin-left:10px" :disabled="(checkingDisabled && rebuttalCheckedDisabled) || !isRebuttal">Reset</el-button>
     </div>
 
     <!-- check -->
@@ -31,7 +38,7 @@
         <el-button size="mini" type="text" @click="checkPopoverVisible = false">Cancel</el-button>
         <el-button type="primary" size="mini" @click="CheckRating">Sure</el-button>
       </div>
-      <el-button slot="reference" type="primary" round :disabled="checkingDisabled && rebuttalCheckedDisabled">Check</el-button>
+      <el-button slot="reference" type="primary" round :disabled="(checkingDisabled && rebuttalCheckedDisabled) || !isRebuttal">Check</el-button>
     </el-popover>
   </div>
 </template>
@@ -53,6 +60,9 @@ export default {
     Bus.$on('isRebuttalChecked', (rebuttalCheckedDisabled) => {
       this.rebuttalCheckedDisabled = rebuttalCheckedDisabled;
     });
+    Bus.$on('isRebuttaled', (isRebuttal) => {
+      this.isRebuttal = isRebuttal;
+    });
   },
   data() {
     return {
@@ -71,6 +81,7 @@ export default {
       checkingDisabled: false,
       checkPopoverVisible: false,
       rebuttalCheckedDisabled: false,
+      isRebuttal: false,
     };
   },
   computed: {
@@ -147,6 +158,7 @@ export default {
         })
         .then((resp) => {
           if (resp.status === 200) {
+            this.finishRating();
             this.$message({ type: 'success', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
           } else {
             this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
