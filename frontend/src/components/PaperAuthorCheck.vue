@@ -22,7 +22,7 @@
             >Modify</el-button
           >
 
-          <el-button v-show="toggle === 'PaperDetail' && status === 'CHECKED'" type="primary" plain @click="rebuttalVisible = true" :disabled="rebuttalDisabled">
+          <el-button v-show="toggle === 'PaperDetail' && status === 'CHECKED' && !isPass" type="primary" plain @click="rebuttalVisible = true" :disabled="isRebuttal">
             Rebuttal
           </el-button>
           <el-dialog title="Rebuttal" :visible.sync="rebuttalVisible" append-to-body width="600px">
@@ -55,12 +55,16 @@ export default {
       rebuttalVisible: false,
       rebuttalAuthorName: '',
       rebuttalAuthorText: '',
-      rebuttalDisabled: false,
+      isRebuttal: false,
+      isPass: false,
     };
   },
   created() {
     Bus.$on('isRebuttaled', (isRebuttal) => {
-      this.rebuttalDisabled = isRebuttal;
+      this.isRebuttal = isRebuttal;
+    });
+    Bus.$on('isPassed', (isPass) => {
+      this.isPass = isPass;
     });
   },
   methods: {

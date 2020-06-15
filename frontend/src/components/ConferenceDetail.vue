@@ -94,12 +94,14 @@
     <!-- modify Paper -->
     <el-button type="primary" @click="myPaperVisible = true" v-if="Identity === 'Author'">My papers</el-button>
     <el-dialog :visible.sync="myPaperVisible" v-if="myPaperVisible" append-to-body :fullscreen="true">
-      <MyPaper @modifyFinished="myPaperVisible = false" :conferenceId="Number(conferenceDetail.id)" :conferenceTopics="conferenceDetail.topics" />
+      <PaperAuthorCheck @modifyFinished="myPaperVisible = false" :conferenceId="Number(conferenceDetail.id)" :conferenceTopics="conferenceDetail.topics" />
     </el-dialog>
 
     <!-- reviewer -->
     <!-- reviewPaper -->
-    <el-button type="primary" @click="reviewPaperVisible = true" v-if="Identity === 'Reviewer' && conferenceDetail.stage === 'Reviewing'">Review paper</el-button>
+    <el-button type="primary" @click="reviewPaperVisible = true" v-if="Identity === 'Reviewer' && (conferenceDetail.stage === 'Reviewing' || conferenceDetail.stage === 'Reviewed')"
+      >Review paper</el-button
+    >
     <el-dialog :visible.sync="reviewPaperVisible" v-if="reviewPaperVisible" append-to-body :fullscreen="true">
       <PaperReviewerReview :Identity="Identity" :conferenceId="Number(conferenceDetail.id)" />
     </el-dialog>
@@ -131,7 +133,7 @@
 
 <script>
 import InviteReviewer from '@/components/MessageSend.vue';
-import MyPaper from '@/components/PaperAuthorCheck.vue';
+import PaperAuthorCheck from '@/components/PaperAuthorCheck.vue';
 import PaperReviewerReview from '@/components/PaperReviewerReview.vue';
 import PaperForm from '@/components/PaperSubmitForm.vue';
 import ConferenceResult from '@/components/ConferenceResult.vue';
@@ -139,7 +141,7 @@ import ConferenceResult from '@/components/ConferenceResult.vue';
 export default {
   name: 'ConferenceDetail',
   props: { conferenceId: Number, Identity: String },
-  components: { InviteReviewer, MyPaper, PaperReviewerReview, PaperForm, ConferenceResult },
+  components: { InviteReviewer, PaperAuthorCheck, PaperReviewerReview, PaperForm, ConferenceResult },
   data() {
     return {
       conferenceDetail: {},

@@ -112,8 +112,6 @@ export default {
         .then((resp) => {
           if (resp.status === 200) {
             this.paperInfo = resp.data;
-            console.log(this.paperInfo);
-            
             Bus.$emit('getPaperInfo', this.paperInfo);
             if (this.paperInfo.isCurrPCMemberReviewed === 'true') {
               let Result = {};
@@ -134,11 +132,12 @@ export default {
               }
               Result.comment = this.paperInfo.myComment;
               Bus.$emit('isPaperRated', this.paperInfo.isCurrPCMemberReviewed === 'true', Result);
-              Bus.$emit('isPaperChecked', this.paperInfo.isCurrPCMemberChecked === 'true');
-              Bus.$emit('isRebuttalChecked', this.paperInfo.isCurrPCMemberRebuttalChecked === 'true');
-              Bus.$emit('isRebuttaled', this.paperInfo.isRebuttal === 'true');
-              this.loading = false;
             }
+            Bus.$emit('isPaperChecked', this.paperInfo.isCurrPCMemberChecked === 'true');
+            Bus.$emit('isRebuttalChecked', this.paperInfo.isCurrPCMemberRebuttalChecked === 'true');
+            Bus.$emit('isRebuttaled', this.paperInfo.isRebuttal === 'true');
+            Bus.$emit('isPassed', this.paperInfo.isPass === 'true');
+            this.loading = false;
           } else {
             this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
           }
