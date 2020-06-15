@@ -1,6 +1,6 @@
 <template>
   <div style="width:720px;margin:auto">
-    <el-form :model="RatingForm" :rules="RatingFormRules" :ref="RatingForm" label-width="200px" label-position="top" :disabled="ratingDisabled">
+    <el-form :model="RatingForm" :rules="RatingFormRules" :ref="RatingForm" label-width="200px" label-position="top">
       <el-form-item label="Rating" prop="grade">
         <el-rate v-model="RatingForm.grade" :show-text="true" :texts="ratingTexts" :colors="colors" :max="4"> </el-rate>
       </el-form-item>
@@ -12,7 +12,7 @@
       </el-form-item>
     </el-form>
 
-    <div style="float:right" v-show="!ratingDisabled" :disabled="ratingDisabled">
+    <div style="float:right">
       <el-popover placement="top" width="160" v-model="ratingPopoverVisible">
         <p>Are you sure to submit?</p>
         <div style="text-align: right; margin: 0">
@@ -31,7 +31,7 @@
         <el-button size="mini" type="text" @click="checkPopoverVisible = false">Cancel</el-button>
         <el-button type="primary" size="mini" @click="CheckRating">Sure</el-button>
       </div>
-      <el-button slot="reference" type="primary" round :disabled="checkingDisabled">Check</el-button>
+      <el-button slot="reference" type="primary" round :disabled="checkingDisabled && rebuttalCheckedDisabled">Check</el-button>
     </el-popover>
   </div>
 </template>

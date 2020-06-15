@@ -115,7 +115,7 @@ export default {
             Bus.$emit('getPaperInfo', this.paperInfo);
             if (this.paperInfo.isCurrPCMemberReviewed === 'true') {
               let Result = {};
-              this.paperInfo.myGrade > 0 ? Number((Result.grade = this.paperInfo.myGrade + 2)) : Number((Result.grade = this.paperInfo.myGrade + 3));
+              this.paperInfo.myGrade > 0 ? (Result.grade = Number(this.paperInfo.myGrade) + 2) : (Result.grade = Number(this.paperInfo.myGrade) + 3);
               switch (this.paperInfo.myConfidence) {
                 case 'VERY_LOW':
                   Result.confidenceVal = 1;
@@ -133,7 +133,7 @@ export default {
               Result.comment = this.paperInfo.myComment;
               Bus.$emit('isPaperRated', this.paperInfo.isCurrPCMemberReviewed === 'true', Result);
               Bus.$emit('isPaperChecked', this.paperInfo.isCurrPCMemberChecked === 'true');
-              Bus.$emit('isRebuttalChecked', this.paperInfo.isCurrPCMemberRebuttalChecked);
+              Bus.$emit('isRebuttalChecked', this.paperInfo.isCurrPCMemberRebuttalChecked === 'true');
               Bus.$emit('isRebuttaled', this.paperInfo.isRebuttal);
               this.loading = false;
             }
