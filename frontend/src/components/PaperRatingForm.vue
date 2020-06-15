@@ -1,13 +1,6 @@
 <template>
   <div style="width:720px;margin:auto">
-    <el-form
-      :model="RatingForm"
-      :rules="RatingFormRules"
-      :ref="RatingForm"
-      label-width="200px"
-      label-position="top"
-      :disabled="(checkingDisabled && rebuttalCheckedDisabled) || !isRebuttal"
-    >
+    <el-form :model="RatingForm" :rules="RatingFormRules" :ref="RatingForm" label-width="200px" label-position="top" :disabled="ratingFormDisabled">
       <el-form-item label="Rating" prop="grade">
         <el-rate v-model="RatingForm.grade" :show-text="true" :texts="ratingTexts" :colors="colors" :max="4"> </el-rate>
       </el-form-item>
@@ -26,9 +19,9 @@
           <el-button size="mini" type="text" @click="ratingPopoverVisible = false">Cancel</el-button>
           <el-button type="primary" size="mini" @click="submitRatingResult()">Yes</el-button>
         </div>
-        <el-button type="primary" slot="reference" :disabled="(checkingDisabled && rebuttalCheckedDisabled) || !isRebuttal">{{ rateText }}</el-button>
+        <el-button type="primary" slot="reference" :disabled="ratingFormDisabled">{{ rateText }}</el-button>
       </el-popover>
-      <el-button @click="resetForm(RatingForm)" style="margin-left:10px" :disabled="(checkingDisabled && rebuttalCheckedDisabled) || !isRebuttal">Reset</el-button>
+      <el-button @click="resetForm(RatingForm)" style="margin-left:10px" :disabled="ratingFormDisabled">Reset</el-button>
     </div>
 
     <!-- check -->
@@ -38,7 +31,7 @@
         <el-button size="mini" type="text" @click="checkPopoverVisible = false">Cancel</el-button>
         <el-button type="primary" size="mini" @click="CheckRating">Sure</el-button>
       </div>
-      <el-button slot="reference" type="primary" round :disabled="(checkingDisabled && rebuttalCheckedDisabled) || !isRebuttal">Check</el-button>
+      <el-button slot="reference" type="primary" round :disabled="ratingFormDisabled">Check</el-button>
     </el-popover>
   </div>
 </template>
@@ -50,15 +43,15 @@ export default {
   name: 'RatingForm',
   props: { paperId: Number },
   created() {
-    Bus.$on('isPaperRated', (ratingDisabled, Result) => {
-      this.ratingDisabled = ratingDisabled;
+    Bus.$on('isPaperRated', (isPaperRated, Result) => {
+      this.isPaperRated = isPaperRated;
       this.RatingForm = Result;
     });
-    Bus.$on('isPaperChecked', (checkingDisabled) => {
-      this.checkingDisabled = checkingDisabled;
+    Bus.$on('isPaperChecked', (isPaperChecked) => {
+      this.isPaperChecked = isPaperChecked;
     });
-    Bus.$on('isRebuttalChecked', (rebuttalCheckedDisabled) => {
-      this.rebuttalCheckedDisabled = rebuttalCheckedDisabled;
+    Bus.$on('isRebuttalChecked', (isRebuttalChecked) => {
+      this.isRebuttalChecked = isRebuttalChecked;
     });
     Bus.$on('isRebuttaled', (isRebuttal) => {
       this.isRebuttal = isRebuttal;
@@ -67,7 +60,7 @@ export default {
   data() {
     return {
       ratingPopoverVisible: false,
-      ratingDisabled: false,
+      isPaperRated: false,
       // reviewer
       RatingForm: { grade: undefined, comment: '', confidenceVal: undefined },
       ratingTexts: ['-2 => reject', '-1 => weak reject', '1 => weak accept', '2 => accept'],
@@ -78,16 +71,20 @@ export default {
         comment: [{ required: true, message: '', trigger: 'blur' }],
         confidenceVal: [{ required: true, message: '', trigger: 'blur' }],
       },
-      checkingDisabled: false,
+      isPaperChecked: false,
       checkPopoverVisible: false,
-      rebuttalCheckedDisabled: false,
+      isRebuttalChecked: false,
       isRebuttal: false,
     };
   },
   computed: {
     rateText() {
-      if (!this.ratingDisabled) return 'Rating';
+      if (!this.isPaperRated) return 'Rating';
       else return 'reRating';
+    },
+    ratingFormDisabled() {
+      if ((this.isPaperRated === true && this.isPaperChecked === true && this.isRebuttal === false) || this.isRebuttalChecked) return true;
+      else return false;
     },
   },
   methods: {
@@ -120,7 +117,7 @@ export default {
       }
 
       let address;
-      if (!this.ratingDisabled) address = '/system/submitPaperReviewed';
+      if (!this.isPaperRated) address = '/system/submitPaperReviewed';
       else address = '/system/reviewerModifyRate';
 
       this.$axios
