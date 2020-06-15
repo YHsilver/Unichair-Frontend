@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-card shadow="hover" v-for="(judge, index) in judges.reverse()" :key="'judge' + index">
+    <el-card shadow="hover" v-for="(judge, index) in judges" :key="'judge' + index">
       <el-avatar> {{ judge.name }} </el-avatar>
       <p>{{ judge.message }}</p>
     </el-card>
@@ -12,7 +12,7 @@
       </el-card>
     </div>
 
-    <el-card shadow="hover" v-for="(comment, index) in comments.reverse()" :key="'comment' + index">
+    <el-card shadow="hover" v-for="(comment, index) in comments" :key="'comment' + index">
       <el-avatar> {{ comment.name }} </el-avatar>
       <p>{{ comment.message }}</p>
     </el-card>
@@ -47,7 +47,7 @@ export default {
         .post(address, { token: this.$store.state.token, paperId: this.paperId })
         .then((resp) => {
           if (resp.status === 200) {
-            this[discussion] = resp.data;
+            this[discussion] = resp.data.reverse();
           } else {
             this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
           }

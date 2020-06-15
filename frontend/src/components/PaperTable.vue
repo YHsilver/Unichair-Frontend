@@ -37,7 +37,7 @@ export default {
       else if (this.Identity === 'Reviewer') this.address = '/system/reviewerGetPapers';
       else this.address = '/system/userGetPassedPapers';
 
-      this.this.$axios
+      this.$axios
         .post(this.address, { token: this.$store.state.token, conferenceId: this.conferenceId })
         .then((resp) => {
           if (resp.status === 200) {
