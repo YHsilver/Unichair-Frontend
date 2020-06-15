@@ -8,7 +8,7 @@
 
       <el-col :xl="14" :sm="24" :xs="24" v-if="chosePaper">
         <!-- paper details -->
-        <PaperDetail v-show="toggle === 'PaperDetail'" :Identity="'Author'" :paperId="chosePaperId" />
+        <PaperDetail v-show="toggle === 'PaperDetail'" :Identity="'Author'" :paperId="chosePaperId" :conferenceStage="conferenceStage" />
 
         <!-- modify paper -->
         <PaperSubmitForm @submitPaperFinished="finish()" v-show="toggle === 'ModifyForm'" :conferenceId="conferenceId" :conferenceTopics="conferenceTopics" :Identity="'Author'" />
@@ -45,7 +45,7 @@ import Bus from '@/api/Bus.js';
 export default {
   name: 'MyPaper',
   components: { PaperSubmitForm, PaperDetail, PaperList },
-  props: { conferenceId: Number, conferenceTopics: Array },
+  props: { conferenceId: Number, conferenceTopics: Array, conferenceStage: String },
   data() {
     return {
       toggle: 'PaperDetail',

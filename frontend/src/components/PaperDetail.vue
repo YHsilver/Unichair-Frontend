@@ -38,24 +38,6 @@
         <span>{{ paperInfo.status }}</span>
       </el-form-item>
 
-      <div v-if="paperInfo.status === 'REVIEWED'">
-        <el-form :key="index" v-for="index in 3" label-width="200px" label-position="left">
-          <!-- <el-form-item label="Reviewer Name:">
-            <span>{{ paperInfo.reviewerFullNames[index - 1] }}</span>
-          </el-form-item> -->
-          <el-form-item label="Grade:">
-            <span>{{ paperInfo.grades[index - 1] }}</span>
-          </el-form-item>
-          <el-form-item label="Confidences:">
-            <span>{{ paperInfo.confidences[index - 1] }}</span>
-          </el-form-item>
-          <el-form-item label="Comments:">
-            <span>{{ paperInfo.comments[index - 1] }}</span>
-          </el-form-item>
-          <el-divider></el-divider>
-        </el-form>
-      </div>
-
       <el-form-item label="File Name" prop="fileName">
         <span>{{ paperInfo.fileName }} ( {{ fileSizeString }} )</span>
       </el-form-item>
@@ -71,6 +53,25 @@
           </el-drawer>
         </el-button-group>
       </el-form-item>
+
+      <div v-if="paperInfo.status === 'CHECKED' && conferenceStage === 'Reviewed'">
+        <el-form :key="index" v-for="index in 3" label-width="200px" label-position="left">
+          <el-divider></el-divider>
+
+          <el-form-item label="Reviewer Name:">
+            <span>{{ paperInfo.reviewerFullNames[index - 1] }}</span>
+          </el-form-item>
+          <el-form-item label="Grade:">
+            <span>{{ paperInfo.grades[index - 1] }}</span>
+          </el-form-item>
+          <el-form-item label="Confidences:">
+            <span>{{ paperInfo.confidences[index - 1] }}</span>
+          </el-form-item>
+          <el-form-item label="Comments:">
+            <span>{{ paperInfo.comments[index - 1] }}</span>
+          </el-form-item>
+        </el-form>
+      </div>
     </el-form>
     <el-divider></el-divider>
   </div>
@@ -81,7 +82,7 @@ import Bus from '@/api/Bus';
 
 export default {
   name: 'PaperDetail',
-  props: { paperId: Number, Identity: String },
+  props: { paperId: Number, Identity: String, conferenceStage: String },
   data() {
     return { loading: true, paperInfo: {}, address: '', file: null, pdfSrc: undefined, pdfVisible: false, pdfLoading: true };
   },

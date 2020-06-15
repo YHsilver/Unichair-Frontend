@@ -8,7 +8,7 @@
 
       <el-col :xl="14" :sm="24" :xs="24" v-if="chosePaper">
         <!-- paper details -->
-        <PaperDetail :conferenceId="conferenceId" :Identity="'Reviewer'" :paperId="chosePaperId" />
+        <PaperDetail :conferenceId="conferenceId" :Identity="'Reviewer'" :paperId="chosePaperId" :conferenceStage="conferenceStage"/>
 
         <!-- discuss paper -->
         <div style="width:720px;margin:auto">
@@ -34,7 +34,7 @@ import DiscussingPaper from '@/components/PaperReviewerDiscuss.vue';
 export default {
   name: 'ReviewingPaper',
   components: { PaperRatingForm, PaperDetail, PaperList, DiscussingPaper },
-  props: { conferenceId: Number },
+  props: { conferenceId: Number, conferenceStage: String },
   data() {
     return { chosePaper: false, chosePaperId: undefined, discussPaperVisible: false };
   },

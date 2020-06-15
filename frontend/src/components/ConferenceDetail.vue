@@ -94,7 +94,12 @@
     <!-- modify Paper -->
     <el-button type="primary" @click="myPaperVisible = true" v-if="Identity === 'Author'">My papers</el-button>
     <el-dialog :visible.sync="myPaperVisible" v-if="myPaperVisible" append-to-body :fullscreen="true">
-      <PaperAuthorCheck @modifyFinished="myPaperVisible = false" :conferenceId="Number(conferenceDetail.id)" :conferenceTopics="conferenceDetail.topics" />
+      <PaperAuthorCheck
+        @modifyFinished="myPaperVisible = false"
+        :conferenceId="Number(conferenceDetail.id)"
+        :conferenceTopics="conferenceDetail.topics"
+        :conferenceStage="conferenceDetail.stage"
+      />
     </el-dialog>
 
     <!-- reviewer -->
@@ -103,7 +108,7 @@
       >Review paper</el-button
     >
     <el-dialog :visible.sync="reviewPaperVisible" v-if="reviewPaperVisible" append-to-body :fullscreen="true">
-      <PaperReviewerReview :Identity="Identity" :conferenceId="Number(conferenceDetail.id)" />
+      <PaperReviewerReview :Identity="Identity" :conferenceId="Number(conferenceDetail.id)" :conferenceStage="conferenceDetail.stage" />
     </el-dialog>
 
     <!-- submit paper -->
