@@ -82,10 +82,14 @@ export default {
       this.chosePaper = true;
     },
     sendRebuttal() {
+      if (this.rebuttalAuthorText === '') {
+        this.$message({ type: 'warning', message: 'Please fill in sth!', duration: '2000', showClose: 'true', center: 'true' });
+        return;
+      }
       this.$axios
         .post('/system/authorSendRebuttal', {
           token: this.$store.state.token,
-          paperId: this.paperId,
+          paperId: this.chosePaperId,
           rebuttal: this.rebuttalAuthorText,
         })
         .then((resp) => {
@@ -94,6 +98,7 @@ export default {
           } else {
             this.$message({ type: 'error', message: resp.data.message, duration: '2000', showClose: 'true', center: 'true' });
           }
+          this.rebuttalVisible = false;
         })
         .catch((err) => {
           this.$message({ type: 'error', message: err.data.message, duration: '2000', showClose: 'true', center: 'true' });
